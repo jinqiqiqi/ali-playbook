@@ -41,12 +41,22 @@
     destination_port: "{{ item }}"
     jump: ACCEPT
     action: insert
-  loop:
-    - '22'
-    - '80'
-    - '443'
+  loop: "{{ iptables_allow_ports }}"
   tags:
     - iptables
+
+- name: Remove ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    state: absent
+    comment: "removed ports"
+  loop: "{{ iptables_remove_ports }}"
+  tags:
+    - iptables
+
 
 - name: Set the policy for the INPUT chain to DROP
   iptables:
