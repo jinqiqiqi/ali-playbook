@@ -1,0 +1,57 @@
+---
+# tasks file for roles/iptables
+
+- name: Install iptables
+  package: name="{{ item }}" state=present
+  loop:
+    - iptables
+  tags:
+    - iptables
+
+- name: Start iptables service
+  systemd:
+    state: started
+    name: iptables
+    daemon_reload: yes
+    enabled: yes
+  tags:
+    - iptables
+    
+
+- name: Set the policy for the INPUT chain to DROP
+  iptables:
+    chain: INPUT
+    policy: ACCEPT
+  tags:
+    - iptables
+    
+- name: Allow ESTABLISHED,RELATED in INPUT chain
+  iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+    comment: Allow established and related in iptables
+  tags:
+    - iptables
+    
+- name: All ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  loop:
+    - '22'
+    - '80'
+    - '443'
+  tags:
+    - iptables
+
+- name: Set the policy for the INPUT chain to DROP
+  iptables:
+    chain: INPUT
+    policy: DROP
+  tags:
+    - iptables
+
