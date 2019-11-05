@@ -1,0 +1,21 @@
+---
+- name: Proxy machines are gonna prepare.
+  hosts: 
+    # - localhost
+    # - l201
+    # - l196
+    - master
+  become_user: root
+  become: yes
+
+  # pre_tasks:
+  #   - name: Pre Task => Update Yum
+  #     dnf: name=* state=latest
+
+  roles:
+    - base
+
+
+  # post_tasks:
+  #   - name: post tasks
+  #     dnf: name=* state=latest

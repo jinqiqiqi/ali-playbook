@@ -1,0 +1,66 @@
+---
+
+- name: Disable the selinux.
+  selinux:
+    state: disabled
+
+- name: Install / Enable EPEL repo for servers.
+  package: name={{ item }} state=present
+  loop:
+    - epel-release
+  tags:
+    - base
+
+- name: Download and replace the CentOS-7.repo file.
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    checksum: "sha256:{{ item.checksum }}"
+    timeout: 60
+  loop:
+    - { url: http://mirrors.aliyun.com/repo/Centos-7.repo, dest: /etc/yum.repos.d/CentOS-Base.repo, checksum: 02829701771e59ae8ae1f6ebdf858f53795b541906f3e8bd6f5bc8f05b5a4ce9 }
+    - { url: http://mirrors.aliyun.com/repo/epel-7.repo, dest: /etc/yum.repos.d/epel.repo, checksum: c1d39eb3cf4e92cd2a7e122a98824d0792bdb97ef9470781dfe3be7771919044 }
+  tags:
+    - base
+    
+- name: Import the GPG keys for CentOS repositories.
+  rpm_key: state=present key={{ item }}
+  with_items:
+    - /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    - /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+  tags:
+    - base
+
+# - name: Update all packages on CentOS
+#   package: name="*" state=latest
+#   tags:
+#     - base
+
+- name: Install basic tools and packages.
+  package: name="{{ item }}" state=present
+  loop:
+    - lsof
+    - telnet
+    - vim
+    - tree
+    - libselinux-python
+    - yum-utils
+    - python-pip
+    - bind-utils
+  tags:
+    - base
+
+- name: Install basic pip packages.
+  pip:
+    name: "{{ item }}"
+    extra_args: -i https://mirrors.163.com/pypi/simple/
+  loop:
+    - pyOpenSSL
+    - docker-py
+    - passlib
+  tags:
+    - base
+
+    
+ 
+
