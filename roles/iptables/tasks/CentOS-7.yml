@@ -16,15 +16,15 @@
     enabled: yes
   tags:
     - iptables
-    
 
-- name: Set the policy for the INPUT chain to DROP
+
+- name: Set the policy for the INPUT chain to ACCEPT
   iptables:
     chain: INPUT
     policy: ACCEPT
   tags:
     - iptables
-    
+
 - name: Allow ESTABLISHED,RELATED in INPUT chain
   iptables:
     chain: INPUT
@@ -34,7 +34,7 @@
   tags:
     - iptables
     
-- name: All ports in INPUT chain
+- name: Allow ports in INPUT chain
   iptables:
     chain: INPUT
     protocol: tcp

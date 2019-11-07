@@ -14,6 +14,17 @@
 * Install basic pip packages
 
 ### nginx
+* Install nginx
+* Start nginx service
+
+### iptables
+* Install iptables
+* Start iptables service
+* Set the policy for the INPUT chain to access
+* Allow ESTABLISHED, RELATED in INPUT chain
+* Allow ports in INPUT chain
+* Remove ports in INPUT chain
+* Set the policy for the INPUT chain to drop
 
 ### php
 
