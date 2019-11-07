@@ -16,6 +16,7 @@
     - base
     - iptables
     - nginx
+    - nodejs
 
 
   # post_tasks:

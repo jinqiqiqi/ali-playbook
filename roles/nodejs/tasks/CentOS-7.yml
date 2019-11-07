@@ -1,0 +1,38 @@
+---
+# tasks file for roles/nodejs
+
+# - name: Install nodejs
+#   package: name="{{ item }}" state=present
+#   loop:
+#     - nodejs
+#   tags:
+#     - nodejs
+
+# - name: Download NVM installation file.
+#   get_url:
+#     url: "{{ item.url }}"
+#     dest: "{{ item.dest }}"
+#     checksum: "sha256:{{ item.checksum }}"
+#     timeout: 60
+#   loop:
+#     - { url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh, dest: /opt/nvm_install.sh, checksum: 02829701771e59ae8ae1f6ebdf858f53795b541906f3e8bd6f5bc8f05b5a4ce9 }
+#   tags:
+#     - nodejs
+
+- name: Copy NVM installation file to the server
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - { src: nvm_install.sh, dest: /opt/nvm_install.sh }
+    - { src: nvm.sh, dest: /etc/profile.d/nvm.sh }
+  tags:
+    - nodejs
+
+- name: "Install NVM to local server. {{ ansible_env.HOME }}/.nvm/nvm.sh"
+  shell: >
+    bash /opt/nvm_install.sh
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+  tags:
+    - nodejs
