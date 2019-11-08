@@ -17,6 +17,7 @@
     - iptables
     - nginx
     - nodejs
+    - dnsmasq
 
 
   # post_tasks:
