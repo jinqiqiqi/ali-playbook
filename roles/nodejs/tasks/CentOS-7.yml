@@ -36,3 +36,11 @@
     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
   tags:
     - nodejs
+
+- name: "Install nodejs version: {{ nodejs_version }}"
+  shell: >
+    source /etc/profile && nvm install {{ nodejs_version }}
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/{{ nodejs_version}}/bin/node"
+  tags:
+    - nodejs
