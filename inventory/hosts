@@ -3,7 +3,7 @@
 proxy   ansible_connection=smart ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 
 
-; master  ansible_connection=smart ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/Public/devops/vagrant/centos/7/.vagrant/machines/master/virtualbox/private_key
+master  ansible_connection=smart ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/Public/devops/vagrant/centos/7/.vagrant/machines/master/virtualbox/private_key
 
 ; libvirt
-master  ansible_connection=smart ansible_ssh_host=192.168.121.147 ansible_ssh_port=22 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/Public/devops/testing_vagrant/.vagrant/machines/default/libvirt/private_key
+; master  ansible_connection=smart ansible_ssh_host=192.168.121.147 ansible_ssh_port=22 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/Public/devops/testing_vagrant/.vagrant/machines/default/libvirt/private_key
