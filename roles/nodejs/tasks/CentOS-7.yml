@@ -46,8 +46,9 @@
     - nodejs
 
 - name: "Install pm2"
-  shell: npm install -g pm2
+  shell: >
+    source /etc/profile && npm install pm2
   args:
-    creates: "/bin/pm2"
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/{{ nodejs_version}}/lib/node_modules/npm"
   tags:
     - nodejs
