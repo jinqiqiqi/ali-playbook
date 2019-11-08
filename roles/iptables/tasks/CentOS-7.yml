@@ -33,7 +33,8 @@
     comment: Allow established and related in iptables
   tags:
     - iptables
-    
+
+
 - name: Allow ports in INPUT chain
   iptables:
     chain: INPUT

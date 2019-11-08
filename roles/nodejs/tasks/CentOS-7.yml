@@ -24,8 +24,8 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   loop:
-    - { src: nvm_install.sh, dest: /opt/nvm_install.sh }
-    - { src: nvm.sh, dest: /etc/profile.d/nvm.sh }
+    - {src: nvm_install.sh, dest: /opt/nvm_install.sh}
+    - {src: nvm.sh, dest: /etc/profile.d/nvm.sh}
   tags:
     - nodejs
 
@@ -42,5 +42,12 @@
     source /etc/profile && nvm install {{ nodejs_version }}
   args:
     creates: "{{ ansible_env.HOME }}/.nvm/versions/node/{{ nodejs_version}}/bin/node"
+  tags:
+    - nodejs
+
+- name: "Install pm2"
+  shell: npm install -g pm2
+  args:
+    creates: "/bin/pm2"
   tags:
     - nodejs
