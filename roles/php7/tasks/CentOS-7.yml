@@ -1,5 +1,53 @@
 ---
 # tasks file for roles/php7
+
+- name: Install php dependencies
+  package:
+    name="{{ item }}" state="present"
+  loop:
+    - gcc
+    - libxml2-devel
+    - openssl-devel
+    - libzip-devel
+    - bzip2-devel
+    - libcurl-devel
+    - libjpeg-turbo-devel
+    - libpng-devel
+    # - libpng12-devel
+    - freetype-devel
+    - libicu-devel
+    - gcc-c++
+    - libmcrypt-devel
+    - autoconf
+    - re2c
+    - liblzf-devel
+    - libmemcached-devel
+    - expat-devel
+    - automake
+    - libtool
+    - mysql-devel
+    - imake
+    - unixODBC-devel
+    - libstemmer-devel
+  tags:
+    - php7
+
+
+
+# # tasks file for roles/php7
+# - name: Download php source package
+#   get_url:
+#     url: "{{ item.url }}"
+#     dest: "{{ item.dest }}"
+#     checksum: "sha256:{{ item.checksum }}"
+#     timeout: 120
+#   loop:
+#     - { url: "https://www.php.net/distributions/php-{{ php7_version }}.tar.gz", dest: "/opt/php-{{ php7_version }}.tar.gz" , checksum: "{{ php7_checksum }}" }
+#   tags:
+#     - php7
+
+
+
 - name: Download php source package
   get_url:
     url: "{{ item.url }}"
@@ -7,7 +55,119 @@
     checksum: "sha256:{{ item.checksum }}"
     timeout: 120
   loop:
-    - { url: "https://www.php.net/distributions/php-{{ php7_version }}.tar.gz", dest: "/opt/php-{{ php7_version }}.tar.gz" , checksum: "{{ php7_checksum }}" }
+    - { url: "{{ php7_remote_package }}", dest: "{{ php7_download_dest_dir }}", checksum: "{{ php7_checksum }}" }
   tags:
     - php7
+
+- name: Unarchive source package
+  unarchive:
+    src: "{{ php7_download_dest_dir }}"
+    dest: "{{ src_code_dir }}/"
+    remote_src: yes
+    creates: "{{ php7_installation_dir }}/configure"
+  tags:
+    - php7
+
+- name: "Configure {{ php7_installation_dir }} and installation"
+  shell: >
+    ./configure --prefix={{ php7_installation_dir }} --enable-exif --enable-fpm --enable-mbstring --with-config-file-path={{ php7_installation_dir }}/etc/ --with-config-file-scan-dir={{ php7_installation_dir }}/etc/ini/ --with-freetype-dir --with-gd --with-jpeg-dir --with-png-dir --with-iconv-dir --with-mysql --with-mysqli --with-pdo-mysql --with-zlib --with-curl --enable-intl --with-icu-dir=/usr --with-fpm-user={{ fpm_user }} --with-fpm-group={{ fpm_user }} --with-libxml-dir --disable-rpath --enable-bcmath --enable-shmop --enable-sysvsem --with-mcrypt --enable-mbregex --with-openssl --enable-soap --enable-gd-native-ttf --enable-ftp --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --with-mhash --enable-calendar --with-bz2 --with-gettext --enable-wddx --enable-opcache --enable-zip --enable-phar && make && make install 
+  args:
+    chdir: "{{ php7_src_dir }}"
+    creates: "{{ php7_installation_dir }}/etc/php-fpm.conf.default"
+  tags:
+    - php7
+
+- name: "Link php directory: {{ php7_installation_dir }} => {{ installation_dir }}/php"
+  file:
+    src: "{{ php7_installation_dir }}"
+    dest: "{{ installation_dir }}/php"
+    state: link
+    force: yes
+  tags:
+    - php7
+
+- name: "Create directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 755
+  with_items:
+    - "{{ php7_installation_dir }}/etc/ini/"
+    - "{{ php_log_dir }}"
+    - "{{ php_session_tmp_dir }}"
+    - "{{ php_upload_tmp_dir }}"
+  tags:
+    - php7
+
+- name: Copy php.ini file to the installation directory
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+  with_items:
+    - { src: '{{ php7_src_dir }}/php.ini-production', dest: '{{ php7_installation_dir }}/etc/php.ini-production'}
+    - { src: '{{ php7_installation_dir }}/etc/php.ini-production', dest: '{{ php7_installation_dir }}/etc/php.ini'}
+    - { src: '{{ php7_installation_dir }}/etc/php-fpm.conf.default', dest: '{{ php7_installation_dir }}/etc/php-fpm.conf'}
+  tags:
+    - php7
+
+- name: "Install php extensions"
+  shell: >
+    echo "" | {{ php7_installation_dir }}/bin/pecl install {{ item.extension }}
+  args:
+    creates: "{{ item.creates }}"
+  with_items: "{{ php7_extensions }}"
+  tags:
+    - php7
+    - php7_extension
+
+
+- name: Copy memcache extension file
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: 'pecl-memcache-4.0.4.tar.gz', dest: '/opt/'}
+  tags:
+    - php7
+
+- name: Unarchive memcache file
+  unarchive:
+    src: "/opt/pecl-memcache-4.0.4.tar.gz"
+    dest: "{{ src_code_dir }}/"
+    remote_src: yes
+    creates: "{{ src_code_dir }}/pecl-memcache-4.0.4/README"
+  tags:
+    - php7
+
+- name: Configure and install memcache
+  shell: >
+    {{ php7_installation_dir }}/bin/phpize && ./configure --with-php-config={{ php7_installation_dir }}/bin/php-config && make && make install
+  args:
+    creates: "{{ php7_extension_dir }}/memcache.so"
+    chdir: "{{ src_code_dir }}/pecl-memcache-4.0.4/"
+  tags:
+    - php7
+
+- name: Changes to the php.ini settings.
+  lineinfile:
+    dest: "{{ php7_installation_dir }}/etc/php.ini"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ php7_ini_config_lines }}"
+  tags:
+    - php7
+    - php7_extension
+
+
+- name: Copy additional ini files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "additions.ini.j2", dest: "{{ php7_installation_dir }}/etc/ini/additions.ini" }
+  tags:
+    - php7
+
 
