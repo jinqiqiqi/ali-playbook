@@ -29,7 +29,7 @@
   tags:
     - nodejs
 
-- name: "Install NVM to local server. {{ ansible_env.HOME }}/.nvm/nvm.sh"
+- name: "Install NVM to local server({{ nodejs_user }}) ~/.nvm/nvm.sh"
   shell: >
     bash /opt/nvm_install.sh
   args:
