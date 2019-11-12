@@ -18,6 +18,8 @@
     - nginx
     - nodejs
     - dnsmasq
+    - php5
+
 
 
   # post_tasks:

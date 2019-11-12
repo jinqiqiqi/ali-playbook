@@ -1,4 +1,13 @@
 ---
 # tasks file for roles/php7
-
+- name: Download php source package
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    checksum: "sha256:{{ item.checksum }}"
+    timeout: 120
+  loop:
+    - { url: "https://www.php.net/distributions/php-{{ php7_version }}.tar.gz", dest: "/opt/php-{{ php7_version }}.tar.gz" , checksum: "{{ php7_checksum }}" }
+  tags:
+    - php7
 

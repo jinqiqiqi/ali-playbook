@@ -1,0 +1,36 @@
+extension={{ php5_extension_dir }}/sphinx.so
+extension={{ php5_extension_dir }}/memcache.so
+extension={{ php5_extension_dir }}/memcached.so
+extension={{ php5_extension_dir }}/redis.so
+extension={{ php5_extension_dir }}/apcu.so
+zend_extension={{ php5_extension_dir }}/opcache.so
+
+[apc]
+apc.cache_by_default = on
+apc.enable_cli = on
+apc.enabled = on
+apc.file_update_protection = 5
+apc.ttl = 7200
+apc.user_ttl = 7200
+apc.gc_ttl = 3600
+apc.include_once_override = off
+apc.max_file_size = 2m
+apc.num_files_hint = 1024
+apc.optimization = 0
+apc.report_autofilter = on
+apc.shm_segments = 1
+apc.shm_size = 256M
+apc.stat = on
+apc.user_entries_hint = 0
+apc.write_lock = on
+apc.rfc1867 = off
+
+[opcache]
+opcache.enable=1
+opcache.memory_consumption = 512
+opcache.interned_strings_buffer = 64
+opcache.max_accelerated_files = 50000
+opcache.revalidate_freq = 60
+opcache.fast_shutdown = 1
+opcache.enable_cli = 1
+opcache.validate_timestamps = 0
