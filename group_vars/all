@@ -3,6 +3,7 @@ iptables_allow_ports: [
   '80',
   '443',
   '22',
+  '53',
 ]
 
 iptables_remove_ports: [
@@ -15,35 +16,40 @@ iptables_remove_ports: [
 # ; v8.16.2
 # ; v6.17.1
 # ; v4.9.1
-nodejs_version: v12.13.0
-nodejs_user: vagrant
+nodejs_version: "v12.13.0"
+
+# specify the running user for nodejs
+nodejs_user: "vagrant"
+
 
 # php5 settings
 php5_version: "5.6.40"
-# php5_remote_package: https://www.php.net/distributions/php-{{ php5_version }}.tar.gz
-php5_remote_package: "http://mirrors.sohu.com/php/php-{{ php5_version }}.tar.gz"
+php5_file_name: "php-{{ php5_version }}"
+# php5_remote_package: https://www.php.net/distributions/{{ php5_file_name }}.tar.gz
+php5_remote_package: "http://mirrors.sohu.com/php/{{ php5_file_name }}.tar.gz"
 
-fpm_user: www
+# specify the running user for php-fpm
+fpm_user: "www"
 
-installation_dir: /usr/local
+installation_dir: "/usr/local"
 src_code_dir: "{{ installation_dir }}/src"
 
-php_session_tmp_dir: /tmp/php_session/
-php_upload_tmp_dir: /tmp/php_upload/
-php_log_dir: /var/log/php
+php_session_tmp_dir: "/tmp/php_session/"
+php_upload_tmp_dir: "/tmp/php_upload/"
+php_log_dir: "/var/log/php"
 
 coreseek_version: "4.1-beta"
 coreseek_file: "coreseek-{{ coreseek_version }}"
 coreseek_download_url: "http://f.eefocus.tech/s/NXPYiAR875xZaKf/download"
-coreseek_download_dest_dir: "/opt/{{ coreseek_file }}.tar.gz"
+coreseek_download_dest_dir: "{{ src_code_dir }}/{{ coreseek_file }}.tar.gz"
 coreseek_checksum: "049fd9a631e774465a7db0a68f7c7a652630eeaa21d471a35a8c8e01a06ac103"
 coreseek_src_dir: "{{ src_code_dir }}/{{ coreseek_file }}"
 
 php5_checksum: "56fb9878d12fdd921f6a0897e919f4e980d930160e154cbde2cc6d9206a27cac"
-php5_extension_dir: "{{ installation_dir }}/php-{{ php5_version }}/lib/php/extensions/no-debug-non-zts-20131226"
-php5_download_dest_dir: "/opt/php-{{ php5_version }}.tar.gz"
-php5_installation_dir: "{{ installation_dir }}/php-{{ php5_version }}"
-php5_src_dir: "{{ src_code_dir }}/php-{{ php5_version }}"
+php5_extension_dir: "{{ installation_dir }}/{{ php5_file_name }}/lib/php/extensions/no-debug-non-zts-20131226"
+php5_download_dest_dir: "{{ src_code_dir }}/{{ php5_file_name }}.tar.gz"
+php5_installation_dir: "{{ installation_dir }}/{{ php5_file_name }}"
+php5_src_dir: "{{ src_code_dir }}/{{ php5_file_name }}"
 
 php_sphinx_src_lines: [
   { file: "{{ src_code_dir }}/{{ coreseek_file }}/csft-4.1/configure.ac", src: "^AC_PROG_RANLIB$", dest: "AC_PROG_RANLIB AM_PROG_AR"},
@@ -51,11 +57,11 @@ php_sphinx_src_lines: [
 ]
 
 php5_extensions: [
-  {extension: redis-4.3.0, creates: "{{ php5_extension_dir }}/redis.so"},
-  {extension: memcache-2.2.7, creates: "{{ php5_extension_dir }}/memcache.so"},
-  {extension: memcached-2.2.0, creates: "{{ php5_extension_dir }}/memcached.so"},
-  {extension: apcu-4.0.11, creates: "{{ php5_extension_dir }}/apcu.so"},
-  {extension: sphinx-1.3.0, creates: "{{ php5_extension_dir }}/sphinx.so"},
+  {extension: "redis-4.3.0", creates: "{{ php5_extension_dir }}/redis.so"},
+  {extension: "memcache-2.2.7", creates: "{{ php5_extension_dir }}/memcache.so"},
+  {extension: "memcached-2.2.0", creates: "{{ php5_extension_dir }}/memcached.so"},
+  {extension: "apcu-4.0.11", creates: "{{ php5_extension_dir }}/apcu.so"},
+  {extension: "sphinx-1.3.0", creates: "{{ php5_extension_dir }}/sphinx.so"},
 ]
 
 php5_ini_config_lines: [
@@ -73,22 +79,23 @@ php5_ini_config_lines: [
 
 
 php7_version: "7.2.24"
-# php5_remote_package: "https://www.php.net/distributions/php-{{ php7_version }}.tar.gz"
-php7_remote_package: "http://mirrors.sohu.com/php/php-{{ php7_version }}.tar.gz"
+php7_file_name: "php-{{ php7_version }}"
+# php5_remote_package: "https://www.php.net/distributions/{{ php7_file_name }}.tar.gz"
+php7_remote_package: "http://mirrors.sohu.com/php/{{ php7_file_name }}.tar.gz"
 php7_checksum: "01baf7a34c856d2c552121fbad7296a8cde18389ce83db32f18252bc1cee4dd6"
 
-php7_extension_dir: "{{ installation_dir }}/php-{{ php7_version }}/lib/php/extensions/no-debug-non-zts-20170718"
-php7_download_dest_dir: "/opt/php-{{ php7_version }}.tar.gz"
-php7_installation_dir: "{{ installation_dir }}/php-{{ php7_version }}"
-php7_src_dir: "{{ src_code_dir }}/php-{{ php7_version }}"
+php7_extension_dir: "{{ installation_dir }}/{{ php7_file_name }}/lib/php/extensions/no-debug-non-zts-20170718"
+php7_download_dest_dir: "{{ src_code_dir }}/{{ php7_file_name }}.tar.gz"
+php7_installation_dir: "{{ installation_dir }}/{{ php7_file_name }}"
+php7_src_dir: "{{ src_code_dir }}/{{ php7_file_name }}"
 
 
 
 php7_extensions: [
-  {extension: apcu-5.1.11, creates: "{{ php7_extension_dir }}/apcu.so"},
-  {extension: redis-5.1.1, creates: "{{ php7_extension_dir }}/redis.so"},
-  {extension: mcrypt-1.0.3, creates: "{{ php7_extension_dir }}/mcrypt.so"},
-  {extension: memcached-3.0.4, creates: "{{ php7_extension_dir }}/memcached.so"},
+  {extension: "apcu-5.1.11", creates: "{{ php7_extension_dir }}/apcu.so"},
+  {extension: "redis-5.1.1", creates: "{{ php7_extension_dir }}/redis.so"},
+  {extension: "mcrypt-1.0.3", creates: "{{ php7_extension_dir }}/mcrypt.so"},
+  {extension: "memcached-3.0.4", creates: "{{ php7_extension_dir }}/memcached.so"},
   # {extension: sphinx-1.3.3, creates: "{{ php7_extension_dir }}/sphinx.so"},
 ]
 

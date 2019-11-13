@@ -13,7 +13,7 @@
   #     dnf: name=* state=latest
 
   roles:
-    - base
+    # - base
     # - iptables
     # - nginx
     # - nodejs

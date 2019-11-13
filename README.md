@@ -27,7 +27,7 @@
 * Set the policy for the INPUT chain to drop
 
 ### php (both php5 and php7 with sphinx, apcu, memcache, memcached and redis)
-
+    
 ### nodejs
 
 ### dnsmasq
@@ -45,6 +45,11 @@
 ### rabbitMQ
 
 ### mongodb
+
+### syslog
+
+
+
 
 
 
