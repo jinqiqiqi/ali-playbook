@@ -26,13 +26,27 @@
 * Remove ports in INPUT chain
 * Set the policy for the INPUT chain to drop
 
-### php
+### php (both php5 and php7 with sphinx, apcu, memcache, memcached and redis)
 
 ### nodejs
 
 ### dnsmasq
 
 ### openldap
+
+### nfs
+
+### redis
+
+### memcache
+
+### elasticsearch
+
+### rabbitMQ
+
+### mongodb
+
+
 
 ## 入口文件列表
 

@@ -14,11 +14,11 @@
 
   roles:
     - base
-    - iptables
-    - nginx
-    - nodejs
-    - dnsmasq
-    - php5
+    # - iptables
+    # - nginx
+    # - nodejs
+    # - dnsmasq
+    # - php5
     - php7
 
 

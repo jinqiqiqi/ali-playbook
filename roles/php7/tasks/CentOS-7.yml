@@ -29,6 +29,7 @@
     - imake
     - unixODBC-devel
     - libstemmer-devel
+    - GeoIP-devel
   tags:
     - php7
 
@@ -99,6 +100,116 @@
   tags:
     - php7
 
+
+
+
+
+
+- name: "Download the {{ coreseek_download_dest_dir }} package"
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    checksum: "sha256:{{ item.checksum }}"
+    timeout: 120
+  loop:
+    - { url: "{{ coreseek_download_url }}", dest: "{{ coreseek_download_dest_dir }}", checksum: "{{ coreseek_checksum }}" }
+  tags:
+    - php7
+
+- name: "Unarchive coreseek src"
+  unarchive:
+    src: "{{ coreseek_download_dest_dir }}"
+    dest: "{{ src_code_dir }}/"
+    remote_src: yes
+    creates: "{{ coreseek_src_dir }}/README.txt"
+  tags:
+    - php7
+
+- name: "Replace lines in {{ item.file }} file"
+  replace:
+    path: "{{ item.file }}"
+    regexp: '{{ item.src }}'
+    replace: '{{ item.dest }}'
+  with_items: "{{ php_sphinx_src_lines }}"
+  tags:
+    - php7
+    - lineinfile
+
+- name: "Configure {{ coreseek_download_dest_dir }} mmseg"
+  shell: >
+    ./bootstrap && ./configure --prefix={{ installation_dir }}/mmseg-3.2.14 && make && make install
+  args:
+    # creates: "{{ installation_dir }}/mmseg/bin/mmseg"
+    chdir: "{{ coreseek_src_dir }}/mmseg-3.2.14/"
+  tags:
+    - php7
+
+
+- name: "Create directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 755
+  with_items:
+    - "{{ php7_installation_dir }}/etc/ini/"
+    - "{{ php_log_dir }}"
+    - "{{ php_session_tmp_dir }}"
+    - "{{ php_upload_tmp_dir }}"
+  tags:
+    - php7
+
+
+- name: "Link mmseg directory: {{ installation_dir }}/mmseg-3.2.14/ => {{ installation_dir }}/mmseg/"
+  file:
+    src: "{{ installation_dir }}/mmseg-3.2.14"
+    dest: "{{ installation_dir }}/mmseg"
+    state: link
+    force: yes
+  tags:
+    - php7
+
+
+- name: "Configure {{ coreseek_download_dest_dir }} csft"
+  shell: >
+    sh buildconf.sh || automake --add-missing && sh buildconf.sh && ./configure --prefix={{ installation_dir }}/csft-4.1 --without-unixodbc --with-mmseg --with-mmseg-includes={{ installation_dir }}/mmseg/include/mmseg/ --with-mmseg-libs={{ installation_dir }}/mmseg/lib/ --with-mysql --enable-id64 && make && make install
+  args:
+    # creates: "{{ installation_dir }}/csft-4.1/bin/indexer"
+    chdir: "{{ coreseek_src_dir }}/csft-4.1/"
+  tags:
+    - php7
+
+- name: "Link mmseg directory: {{ installation_dir }}/csft-4.1/ => {{ installation_dir }}/csft"
+  file:
+    src: "{{ installation_dir }}/csft-4.1"
+    dest: "{{ installation_dir }}/csft"
+    state: link
+    force: yes
+  tags:
+    - php7
+
+- name: "Configure {{ coreseek_download_dest_dir }} libsphinxclient"
+  shell: >
+    sh buildconf.sh && ./configure && make && make install
+  args:
+    creates: "{{ php7_extension_dir }}/sphinx.so"
+    chdir: "{{ coreseek_src_dir }}/csft-4.1/api/libsphinxclient/"
+  tags:
+    - php7
+
+- name: "Copy ld.so.conf files /etc/ld.so.conf.d/libsphinxclient.conf"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "libsphinxclient.conf.j2", dest: "/etc/ld.so.conf.d/libsphinxclient.conf" }
+  tags:
+    - php7
+
+
+
+
+
+
 - name: Copy php.ini file to the installation directory
   copy:
     src: "{{ item.src }}"
@@ -111,15 +222,6 @@
   tags:
     - php7
 
-- name: "Install php extensions"
-  shell: >
-    echo "" | {{ php7_installation_dir }}/bin/pecl install {{ item.extension }}
-  args:
-    creates: "{{ item.creates }}"
-  with_items: "{{ php7_extensions }}"
-  tags:
-    - php7
-    - php7_extension
 
 
 - name: Copy memcache extension file
@@ -148,6 +250,16 @@
     chdir: "{{ src_code_dir }}/pecl-memcache-4.0.4/"
   tags:
     - php7
+
+- name: "Install php extensions"
+  shell: >
+    echo "" | {{ php7_installation_dir }}/bin/pecl install {{ item.extension }}
+  args:
+    creates: "{{ item.creates }}"
+  with_items: "{{ php7_extensions }}"
+  tags:
+    - php7
+    - php7_extension
 
 - name: Changes to the php.ini settings.
   lineinfile:
