@@ -1,7 +1,5 @@
 # 阿里云基础设施的playbook
 
-
-
 ## Roles清单
 
 ### base
