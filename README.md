@@ -2,7 +2,7 @@
 
 ## Roles清单
 
-### base
+### Base
 
 * Disable selinux 
 * Install the EPEL repo
@@ -10,14 +10,15 @@
 * Import GPG keys
 * Install basic tools and packages
 * Install basic pip packages
+* Kernel tweaks
 
-### nginx
+### Nginx
 * Version: 1.16.1
 
-### iptables
+### Iptables
 * version: 1.4.21
 
-### php (both php5 and php7 with sphinx, apcu, memcache, memcached and redis)
+### PHP (Both php5 and php7 with sphinx, apcu, memcache, memcached and redis)
 * php5
     * version: 5.6.40
     * Extensions:
@@ -34,30 +35,30 @@
         * Mcrypt: 1.0.3(2.5.8)
         * Memcached: 3.0.4
         * Memcache: 4.0.4
-### nodejs
+### NodeJS
 
 * Nvm version: v0.35.1
 * Nodejs version: v12.13.0
 
-### dnsmasq
+### Dnsmasq
 
 *  Version: 2.76-10
 
-### openldap
+### OpenLDAP
 
 ### NFS (#)
 
-### redis
+### Redis
 
-### memcache
+### Memcache
 
-### elasticsearch (#)
+### Elasticsearch (#)
 
-### rabbitMQ
+### RabbitMQ
 
-### mongodb
+### Mongodb
 
-### syslog
+### Rsyslog
 
 
 
@@ -69,3 +70,4 @@
 
 
 ## 注意事项
+
