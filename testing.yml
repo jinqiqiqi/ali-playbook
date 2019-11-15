@@ -19,7 +19,8 @@
     # - nodejs
     # - dnsmasq
     # - php5
-    - php7
+    # - php7
+    - rsyslog
 
 
 
