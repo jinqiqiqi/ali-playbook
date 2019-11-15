@@ -94,8 +94,8 @@ php7_src_dir: "{{ src_code_dir }}/{{ php7_file_name }}"
 php7_extensions: [
   {extension: "apcu-5.1.11", creates: "{{ php7_extension_dir }}/apcu.so"},
   {extension: "redis-5.1.1", creates: "{{ php7_extension_dir }}/redis.so"},
-  {extension: "mcrypt-1.0.3", creates: "{{ php7_extension_dir }}/mcrypt.so"},
   {extension: "memcached-3.0.4", creates: "{{ php7_extension_dir }}/memcached.so"},
+  {extension: "mcrypt-1.0.3", creates: "{{ php7_extension_dir }}/mcrypt.so"},
   # {extension: sphinx-1.3.3, creates: "{{ php7_extension_dir }}/sphinx.so"},
 ]
 
