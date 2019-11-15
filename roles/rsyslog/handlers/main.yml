@@ -1,2 +1,10 @@
 ---
 # handlers file for roles/rsyslog
+
+- name: restart rsyslog service
+  service:
+    name: rsyslog
+    state: restarted
+    enabled: yes
+
+# - include: ../../../global/handlers.yml
