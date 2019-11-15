@@ -10,7 +10,7 @@
 
 ## Roles清单
 
-### base
+### Base
 
 * Disable selinux 
 * Install the EPEL repo
@@ -28,14 +28,15 @@
   * iptalbes-services
   
 * Install basic pip packages
+* Kernel tweaks
 
-### nginx
+### Nginx
 * Version: 1.16.1
 
-### iptables
+### Iptables
 * version: 1.4.21
 
-### php (both php5 and php7 with sphinx, apcu, memcache, memcached and redis)
+### PHP (Both php5 and php7 with sphinx, apcu, memcache, memcached and redis)
 * php5
     * version: 5.6.40
     * Extensions:
@@ -52,16 +53,16 @@
         * Mcrypt: 1.0.3(2.5.8)
         * Memcached: 3.0.4
         * Memcache: 4.0.4
-### nodejs
+### NodeJS
 
 * Nvm version: v0.35.1
 * Nodejs version: v12.13.0
 
-### dnsmasq
+### Dnsmasq
 
 *  Version: 2.76-10
 
-### openldap
+### OpenLDAP
 
 * some unknown error occured after installing
 
@@ -74,13 +75,13 @@
 
 * Version: 1.4.15-10
 
-### elasticsearch (#)
+### Elasticsearch (#)
 
-### rabbitMQ
+### RabbitMQ
 
-### mongodb
+### Mongodb
 
-### syslog
+### Rsyslog
 
 * Version: 8.24.0-41
 
@@ -95,3 +96,5 @@
 ## 注意事项
 
 ### 配置相关
+## 注意事项
+
