@@ -1,0 +1,60 @@
+
+# specify the running user for php-fpm
+fpm_user: "www"
+fpm_group: "www"
+
+
+installation_dir: "/usr/local"
+src_code_dir: "{{ installation_dir }}/src"
+
+php_session_tmp_dir: "/tmp/php_session/"
+php_upload_tmp_dir: "/tmp/php_upload/"
+php_log_dir: "/var/log/php"
+
+# coreseek_version: "4.1-beta"
+# coreseek_file: "coreseek-{{ coreseek_version }}"
+# coreseek_download_url: "http://f.eefocus.tech/s/NXPYiAR875xZaKf/download"
+# coreseek_download_dest_dir: "{{ src_code_dir }}/{{ coreseek_file }}.tar.gz"
+# coreseek_checksum: "049fd9a631e774465a7db0a68f7c7a652630eeaa21d471a35a8c8e01a06ac103"
+# coreseek_src_dir: "{{ src_code_dir }}/{{ coreseek_file }}"
+
+
+php_sphinx_src_lines: [
+  { file: "{{ src_code_dir }}/{{ coreseek_file }}/csft-4.1/configure.ac", src: "^AC_PROG_RANLIB$", dest: "AC_PROG_RANLIB AM_PROG_AR"},
+  { file: "{{ src_code_dir }}/{{ coreseek_file }}/csft-4.1/src/sphinxexpr.cpp", src: '^.*T\sval\s=\sExprEval\s\(\sthis\-\>m_pArg,\stMatch\s\);', dest: 'T val = this->ExprEval ( this->m_pArg, tMatch );'}
+]
+
+
+php7_version: "7.2.24"
+php7_file_name: "php-{{ php7_version }}"
+# php7_remote_package: "https://www.php.net/distributions/{{ php7_file_name }}.tar.gz"
+php7_remote_package: "http://mirrors.sohu.com/php/{{ php7_file_name }}.tar.gz"
+php7_checksum: "01baf7a34c856d2c552121fbad7296a8cde18389ce83db32f18252bc1cee4dd6"
+
+php7_extension_dir: "{{ installation_dir }}/{{ php7_file_name }}/lib/php/extensions/no-debug-non-zts-20170718"
+php7_download_dest_dir: "{{ src_code_dir }}/{{ php7_file_name }}.tar.gz"
+php7_installation_dir: "{{ installation_dir }}/{{ php7_file_name }}"
+php7_src_dir: "{{ src_code_dir }}/{{ php7_file_name }}"
+php7_fpm_file: "{{ installation_dir }}/{{ php7_file_name }}/sbin/php-fpm"
+
+php7_extensions: [
+  {extension: "apcu-5.1.11", creates: "{{ php7_extension_dir }}/apcu.so"},
+  {extension: "redis-5.1.1", creates: "{{ php7_extension_dir }}/redis.so"},
+  {extension: "memcached-3.0.4", creates: "{{ php7_extension_dir }}/memcached.so"},
+  {extension: "mcrypt-1.0.3", creates: "{{ php7_extension_dir }}/mcrypt.so"},
+  # {extension: sphinx-1.3.3, creates: "{{ php7_extension_dir }}/sphinx.so"},
+]
+
+php7_ini_config_lines: [
+  {source: '^disable_functions =', dest: 'disable_functions =mail,dl,passthru,exec,system,shell_exec,proc_open,proc_get_status'},
+  {source: '^memory_limit = ', dest: 'memory_limit = 1024M'},
+  {source: '^expose_php = On', dest: 'expose_php = Off'},
+  {source: '^post_max_size = 8M', dest: 'post_max_size = 100M'},
+  {source: '^; extension_dir = "ext"', dest: 'extension_dir = "{{ php7_extension_dir }}"'},
+  {source: '^;upload_tmp_dir =', dest: 'upload_tmp_dir = {{ php_upload_tmp_dir }}'},
+  {source: '^upload_max_filesize = 2M', dest: 'upload_max_filesize = 100M'},
+  {source: '^;error_log = syslog', dest: 'error_log = {{ php_log_dir }}/errors.log'},
+  {source: '^mail.add_x_header = On', dest: 'mail.add_x_header = Off'},
+  {source: '^;session.save_path = ', dest: 'session.save_path = "{{ php_session_tmp_dir }}"'},
+  {source: '^;date.timezone =', dest: 'date.timezone = Asia/Shanghai'}
+]

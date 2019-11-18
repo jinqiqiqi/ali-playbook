@@ -1,2 +1,14 @@
 ---
 # handlers file for roles/openldap
+
+- name: restart nginx service
+  service: 
+    name=nginx 
+    state=restarted 
+    enabled=yes
+
+- name: restart php-fpm service
+  service: 
+    name=php-fpm
+    state=restarted 
+    enabled=yes

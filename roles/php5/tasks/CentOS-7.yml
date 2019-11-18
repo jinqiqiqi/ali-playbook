@@ -33,6 +33,23 @@
   tags:
     - php5
 
+- name: "Create {{ fpm_group }} for php5"
+  group:
+    name: "{{ fpm_group }}"
+    state: present
+  tags:
+    - php5
+
+- name: "Create {{ fpm_user }} for php5"
+  user:
+    name: "{{ fpm_user }}"
+    comment: "php user"
+    create_home: no
+    state: present
+    group: "{{ fpm_group }}"
+  tags:
+    - php5
+
 - name: Download php source package
   get_url:
     url: "{{ item.url }}"
@@ -180,6 +197,7 @@
     - { src: '{{ php5_src_dir }}/php.ini-production', dest: '{{ php5_installation_dir }}/etc/php.ini-production'}
     - { src: '{{ php5_installation_dir }}/etc/php.ini-production', dest: '{{ php5_installation_dir }}/etc/php.ini'}
     - { src: '{{ php5_installation_dir }}/etc/php-fpm.conf.default', dest: '{{ php5_installation_dir }}/etc/php-fpm.conf'}
+    # - { src: '{{ php5_installation_dir }}/etc/php-fpm.d/www.conf.default', dest: '{{ php5_installation_dir }}/etc/php-fpm.d/www.conf'}
   tags:
     - php5
 
@@ -210,7 +228,18 @@
     dest: "{{ item.dest }}"
   with_items:
     - { src: "additions.ini.j2", dest: "{{ php5_installation_dir }}/etc/ini/additions.ini" }
+    - { src: "php-fpm.service.j2", dest: "/usr/lib/systemd/system/php-fpm.service" }
+    - { src: 'php-fpm.env.j2', dest: '/etc/sysconfig/php-fpm' }
+  notify:
+    - restart php-fpm
   tags:
     - php5
 
-
+- name: Start php-fpm service
+  systemd:
+    name: php-fpm
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  tags:
+    - php5

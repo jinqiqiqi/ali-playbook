@@ -25,6 +25,7 @@
     # - rsyslog
     # - redis
     # - memcache
+    - openldap
 
 
 
