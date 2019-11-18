@@ -1,2 +1,9 @@
 ---
 # handlers file for roles/php7
+
+- name: restart php-fpm
+  systemd:
+    name: php-fpm
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

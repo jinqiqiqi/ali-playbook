@@ -47,7 +47,22 @@
 #   tags:
 #     - php7
 
+- name: "Create {{ fpm_group }} for php7"
+  group:
+    name: "{{ fpm_group }}"
+    state: present
+  tags:
+    - php7
 
+- name: "Create {{ fpm_user }} for php7"
+  user:
+    name: "{{ fpm_user }}"
+    comment: "php user"
+    create_home: no
+    state: present
+    group: "{{ fpm_group }}"
+  tags:
+    - php7
 
 - name: Download php source package
   get_url:
@@ -215,6 +230,7 @@
     - { src: '{{ php7_src_dir }}/php.ini-production', dest: '{{ php7_installation_dir }}/etc/php.ini-production'}
     - { src: '{{ php7_installation_dir }}/etc/php.ini-production', dest: '{{ php7_installation_dir }}/etc/php.ini'}
     - { src: '{{ php7_installation_dir }}/etc/php-fpm.conf.default', dest: '{{ php7_installation_dir }}/etc/php-fpm.conf'}
+    - { src: '{{ php7_installation_dir }}/etc/php-fpm.d/www.conf.default', dest: '{{ php7_installation_dir }}/etc/php-fpm.d/www.conf'}
   tags:
     - php7
 
@@ -274,7 +290,19 @@
     dest: "{{ item.dest }}"
   with_items:
     - { src: "additions.ini.j2", dest: "{{ php7_installation_dir }}/etc/ini/additions.ini" }
+    - { src: "php-fpm.service.j2", dest: "/usr/lib/systemd/system/php-fpm.service" }
+    - { src: 'php-fpm.env.j2', dest: '/etc/sysconfig/php-fpm' }
+  notify:
+    - restart php-fpm
   tags:
     - php7
 
 
+- name: Start php-fpm service
+  systemd:
+    name: php-fpm
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  tags:
+    - php7

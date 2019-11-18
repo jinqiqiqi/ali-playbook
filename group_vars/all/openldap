@@ -1,0 +1,72 @@
+---
+# base configurations for openldap
+dbtype: "{2}hdb"
+dbconfig_path: /usr/share/openldap-servers/DB_CONFIG.example
+schema_path: /etc/openldap/schema
+
+# base definitions
+ldap_basedn: dc=eefocus,dc=tech
+ldap_auth: {
+    server_uri: 'ldap://192.168.99.100:389',
+    bind_dn: 'cn=admin,{{ ldap_basedn }}',
+    bind_pw: adminpassword,
+}
+
+# definitions for groups and users
+ldap_users: [
+    {
+        cn: qi, # uid
+        givenname: qi,
+        sn: qi,
+        mail: qi@eefocus.com,
+        userpassword: password,
+        uidNumber: 1000,
+        gidNumber: 500,
+        homeDirectory: /home/users/qi
+    },
+    {
+        cn: jin,
+        givenname: jin,
+        sn: jin,
+        mail: jin@eefocus.com,
+        userpassword: password,
+        uidNumber: 1001,
+        gidNumber: 501,
+        homeDirectory: /home/users/jin
+    }
+]
+
+ldap_groups: [
+    {
+        name: 技术部,
+        gidNumber: 500,
+        members: [
+            jin,
+            qi
+        ]
+    },
+    {
+        name: 运营部,
+        gidNumber: 501,
+        members: [
+            qi
+        ]
+    }
+]
+
+
+nginx_gitlab_dir: /opt/ssl
+nginx_ssl_crt_file: nginx.crt
+nginx_ssl_key_file: nginx.key
+
+
+openldap_hosts: [
+    {
+        listen: 80,
+        server_name: 'ldap.eefocus.tech',
+        root: /usr/share/phpldapadmin/htdocs/,
+
+        ssl_certificate: "{{ nginx_gitlab_dir }}/{{ nginx_ssl_crt_file }}",
+        ssl_certificate_key: "{{ nginx_gitlab_dir }}/{{ nginx_ssl_key_file }}",
+    }
+]

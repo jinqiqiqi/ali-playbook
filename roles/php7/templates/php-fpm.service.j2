@@ -1,0 +1,15 @@
+[Unit]
+Description=The PHP FastCGI Process Manager
+After=syslog.target network.target
+
+[Service]
+Type=simple
+PIDFile=/run/php-fpm/php-fpm.pid
+EnvironmentFile=/etc/sysconfig/php-fpm
+ExecStart={{ php7_fpm_file }} --fpm-config {{ php7_installation_dir }}/etc/php-fpm.conf --nodaemonize
+ExecReload=/bin/kill -USR2 $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+

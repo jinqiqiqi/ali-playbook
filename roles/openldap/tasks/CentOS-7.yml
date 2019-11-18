@@ -1,0 +1,174 @@
+---
+
+- name: Install OpenLDAP packages
+  package: name={{ item }} state=present
+  with_items:
+    - openldap-servers
+    - openldap-clients
+    - python-ldap
+    - phpldapadmin
+  tags:
+    - openldap
+
+- name: Copy DB_CONFIG.example file to /var/lib/ldap/ directory
+  copy:
+    src: /usr/share/openldap-servers/DB_CONFIG.example
+    dest: /var/lib/ldap/DB_CONFIG
+    remote_src: yes
+    owner: ldap
+    group: ldap
+  tags:
+    - openldap
+
+- name: Start ldap service
+  service:
+    name: slapd
+    state: started
+    enabled: yes
+  tags:
+    - openldap
+
+- name: "Register encripted password: {{ ldap_auth.bind_pw }}"
+  command: slappasswd -s "{{ ldap_auth.bind_pw }}"
+  register: ldap_encripted_password
+  tags:
+    - openldap
+
+- name: Copy db templates, root password "{{ ldap_auth.bind_pw }}" is converted to "{{ ldap_encripted_password.stdout }}"
+  template:
+    src: db.ldif.j2
+    dest: /tmp/db.ldif
+  tags:
+    - openldap
+
+- name: Load ddbb template into ldap
+  command: ldapmodify -Y EXTERNAL  -H ldapi:/// -f /tmp/db.ldif
+  tags:
+    - openldap
+
+- name: Load some schemas (ignoring duplicate entries error for idempotence)
+  command: "ldapadd -Y EXTERNAL -H ldapi:/// -f {{ schema_path }}/{{ item }}"
+  register: ldap_result_code
+  failed_when: ldap_result_code.rc not in [0,80]
+  changed_when: ldap_result_code.rc not in [0,80]
+  with_items:
+    - cosine.ldif
+    - nis.ldif
+    - inetorgperson.ldif
+  tags:
+    - openldap
+
+
+- name: "Load ldap root entry, {{ ldap_auth }}, {{ ldap_basedn }}"
+  ldap_entry:
+    params: "{{ ldap_auth }}"
+    dn: "{{ ldap_basedn }}"
+    objectClass:
+      - top
+      - domain
+  tags:
+    - openldap
+
+- name: Load groups and users parent entry
+  ldap_entry:
+    params: "{{ ldap_auth }}"
+    dn: "ou={{ item }},{{ ldap_basedn }}"
+    objectClass:
+      - organizationalUnit
+      - top
+  with_items:
+    - groups
+    - users
+    - roles
+  tags:
+    - openldap
+    - group_user
+
+- name: Load users
+  ldap_entry:
+    params: "{{ ldap_auth }}"
+    dn: "cn={{ item.cn }},ou=users,{{ ldap_basedn }}"
+    objectClass:
+      - inetOrgPerson
+      - posixAccount
+      - top
+    attributes:
+      cn: "{{ item.cn }}"
+      givenname: "{{ item.givenname }}"
+      sn: "{{ item.sn }}"
+      uid: "{{ item.cn }}"
+      mail: "{{ item.mail }}"
+      userpassword: "{{ item.userpassword }}"
+      #employeeNumber: "{{ item.employeeNumber }}"
+      uidNumber: "{{ item.uidNumber }}"
+      gidNumber: "{{ item.gidNumber }}"
+      homeDirectory: "{{ item.homeDirectory }}"
+  with_items: "{{ ldap_users }}"
+  tags:
+    - openldap
+    - group_user
+
+- name: Load groups
+  ldap_entry:
+    params: "{{ ldap_auth }}"
+    dn: "cn={{ item.name }},ou=groups,{{ ldap_basedn }}"
+    objectClass:
+      - posixGroup
+      - top
+    attributes:
+      # uniqueMember: "uid=dummy,ou=users,{{ ldap_basedn }}"
+      gidNumber: "{{ item.gidNumber }}"
+  with_items: "{{ ldap_groups }}"
+  tags:
+    - openldap
+    - group_user
+
+# - name: Add users to groups
+#   ldap_attr:
+#     params: "{{ ldap_auth }}"
+#     dn: "cn={{ item.0.name }},ou=groups,{{ ldap_basedn }}"
+#     name: "{{ item. }}"
+#     values: "cn={{ item.1 }},ou=users,{{ ldap_basedn }}"
+#     state: present
+#   with_subelements:
+#     - "{{ ldap_groups }}"
+#     - members
+#   tags:
+#     - openldap
+#     - group_user
+
+- name: Remove dummy entry
+  ldap_attr:
+    params: "{{ ldap_auth }}"
+    dn: "cn={{ item.name }},ou=groups,{{ ldap_basedn }}"
+    name: uniqueMember
+    values: "uid=dummy,ou=users,{{ ldap_basedn }}"
+    state: absent
+  with_items: "{{ ldap_groups }}"
+  tags:
+    - openldap
+    - group_user
+
+- name: Restart OpenLDAP service
+  service:
+    name: slapd
+    state: restarted
+    enabled: yes
+  tags:
+    - openldap
+    - group_user
+
+
+- name: 'Copy nginx files, ip: {{ ldap_auth.server_uri }}'
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: 'openldap.conf.j2', dest: '/etc/nginx/conf.d/openldap.conf' }
+    - { src: 'php-fpm.conf.j2', dest: '/etc/nginx/conf.d/php-fpm.conf' }
+    - { src: 'config.php.j2', dest: '/etc/phpldapadmin/config.php' }
+  tags:
+    - openldap
+  notify: 
+    - restart nginx service
+    - restart php-fpm service
