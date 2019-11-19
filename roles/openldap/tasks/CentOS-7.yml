@@ -163,6 +163,7 @@
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: "0644"
   with_items:
     - { src: 'openldap.conf.j2', dest: '/etc/nginx/conf.d/openldap.conf' }
     - { src: 'php-fpm.conf.j2', dest: '/etc/nginx/conf.d/php-fpm.conf' }

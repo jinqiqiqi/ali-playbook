@@ -30,6 +30,18 @@
     - unixODBC-devel
     - libstemmer-devel
     - GeoIP-devel
+    - openldap-devel
+  tags:
+    - php5
+
+- name: link so object files for ldap.h
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: /usr/lib64/libldap.so, dest: /usr/lib/libldap.so}
+    - { src: /usr/lib64/libldap_r.so, dest: /usr/lib/libldap_r.so}
   tags:
     - php5
 
@@ -72,7 +84,7 @@
 
 - name: "Configure {{ php5_installation_dir }} and installation"
   shell: >
-    ./configure --prefix={{ php5_installation_dir }} --enable-exif --enable-fpm --enable-mbstring --with-config-file-path={{ php5_installation_dir }}/etc/ --with-config-file-scan-dir={{ php5_installation_dir }}/etc/ini/ --with-freetype-dir --with-gd --with-jpeg-dir --with-png-dir --with-iconv-dir --with-mysql --with-mysqli --with-pdo-mysql --with-zlib --with-curl --enable-intl --with-icu-dir=/usr --with-fpm-user={{ fpm_user }} --with-fpm-group={{ fpm_user }} --with-libxml-dir --disable-rpath --enable-bcmath --enable-shmop --enable-sysvsem --with-mcrypt --enable-mbregex --with-openssl --enable-soap --enable-gd-native-ttf --enable-ftp --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --with-mhash --enable-calendar --with-bz2 --with-gettext --enable-wddx --enable-opcache --enable-zip --enable-phar && make && make install 
+    ./configure --prefix={{ php5_installation_dir }} --enable-exif --enable-fpm --enable-mbstring --with-config-file-path={{ php5_installation_dir }}/etc/ --with-config-file-scan-dir={{ php5_installation_dir }}/etc/ini/ --with-freetype-dir --with-gd --with-jpeg-dir --with-png-dir --with-iconv-dir --with-mysql --with-mysqli --with-pdo-mysql --with-zlib --with-curl --enable-intl --with-icu-dir=/usr --with-fpm-user={{ fpm_user }} --with-fpm-group={{ fpm_user }} --with-libxml-dir --disable-rpath --enable-bcmath --enable-shmop --enable-sysvsem --with-mcrypt --enable-mbregex --with-openssl --enable-soap --enable-gd-native-ttf --enable-ftp --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --with-mhash --enable-calendar --with-bz2 --with-gettext --enable-wddx --enable-opcache --enable-zip --enable-phar --with-ldap --with-ldap-sasl && make && make install 
   args:
     chdir: "{{ php5_src_dir }}"
     creates: "{{ php5_installation_dir }}/etc/php-fpm.conf.default"
@@ -132,7 +144,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: 755
+    mode: 644
   with_items:
     - "{{ php5_installation_dir }}/etc/ini/"
     - "{{ php_log_dir }}"
