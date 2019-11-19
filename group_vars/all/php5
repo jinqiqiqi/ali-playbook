@@ -12,8 +12,8 @@ fpm_group: "www"
 installation_dir: "/usr/local"
 src_code_dir: "{{ installation_dir }}/src"
 
-php_session_tmp_dir: "/tmp/php_session/"
-php_upload_tmp_dir: "/tmp/php_upload/"
+php_session_tmp_dir: "/tmp"
+php_upload_tmp_dir: "/tmp"
 php_log_dir: "/var/log/php"
 
 coreseek_version: "4.1-beta"
