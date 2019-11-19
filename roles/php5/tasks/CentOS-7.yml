@@ -30,10 +30,21 @@
     - unixODBC-devel
     - libstemmer-devel
     - GeoIP-devel
-    - openldap-devel.i686
     - openldap-devel
   tags:
     - php5
+
+- name: link so file for ldap.h
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: /usr/lib64/libldap.so, dest: /usr/lib/libldap.so}
+    - { src: /usr/lib64/libldap_r.so, dest: /usr/lib/libldap_r.so}
+  tags:
+    - php5
+
 
 - name: "Create {{ fpm_group }} for php5"
   group:
