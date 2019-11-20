@@ -6,7 +6,6 @@
     - openldap-servers
     - openldap-clients
     - python-ldap
-    - phpldapadmin
   tags:
     - openldap
 
@@ -20,17 +19,17 @@
   tags:
     - openldap
 
+- name: "Register encripted password: {{ ldap_auth.bind_pw }}"
+  command: slappasswd -s "{{ ldap_auth.bind_pw }}"
+  register: ldap_encripted_password
+  tags:
+    - openldap
+
 - name: Start ldap service
   service:
     name: slapd
     state: started
     enabled: yes
-  tags:
-    - openldap
-
-- name: "Register encripted password: {{ ldap_auth.bind_pw }}"
-  command: slappasswd -s "{{ ldap_auth.bind_pw }}"
-  register: ldap_encripted_password
   tags:
     - openldap
 
@@ -157,6 +156,16 @@
   tags:
     - openldap
     - group_user
+
+
+- name: Install phpLdapAdmin
+  package:
+    name: "{{ item }}"
+    state: "present"
+  with_items:
+    - phpldapadmin
+  tags:
+    - openldap
 
 
 - name: 'Copy nginx files, ip: {{ ldap_auth.server_uri }}'
