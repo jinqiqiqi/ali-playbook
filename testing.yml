@@ -20,12 +20,13 @@
     # - nginx
     # - nodejs
     # - dnsmasq
-    # - php5
+    - php5
     # - php7
     # - rsyslog
     # - redis
     # - memcache
     - openldap
+    # - openldap
 
 
 

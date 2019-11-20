@@ -45,18 +45,6 @@
   tags:
     - php7
 
-# # tasks file for roles/php7
-# - name: Download php source package
-#   get_url:
-#     url: "{{ item.url }}"
-#     dest: "{{ item.dest }}"
-#     checksum: "sha256:{{ item.checksum }}"
-#     timeout: 120
-#   loop:
-#     - { url: "https://www.php.net/distributions/php-{{ php7_version }}.tar.gz", dest: "/opt/php-{{ php7_version }}.tar.gz" , checksum: "{{ php7_checksum }}" }
-#   tags:
-#     - php7
-
 - name: "Create {{ fpm_group }} for php7"
   group:
     name: "{{ fpm_group }}"
@@ -96,12 +84,31 @@
 
 - name: "Configure {{ php7_installation_dir }} and installation"
   shell: >
-    ./configure --prefix={{ php7_installation_dir }} --enable-exif --enable-fpm --enable-mbstring --with-config-file-path={{ php7_installation_dir }}/etc/ --with-config-file-scan-dir={{ php7_installation_dir }}/etc/ini/ --with-freetype-dir --with-gd --with-jpeg-dir --with-png-dir --with-iconv-dir --with-mysql --with-mysqli --with-pdo-mysql --with-zlib --with-curl --enable-intl --with-icu-dir=/usr --with-fpm-user={{ fpm_user }} --with-fpm-group={{ fpm_user }} --with-libxml-dir --disable-rpath --enable-bcmath --enable-shmop --enable-sysvsem --with-mcrypt --enable-mbregex --with-openssl --enable-soap --enable-gd-native-ttf --enable-ftp --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --with-mhash --enable-calendar --with-bz2 --with-gettext --enable-wddx --enable-opcache --enable-zip --enable-phar --with-ldap --with-ldap-sasl && make && make install 
+    ./configure --prefix={{ php7_installation_dir }} --enable-exif --enable-fpm --enable-mbstring --with-config-file-path={{ php7_installation_dir }}/etc/ --with-config-file-scan-dir={{ php7_installation_dir }}/etc/ini/ --with-freetype-dir --with-gd --with-jpeg-dir --with-png-dir --with-iconv-dir --with-mysql --with-mysqli --with-pdo-mysql --with-zlib --with-curl --enable-intl --with-icu-dir=/usr --with-fpm-user={{ fpm_user }} --with-fpm-group={{ fpm_user }} --with-libxml-dir --disable-rpath --enable-bcmath --enable-shmop --enable-sysvsem --with-mcrypt --enable-mbregex --with-openssl --enable-soap --enable-gd-native-ttf --enable-ftp --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --with-mhash --enable-calendar --with-bz2 --with-gettext --enable-wddx --enable-opcache --enable-zip --enable-phar --with-ldap --with-ldap-sasl
   args:
     chdir: "{{ php7_src_dir }}"
     creates: "{{ php7_installation_dir }}/etc/php-fpm.conf.default"
   tags:
     - php7
+
+- name: Append -llber for Makefile when building php7
+  shell: >
+    sed -i 's/^\(EXTRA_LIBS.*\)/\1 -llber/g' Makefile && cp Makefile Makefile.done
+  args:
+    chdir: "{{ php7_src_dir }}"
+    creates: "{{ php7_src_dir }}/Makefile.done"
+  tags:
+    - php7
+
+- name: "Configure {{ php7_installation_dir }} and installation"
+  shell: >
+    make && make install
+  args:
+    chdir: "{{ php7_src_dir }}"
+    creates: "{{ php7_installation_dir }}/etc/php-fpm.conf.default"
+  tags:
+    - php7
+
 
 - name: "Link php directory: {{ php7_installation_dir }} => {{ installation_dir }}/php"
   file:
