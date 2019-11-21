@@ -20,7 +20,8 @@
     # - dnsmasq
     # - php5
     # - php7
-    - rsyslog
+    # - rsyslog
+    - redis
 
 
 
