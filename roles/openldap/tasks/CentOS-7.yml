@@ -19,6 +19,22 @@
   tags:
     - openldap
 
+- name: change owner for etc and data files
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: ldap
+    group: ldap
+  with_items:
+    - /etc/openldap/slapd.d/ 
+    - /var/lib/ldap/
+  tags:
+    - openldap
+
+# - name: TODO
+
+
 - name: "Register encripted password: {{ ldap_auth.bind_pw }}"
   command: slappasswd -s "{{ ldap_auth.bind_pw }}"
   register: ldap_encripted_password
