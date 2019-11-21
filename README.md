@@ -48,6 +48,7 @@
 ### NFS (#)
 
 ### redis
+* Version: 3.2.12
 
 ### memcache
 
