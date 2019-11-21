@@ -1,0 +1,29 @@
+---
+# tasks file for memcached
+
+- name: Install memcached Package
+  package: 
+    name=memcached 
+    state=latest
+  tags:
+    - memcached
+
+- name: Start memcached service
+  systemd: 
+    name=memcached 
+    state=started 
+    enabled=yes
+  tags:
+    - memcached
+
+# - name: Change bind from 127.0.0.1 to 0.0.0.0
+#   # command: sed -e 's/bind 127.0.0.1/bind 0.0.0.0/' -i /etc/memcached.conf
+#   lineinfile: 
+#     dest=/etc/sysconfig/memcached
+#     regexp='^bind '
+#     line='bind 0.0.0.0'
+#     state=present
+#   tags:
+#     - memcached
+#   notify:
+#     - restart memcached
