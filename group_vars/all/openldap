@@ -7,7 +7,7 @@ schema_path: /etc/openldap/schema
 # base definitions
 ldap_basedn: dc=eefocus,dc=tech
 ldap_auth: {
-    server_uri: 'ldap://192.168.99.100:389',
+    server_uri: 'ldap://192.168.0.100:389',
     bind_dn: 'cn=admin,{{ ldap_basedn }}',
     bind_pw: adminpassword,
 }

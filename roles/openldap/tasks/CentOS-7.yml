@@ -28,6 +28,7 @@
     group: ldap
   with_items:
     - /etc/openldap/slapd.d/ 
+    - /etc/openldap/certs/ 
     - /var/lib/ldap/
   tags:
     - openldap
