@@ -14,19 +14,17 @@
   #     dnf: name=* state=latest
 
   roles:
-    - openldap
     - base
     # - iptables
     # - nginx
     # - nodejs
     # - dnsmasq
-    - php5
+    # - php5
     # - php7
     # - rsyslog
     # - redis
     # - memcache
     - openldap
-    # - openldap
 
 
 
