@@ -4,7 +4,8 @@
     # - localhost
     # - l201
     # - l196
-    - master
+    # - master
+    - localtesting
   become_user: root
   become: yes
 
@@ -13,16 +14,17 @@
   #     dnf: name=* state=latest
 
   roles:
+    - openldap
     - base
-    - iptables
-    - nginx
+    # - iptables
+    # - nginx
     # - nodejs
-    - dnsmasq
+    # - dnsmasq
     # - php5
     # - php7
     # - rsyslog
-    - redis
-    - memcache
+    # - redis
+    # - memcache
 
 
 
