@@ -1,5 +1,13 @@
 # 阿里云基础设施的playbook
 
+
+
+
+
+[TOC]
+
+
+
 ## Roles清单
 
 ### base
@@ -9,6 +17,16 @@
 * Replace repos with aliyun mirrors
 * Import GPG keys
 * Install basic tools and packages
+  * lsof
+  * telnet
+  * vim 
+  * tree
+  * libselinux-python
+  * yum-utils
+  * python-pip
+  * bind-tools
+  * iptalbes-services
+  
 * Install basic pip packages
 
 ### nginx
@@ -45,12 +63,16 @@
 
 ### openldap
 
+* some unknown error occured after installing
+
 ### NFS (#)
 
 ### redis
 * Version: 3.2.12
 
-### memcache
+### memcached
+
+* Version: 1.4.15-10
 
 ### elasticsearch (#)
 
@@ -60,13 +82,16 @@
 
 ### syslog
 
-
-
-
-
+* Version: 8.24.0-41
 
 ## 入口文件列表
+
+### 入口文件模板
+
+请参看testing.yml文件。
 
 
 
 ## 注意事项
+
+### 配置相关

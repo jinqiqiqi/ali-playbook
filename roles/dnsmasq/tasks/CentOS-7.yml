@@ -3,15 +3,17 @@
 
 - name: Install dnsmasq
   package:
-    name="{{ item }}"
-    state=present
+    name: "{{ item }}"
+    state: present
   loop:
     - dnsmasq
   tags:
     - dnsmasq
 
 - name: Copy config file that contains custom rules
-  template: src=sample.conf dest=/etc/dnsmasq.d/sample.conf
+  template: 
+    src: sample.conf 
+    dest: /etc/dnsmasq.d/sample.conf
   tags:
     - dnsmasq
   notify:

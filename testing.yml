@@ -13,15 +13,15 @@
   #     dnf: name=* state=latest
 
   roles:
-    # - base
-    # - iptables
-    # - nginx
+    - base
+    - iptables
+    - nginx
     # - nodejs
-    # - dnsmasq
+    - dnsmasq
     # - php5
     # - php7
     # - rsyslog
-    # - redis
+    - redis
     - memcache
 
 
