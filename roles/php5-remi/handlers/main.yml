@@ -1,0 +1,9 @@
+---
+# handlers file for roles/php5-remi
+
+- name: restart php56-php-fpm
+  systemd:
+    name: php56-php-fpm
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

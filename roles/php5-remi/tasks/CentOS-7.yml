@@ -1,0 +1,85 @@
+---
+# tasks file for roles/php5
+- name: "Create {{ fpm_group }} for php5"
+  group:
+    name: "{{ fpm_group }}"
+    state: present
+  tags:
+    - php5-remi
+
+- name: "Create {{ fpm_user }} for php5"
+  user:
+    name: "{{ fpm_user }}"
+    comment: "php user"
+    create_home: no
+    state: present
+    group: "{{ fpm_group }}"
+  tags:
+    - php5-remi
+
+
+- name: "Adding remi repositories"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+  tags:
+    - php5-remi
+  with_items:
+    - { src: php-remi.repo, dest: /etc/yum.repos.d/php-remi.repo }
+
+- name: "Install/Update php56 to the latest stable version"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - php56-php-pecl-redis
+    - php56-php-pecl-memcache
+    - php56-php-pecl-memcached
+    - php56-php-pecl-apcu
+    - php56-php-pecl-sphinx
+    - php56-php-pecl-mongo
+    - php56-php-pecl-mongodb
+    - php56-php-mbstring
+    - php56-php-mysqlnd
+    - php56-php-opcache
+    - php56-php-gd
+    - php56-php-fpm
+    - php56-php-mcrypt
+    - php56-php-intl
+    - php56-php-bcmath
+    - php56-php-soap
+    - php56-php-xmlrpc
+  tags:
+    - php5-remi
+
+- name: "Start php56-php-fpm service"
+  systemd:
+    name: php56-php-fpm
+    state: started
+    enabled: yes
+  tags:
+    - php5-remi
+
+- name: Changes to the php.ini settings.
+  lineinfile:
+    dest: "/etc/opt/remi/php56/php.ini"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ php5_remi_ini_config_lines }}"
+  tags:
+    - php5-remi
+  notify: restart php56-php-fpm
+
+- name: Changes to the php-fpm.conf file.
+  lineinfile:
+    dest: "/etc/opt/remi/php56/php-fpm.d/www.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ php5_remi_fpm_config_lines }}"
+  tags:
+    - php5-remi
+  notify: restart php56-php-fpm
