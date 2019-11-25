@@ -1,5 +1,5 @@
 ---
-# handlers file for roles/php5-remi
+# handlers file for roles/php7-remi
 
 - name: restart php72-php-fpm
   systemd:
