@@ -25,7 +25,8 @@
     # - redis
     # - memcache
     # - openldap
-    - rabbitmq
+    # - rabbitmq
+    - mongodb
 
 
 

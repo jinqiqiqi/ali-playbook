@@ -1,0 +1,65 @@
+---
+# tasks file for roles/Mongodb
+
+# - name: "Adding Mongodb repositories"
+#   copy:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     owner: root
+#     group: root
+#   with_items:
+#     - { src: mongodb.repo, dest: /etc/yum.repos.d/mongodb.repo }
+#   tags:
+#     - mongodb
+
+- name: "Uninstall mongodb-org"
+  package:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - "mongodb-org*"
+  tags:
+    - mongodb
+
+- name: "Install/Update Mongodb to the latest stable version"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - mongodb-server
+  tags:
+    - mongodb
+
+- name: Start Mongodb service
+  systemd:
+    state: started
+    name: mongod
+    daemon_reload: yes
+    enabled: yes
+  tags:
+    - mongodb
+
+
+- name: Change /etc/mongod.conf for mongodb
+  lineinfile:
+    dest: "/etc/mongod.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ mongod_config_lines }}"
+  notify:
+    - restart mongodb
+  tags:
+    - mongodb
+
+- name: Change /etc/mongos.conf for mongodb
+  lineinfile:
+    dest: "/etc/mongos.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ mongod_config_lines }}"
+  notify:
+    - restart mongodb
+  tags:
+    - mongodb
