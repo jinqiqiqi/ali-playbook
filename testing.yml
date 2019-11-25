@@ -5,7 +5,8 @@
     # - l201
     # - l196
     # - master
-    - localtesting
+    # - localtesting
+    - libvirt
   become_user: root
   become: yes
 
