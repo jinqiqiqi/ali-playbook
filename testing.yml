@@ -24,7 +24,8 @@
     # - rsyslog
     # - redis
     # - memcache
-    - openldap
+    # - openldap
+    - rabbitmq
 
 
 
