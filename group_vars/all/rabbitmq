@@ -1,0 +1,3 @@
+rabbitmq_admin_users: [
+    { user: "admin", password: "password", tags: "admin" },
+]

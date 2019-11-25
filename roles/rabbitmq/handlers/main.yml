@@ -1,2 +1,8 @@
 ---
 # handlers file for roles/rabbitmq
+
+- name: restart rabbitmq
+  systemd: 
+    name=rabbitmq-server
+    state=restarted 
+    enabled=yes

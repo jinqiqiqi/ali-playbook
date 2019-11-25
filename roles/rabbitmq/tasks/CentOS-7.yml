@@ -1,0 +1,59 @@
+---
+# tasks file for rabbitmq
+
+- name: Install rabbitmq Package
+  package: 
+    name=rabbitmq-server 
+    state=latest
+  tags:
+    - rabbitmq
+
+- name: Start rabbitmq service
+  systemd: 
+    name=rabbitmq-server
+    state=started 
+    enabled=yes
+  tags:
+    - rabbitmq
+
+- name: Enable rabbitmq plugins
+  rabbitmq_plugin:
+    name: rabbitmq_management
+  notify:
+    - restart rabbitmq
+  tags:
+    - rabbitmq
+
+- name: Adding rabbitmq users
+  rabbitmq_user: 
+    user: "{{ item.user }}" 
+    password: "{{ item.password }}"
+    tags: "administrator, {{ item.tags }}"
+    vhost: "/"
+    configure_priv: ".*"
+    write_priv: ".*"
+    read_priv: ".*"
+    state: present
+  with_items: "{{ rabbitmq_admin_users }}"
+  tags:
+    - rabbitmq
+
+- name: remove default guest user
+  rabbitmq_user:
+    user: guest
+    state: absent
+  tags:
+    - rabbitmq
+
+
+# - name: Change bind from 127.0.0.1 to 0.0.0.0
+#   # command: sed -e 's/bind 127.0.0.1/bind 0.0.0.0/' -i /etc/rabbitmq.conf
+#   lineinfile: 
+#     dest=/etc/rabbitmq.conf
+#     regexp='^bind '
+#     line='bind 0.0.0.0'
+#     state=present
+#   tags:
+#     - rabbitmq
+#   notify:
+#     - restart rabbitmq
