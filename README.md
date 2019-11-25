@@ -46,7 +46,7 @@
       * Apcu: 4.0.11
       * Sphinx: 1.3.0 (remi: 1.3.3)
 * php7
-    * Version: 7.2.24 (php-remi: 7.2.25)
+    * Version: 7.2.24 (7.2.25 - remi repository)
     * Extensions:
         * Apcu: 5.1.11 (remi: 5.1.18)
         * Redis: 5.1.1
