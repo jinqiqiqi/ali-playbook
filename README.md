@@ -38,21 +38,22 @@
 
 ### PHP (Both php5 and php7 with sphinx, apcu, memcache, memcached and redis)
 * php5
-    * version: 5.6.40
+    * version: 5.6.40  (php-remi: 5.6.40)
     * Extensions:
-      * Redis: 4.3.0
-      * Memcache: 2.2.7
+      * Redis: 4.3.0 (remi: 3.1.6)
+      * Memcache: 2.2.7 (remi: 3.0.8)
       * Memcached: 2.2.0
       * Apcu: 4.0.11
-      * Sphinx: 1.3.0
+      * Sphinx: 1.3.0 (remi: 1.3.3)
 * php7
-    * Version: 7.2.24
+    * Version: 7.2.24 (php-remi: 7.2.25)
     * Extensions:
-        * Apcu: 5.1.11
+        * Apcu: 5.1.11 (remi: 5.1.18)
         * Redis: 5.1.1
-        * Mcrypt: 1.0.3(2.5.8)
-        * Memcached: 3.0.4
+        * Mcrypt: 1.0.3(2.5.8) 
+        * Memcached: 3.0.4 (remi: 3.1.4)
         * Memcache: 4.0.4
+        * Sphinx remi only: 1.4.0-dev
 
 ### Sphinx
 
