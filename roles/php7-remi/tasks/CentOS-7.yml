@@ -1,0 +1,85 @@
+---
+# tasks file for roles/php7
+- name: "Create {{ fpm_group }} for php7"
+  group:
+    name: "{{ fpm_group }}"
+    state: present
+  tags:
+    - php7-remi
+
+- name: "Create {{ fpm_user }} for php7"
+  user:
+    name: "{{ fpm_user }}"
+    comment: "php user"
+    create_home: no
+    state: present
+    group: "{{ fpm_group }}"
+  tags:
+    - php7-remi
+
+
+- name: "Adding remi repositories"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+  tags:
+    - php7-remi
+  with_items:
+    - { src: php-remi.repo, dest: /etc/yum.repos.d/php-remi.repo }
+
+- name: "Install/Update php72 to the latest stable version"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - php72-php-pecl-redis
+    - php72-php-pecl-memcache
+    - php72-php-pecl-memcached
+    - php72-php-pecl-apcu
+    - php72-php-pecl-sphinx
+    # - php72-php-pecl-mongo
+    - php72-php-pecl-mongodb
+    - php72-php-mbstring
+    - php72-php-mysqlnd
+    - php72-php-opcache
+    - php72-php-gd
+    - php72-php-fpm
+    - php72-php-mcrypt
+    - php72-php-intl
+    - php72-php-bcmath
+    - php72-php-soap
+    - php72-php-xmlrpc
+  tags:
+    - php7-remi
+
+- name: "Start php72-php-fpm service"
+  systemd:
+    name: php72-php-fpm
+    state: started
+    enabled: yes
+  tags:
+    - php7-remi
+
+- name: Changes to the php.ini settings.
+  lineinfile:
+    dest: "/etc/opt/remi/php72/php.ini"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ php7_remi_ini_config_lines }}"
+  tags:
+    - php7-remi
+  notify: restart php72-php-fpm
+
+- name: Changes to the php-fpm.conf file.
+  lineinfile:
+    dest: "/etc/opt/remi/php72/php-fpm.d/www.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ php7_remi_fpm_config_lines }}"
+  tags:
+    - php7-remi
+  notify: restart php72-php-fpm

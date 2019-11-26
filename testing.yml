@@ -27,7 +27,8 @@
     # - openldap
     # - rabbitmq
     # - mongodb
-    - php5-remi
+    # - php5-remi
+    - php7-remi
 
 
 
