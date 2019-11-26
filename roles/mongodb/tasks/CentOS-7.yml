@@ -63,3 +63,17 @@
     - restart mongodb
   tags:
     - mongodb
+
+- name: Add or modify nofile soft limit for the mongo user
+  pam_limits:
+    domain: "{{ item.domain }}"
+    limit_type: "{{ item.type }}"
+    limit_item: "{{ item.item }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { domain: mongod, type: soft, item: nproc, value: "64000"}
+    - { domain: mongod, type: hard, item: nproc, value: "64000"}
+    - { domain: mongod, type: soft, item: nofile, value: "64000"}
+    - { domain: mongod, type: hard, item: nofile, value: "64000"}
+  tags:
+    - mongodb
