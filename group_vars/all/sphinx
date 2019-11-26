@@ -1,0 +1,16 @@
+
+installation_dir: "/usr/local"
+src_code_dir: "{{ installation_dir }}/src"
+
+coreseek_version: "4.1-beta"
+coreseek_file: "coreseek-{{ coreseek_version }}"
+coreseek_download_url: "http://f.eefocus.tech/s/NXPYiAR875xZaKf/download"
+coreseek_download_dest_dir: "{{ src_code_dir }}/{{ coreseek_file }}.tar.gz"
+coreseek_checksum: "049fd9a631e774465a7db0a68f7c7a652630eeaa21d471a35a8c8e01a06ac103"
+coreseek_src_dir: "{{ src_code_dir }}/{{ coreseek_file }}"
+
+sphinx_src_lines: [
+  { file: "{{ src_code_dir }}/{{ coreseek_file }}/csft-4.1/configure.ac", src: "^AC_PROG_RANLIB$", dest: "AC_PROG_RANLIB AM_PROG_AR"},
+  { file: "{{ src_code_dir }}/{{ coreseek_file }}/csft-4.1/src/sphinxexpr.cpp", src: '^.*T\sval\s=\sExprEval\s\(\sthis\-\>m_pArg,\stMatch\s\);', dest: 'T val = this->ExprEval ( this->m_pArg, tMatch );'}
+]
+

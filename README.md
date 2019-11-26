@@ -53,6 +53,13 @@
         * Mcrypt: 1.0.3(2.5.8)
         * Memcached: 3.0.4
         * Memcache: 4.0.4
+
+### Sphinx
+
+* Version: coreseek-4.1
+  * Mmseg-3.2.14
+  * Csft-4.1
+
 ### NodeJS
 
 * Nvm version: v0.35.1

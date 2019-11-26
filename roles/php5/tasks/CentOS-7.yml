@@ -127,7 +127,7 @@
     force: yes
   tags:
     - php5
-
+# -----------------
 - name: "Download the {{ coreseek_download_dest_dir }} package"
   get_url:
     url: "{{ item.url }}"

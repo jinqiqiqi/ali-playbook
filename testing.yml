@@ -28,7 +28,8 @@
     # - rabbitmq
     # - mongodb
     # - php5-remi
-    - php7-remi
+    # - php7-remi
+    - sphinx
 
 
 

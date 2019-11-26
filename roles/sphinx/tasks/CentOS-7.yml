@@ -1,0 +1,100 @@
+---
+
+- name: Install Sphinx dependencies
+  package:
+    name="{{ item }}" state="present"
+  loop:
+    - automake
+    - gcc
+    - autoconf
+    - gcc-c++
+    - libtool
+    - mysql-devel
+  tags:
+    - sphinx
+
+- name: "Download the {{ coreseek_download_dest_dir }} package"
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    checksum: "sha256:{{ item.checksum }}"
+    timeout: 120
+  loop:
+    - { url: "{{ coreseek_download_url }}", dest: "{{ coreseek_download_dest_dir }}", checksum: "{{ coreseek_checksum }}" }
+  tags:
+    - sphinx
+
+- name: "Unarchive coreseek src"
+  unarchive:
+    src: "{{ coreseek_download_dest_dir }}"
+    dest: "{{ src_code_dir }}/"
+    remote_src: yes
+    creates: "{{ coreseek_src_dir }}/README.txt"
+  tags:
+    - sphinx
+
+- name: "Replace lines in sphinx csft file"
+  replace:
+    path: "{{ item.file }}"
+    regexp: '{{ item.src }}'
+    replace: '{{ item.dest }}'
+  with_items: "{{ sphinx_src_lines }}"
+  tags:
+    - sphinx
+    - lineinfile
+
+- name: "Configure {{ coreseek_download_dest_dir }} mmseg"
+  shell: >
+    ./bootstrap && ./configure --prefix={{ installation_dir }}/mmseg-3.2.14 && make && make install
+  args:
+    creates: "{{ installation_dir }}/mmseg/"
+    chdir: "{{ coreseek_src_dir }}/mmseg-3.2.14/"
+  tags:
+    - sphinx
+
+
+- name: "Link mmseg directory: {{ installation_dir }}/mmseg-3.2.14/ => {{ installation_dir }}/mmseg/"
+  file:
+    src: "{{ installation_dir }}/mmseg-3.2.14"
+    dest: "{{ installation_dir }}/mmseg"
+    state: link
+    force: yes
+  tags:
+    - sphinx
+
+
+- name: "Configure {{ coreseek_download_dest_dir }} csft"
+  shell: >
+    sh buildconf.sh || automake --add-missing && sh buildconf.sh && ./configure --prefix={{ installation_dir }}/csft-4.1 --without-unixodbc --with-mmseg --with-mmseg-includes={{ installation_dir }}/mmseg/include/mmseg/ --with-mmseg-libs={{ installation_dir }}/mmseg/lib/ --with-mysql --enable-id64 && make && make install
+  args:
+    creates: "{{ installation_dir }}/csft-4.1/bin/indexer"
+    chdir: "{{ coreseek_src_dir }}/csft-4.1/"
+  tags:
+    - sphinx
+
+- name: "Link mmseg directory: {{ installation_dir }}/csft-4.1/ => {{ installation_dir }}/csft"
+  file:
+    src: "{{ installation_dir }}/csft-4.1"
+    dest: "{{ installation_dir }}/csft"
+    state: link
+    force: yes
+  tags:
+    - sphinx
+
+- name: "Configure {{ coreseek_download_dest_dir }} libsphinxclient"
+  shell: >
+    sh buildconf.sh && ./configure && make && make install
+  args:
+    creates: "{{ installation_dir }}/lib/libsphinxclient-0.0.1.so"
+    chdir: "{{ coreseek_src_dir }}/csft-4.1/api/libsphinxclient/"
+  tags:
+    - sphinx
+
+- name: "Copy ld.so.conf files /etc/ld.so.conf.d/libsphinxclient.conf"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "libsphinxclient.conf", dest: "/etc/ld.so.conf.d/libsphinxclient.conf" }
+  tags:
+    - sphinx
