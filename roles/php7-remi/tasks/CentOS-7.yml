@@ -51,6 +51,7 @@
     - php72-php-bcmath
     - php72-php-soap
     - php72-php-xmlrpc
+    - php72-php-cli
   tags:
     - php7-remi
 

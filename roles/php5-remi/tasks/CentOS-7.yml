@@ -51,6 +51,7 @@
     - php56-php-bcmath
     - php56-php-soap
     - php56-php-xmlrpc
+    - php56-php-cli
   tags:
     - php5-remi
 
