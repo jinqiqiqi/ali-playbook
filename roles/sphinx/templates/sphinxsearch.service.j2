@@ -1,0 +1,25 @@
+[Unit]
+Description=SphinxSearch Search Engine
+After=network.target remote-fs.target nss-lookup.target
+After=syslog.target
+
+[Service]
+Type=simple
+User=sphinx
+Group=sphinx
+RuntimeDirectory=sphinxsearch
+RuntimeDirectoryMode=0775
+# Run ExecStart with User=sphinx / Group=sphinx
+ExecStart={{ installation_dir }}/csft-4.1/bin/searchd --config {{ installation_dir }}/csft-4.1//etc/sphinx.conf
+ExecStop={{ installation_dir }}/csft-4.1/bin/searchd --config {{ installation_dir }}/csft-4.1//etc/sphinx.conf --stopwait
+KillMode=process
+KillSignal=SIGTERM
+SendSIGKILL=no
+LimitNOFILE=infinity
+TimeoutStartSec=infinity
+PIDFile=/var/run/sphinx/searchd.pid
+
+[Install]
+WantedBy=multi-user.target
+Alias=sphinx.service
+Alias=sphinxsearch.service
