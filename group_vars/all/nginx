@@ -1,0 +1,4 @@
+nginx_iptables_allow_ports: [
+    "80",
+    "443"
+]

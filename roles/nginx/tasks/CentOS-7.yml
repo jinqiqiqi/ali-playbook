@@ -17,7 +17,18 @@
     enabled: yes
   tags:
     - nginx
-    
+
+- name: Allow nginx related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  loop: "{{ nginx_iptables_allow_ports }}"
+  tags:
+    - nginx
+
 # - name: insert firewalld rule for nginx
 #   firewalld: port={{ nginx_port }}/tcp permanent=true state=enabled immediate=yes
 #   ignore_errors: yes

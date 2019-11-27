@@ -1,12 +1,6 @@
 # 阿里云基础设施的playbook
 
-
-
-
-
 [TOC]
-
-
 
 ## Roles清单
 
@@ -26,7 +20,6 @@
   * python-pip
   * bind-tools
   * iptalbes-services
-  
 * Install basic pip packages
 * Kernel tweaks
 
@@ -46,16 +39,16 @@
       * Apcu: 4.0.11
       * Sphinx: 1.3.0 (remi: 1.3.3)
     * running socket or ports
-      * 
+
 * php7
     * Version: 7.2.24 (7.2.25 - remi repository)
     * Extensions:
-        * Apcu: 5.1.11 (remi: 5.1.18)
-        * Redis: 5.1.1
-        * Mcrypt: 1.0.3(2.5.8) 
-        * Memcached: 3.0.4 (remi: 3.1.4)
-        * Memcache: 4.0.4
-        * Sphinx remi only: 1.4.0-dev
+      * Apcu: 5.1.11 (remi: 5.1.18)
+      * Redis: 5.1.1
+      * Mcrypt: 1.0.3(2.5.8) 
+      * Memcached: 3.0.4 (remi: 3.1.4)
+      * Memcache: 4.0.4
+      * Sphinx remi only: 1.4.0-dev
 
 ### Sphinx
 
@@ -76,8 +69,6 @@
 
 * some unknown error occured after installing
 
-### NFS (#)
-
 ### redis
 * Version: 3.2.12
 
@@ -85,15 +76,23 @@
 
 * Version: 1.4.15-10
 
-### Elasticsearch (#)
 
 ### RabbitMQ
 
+* Version: 3.3.5-34
+
 ### Mongodb
+
+* Version: 2.6.12-6
 
 ### Rsyslog
 
 * Version: 8.24.0-41
+
+
+### NFS (#)
+### Elasticsearch (#)
+
 
 ## 入口文件列表
 
@@ -106,5 +105,4 @@
 ## 注意事项
 
 ### 配置相关
-## 注意事项
 

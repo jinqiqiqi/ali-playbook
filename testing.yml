@@ -17,7 +17,7 @@
   roles:
     # - base
     # - iptables
-    # - nginx
+    - nginx
     # - nodejs
     # - dnsmasq
     # - php5
@@ -28,7 +28,7 @@
     # - openldap
     # - rabbitmq
     # - mongodb
-    - php5-remi
+    # - php5-remi
     # - php7-remi
     # - sphinx
 
