@@ -1,2 +1,9 @@
 ---
 # handlers file for roles/sphinx
+
+- name: restart sphinx_search
+  systemd:
+    name: sphinxsearch
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

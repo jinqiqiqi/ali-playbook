@@ -1,4 +1,7 @@
 
+sphinx_user: sphinx
+sphinx_group: sphinx
+
 installation_dir: "/usr/local"
 src_code_dir: "{{ installation_dir }}/src"
 

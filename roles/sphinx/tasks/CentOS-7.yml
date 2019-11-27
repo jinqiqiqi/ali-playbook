@@ -96,10 +96,72 @@
     dest: "{{ item.dest }}"
   with_items:
     - { src: "libsphinxclient.conf", dest: "/etc/ld.so.conf.d/libsphinxclient.conf" }
+  notify:
+    - restart sphinx_search
   tags:
     - sphinx
 
 
+- name: "Create {{ sphinx_group }} for sphinx"
+  group:
+    name: "{{ sphinx_group }}"
+    state: present
+  tags:
+    - sphinx
+
+- name: "Create {{ sphinx_user }} for sphinx"
+  user:
+    name: "{{ sphinx_user }}"
+    comment: "sphinx user"
+    create_home: no
+    state: present
+    group: "{{ sphinx_group }}"
+  tags:
+    - sphinx
+
+- name: "Create directories for user: {{ sphinx_user }}, group: {{ sphinx_group }}"
+  file:
+    path: "{{ item }}"
+    owner: "{{ sphinx_user }}"
+    group: "{{ sphinx_group }}"
+    state: directory
+    mode: 644
+  with_items:
+    - "/var/run/sphinx/"
+  tags:
+    - sphinx
+
+- name: Copy sphinx config files to the installation directory
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+  with_items:
+    - { src: '{{ installation_dir }}/csft-4.1/etc/sphinx.conf.dist', dest: '{{ installation_dir }}/csft-4.1/etc/sphinx.conf'}
+  notify:
+    - restart sphinx_search
+  tags:
+    - sphinx
+
+- name: Copy additional ini files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "sphinxsearch.service.j2", dest: "/usr/lib/systemd/system/sphinxsearch.service" }
+  notify:
+    - restart sphinx_search
+  tags:
+    - sphinx
+
+- name: Start sphinx_search
+  systemd:
+    name: sphinxsearch
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  tags:
+    - sphinx
 
 - name: Allow sphinx related ports in INPUT chain
   iptables:
