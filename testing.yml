@@ -5,8 +5,8 @@
     # - l201
     # - l196
     # - master
-    # - localtesting
-    - libvirt
+    - localtesting
+    # - libvirt
   become_user: root
   become: yes
 
@@ -28,8 +28,8 @@
     # - openldap
     # - rabbitmq
     # - mongodb
-    # - php5-remi
-    - php7-remi
+    - php5-remi
+    # - php7-remi
     # - sphinx
 
 
