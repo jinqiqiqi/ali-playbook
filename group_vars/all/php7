@@ -58,3 +58,13 @@ php7_ini_config_lines: [
   {source: '^;session.save_path = ', dest: 'session.save_path = "{{ php_session_tmp_dir }}"'},
   {source: '^;date.timezone =', dest: 'date.timezone = Asia/Shanghai'}
 ]
+
+php7_fpm_config_lines: [
+  {source: '^user =', dest: 'user = {{ fpm_user }}'},
+  {source: '^group =', dest: 'group = {{ fpm_group }}'},
+  {source: '^listen =', dest: 'listen = {{ sock_dir }}/php72_remi.sock'},
+  {source: '^;access.log =', dest: 'access.log = {{ php_log_dir }}/$pool.access.log'},
+  {source: '^slowlog =', dest: 'slowlog = {{ php_log_dir }}/www-slow.log'},
+  {source: '^;php_admin_value[memory_imit] =', dest: 'php_admin_value[memory_imit] = 1024M'},
+  {source: '^php_value[session.save_path]', dest: 'php_value[session.save_path] = {{ php_session_tmp_dir }}'},
+]

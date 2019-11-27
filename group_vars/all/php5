@@ -15,6 +15,7 @@ src_code_dir: "{{ installation_dir }}/src"
 php_session_tmp_dir: "/tmp"
 php_upload_tmp_dir: "/tmp"
 php_log_dir: "/var/log/php"
+sock_dir: "/var/run"
 
 coreseek_version: "4.1-beta"
 coreseek_file: "coreseek-{{ coreseek_version }}"
@@ -56,3 +57,13 @@ php5_ini_config_lines: [
   {source: '^;date.timezone =', dest: 'date.timezone = Asia/Shanghai'}
 ]
 
+
+php5_fpm_config_lines: [
+  {source: '^user =', dest: 'user = {{ fpm_user }}'},
+  {source: '^group =', dest: 'group = {{ fpm_group }}'},
+  {source: '^listen =', dest: 'listen = {{ sock_dir }}/php5_remi.sock'},
+  {source: '^;access.log =', dest: 'access.log = {{ php_log_dir }}/$pool.access.log'},
+  {source: '^slowlog =', dest: 'slowlog = {{ php_log_dir }}/www-slow.log'},
+  {source: '^;php_admin_value[memory_imit] =', dest: 'php_admin_value[memory_imit] = 1024M'},
+  {source: '^php_value[session.save_path]', dest: 'php_value[session.save_path] = {{ php_session_tmp_dir }}'},
+]

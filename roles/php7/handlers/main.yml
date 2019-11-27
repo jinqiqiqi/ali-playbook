@@ -1,7 +1,7 @@
 ---
 # handlers file for roles/php7
 
-- name: restart php-fpm
+- name: restart php7-fpm
   systemd:
     name: php-fpm
     state: restarted

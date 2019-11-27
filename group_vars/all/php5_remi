@@ -6,6 +6,7 @@ fpm_group: "www"
 php_session_tmp_dir: "/tmp"
 php_upload_tmp_dir: "/tmp"
 php_log_dir: "/var/log/php"
+sock_dir: "/var/run"
 
 
 php5_remi_ini_config_lines: [

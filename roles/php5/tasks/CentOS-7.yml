@@ -258,8 +258,24 @@
     line: '{{ item.dest }}'
     backrefs: yes
   with_items: "{{ php5_ini_config_lines }}"
+  notify:
+    - restart php-fpm
   tags:
     - php5
+
+- name: Changes to the php-fpm.conf file.
+  lineinfile:
+    dest: "{{ php5_installation_dir }}/etc/php-fpm.d/www.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ php5_fpm_config_lines }}"
+  tags:
+    - php5
+  notify: restart php-fpm
+
+
+
 
 
 - name: Copy additional ini files

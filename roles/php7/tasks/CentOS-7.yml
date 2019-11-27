@@ -296,10 +296,21 @@
     line: '{{ item.dest }}'
     backrefs: yes
   with_items: "{{ php7_ini_config_lines }}"
+  notify: restart php7-fpm
   tags:
     - php7
     - php7_extension
 
+- name: Changes to the php-fpm.conf file.
+  lineinfile:
+    dest: "{{ php7_installation_dir }}/etc/php-fpm.d/www.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ php7_fpm_config_lines }}"
+  notify: restart php7-fpm
+  tags:
+    - php7
 
 - name: Copy additional ini files
   template:
@@ -310,7 +321,7 @@
     - { src: "php-fpm.service.j2", dest: "/usr/lib/systemd/system/php-fpm.service" }
     - { src: 'php-fpm.env.j2', dest: '/etc/sysconfig/php-fpm' }
   notify:
-    - restart php-fpm
+    - restart php7-fpm
   tags:
     - php7
 

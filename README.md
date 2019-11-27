@@ -45,6 +45,8 @@
       * Memcached: 2.2.0
       * Apcu: 4.0.11
       * Sphinx: 1.3.0 (remi: 1.3.3)
+    * running socket or ports
+      * 
 * php7
     * Version: 7.2.24 (7.2.25 - remi repository)
     * Extensions:
