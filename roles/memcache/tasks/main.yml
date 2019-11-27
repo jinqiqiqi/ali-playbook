@@ -4,4 +4,4 @@
 - name: "Try to including task file: {{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
   include_tasks: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
   tags:
-    - memcache
+    - memcached

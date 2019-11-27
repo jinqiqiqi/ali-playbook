@@ -16,14 +16,26 @@
   tags:
     - memcached
 
-# - name: Change bind from 127.0.0.1 to 0.0.0.0
-#   # command: sed -e 's/bind 127.0.0.1/bind 0.0.0.0/' -i /etc/memcached.conf
-#   lineinfile: 
-#     dest=/etc/sysconfig/memcached
-#     regexp='^bind '
-#     line='bind 0.0.0.0'
-#     state=present
-#   tags:
-#     - memcached
-#   notify:
-#     - restart memcached
+  # command: sed -e 's/bind 127.0.0.1/bind 0.0.0.0/' -i /etc/memcached.conf
+- name: Change bind from 127.0.0.1 to 0.0.0.0
+  lineinfile: 
+    dest=/etc/sysconfig/memcached
+    regexp='{{ item.regexp }}'
+    line='{{ item.line }}'
+    state=present
+  with_items: "{{ memcahced_config }}"
+  tags:
+    - memcached
+  notify:
+    - restart memcached
+
+- name: Allow memcached related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  with_items: "{{ memcached_iptables_allow_ports }}"
+  tags:
+    - memcached

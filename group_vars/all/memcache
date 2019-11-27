@@ -1,0 +1,12 @@
+memcached_port: "11211"
+memcached_cachesize: "64"
+
+memcahced_config: [
+    { regexp: "^PORT=", line: "PORT=\"{{ memcached_port }}\"" },
+    { regexp: "^CACHESIZE=", line: "CACHESIZE=\"{{ memcached_cachesize }}\"" },
+]
+
+
+memcached_iptables_allow_ports: [
+    "{{ memcached_port }}"
+]

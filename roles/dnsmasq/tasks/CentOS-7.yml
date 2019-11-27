@@ -19,3 +19,14 @@
   notify:
     - restart dnsmasq
     
+- name: Allow dnsmasq related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+    comment: "dnsmasq related ports"
+  loop: "{{ dnsmasq_iptables_allow_ports }}"
+  tags:
+    - dnsmasq

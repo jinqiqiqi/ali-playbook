@@ -1,0 +1,3 @@
+dnsmasq_iptables_allow_ports: [
+    "53"
+]

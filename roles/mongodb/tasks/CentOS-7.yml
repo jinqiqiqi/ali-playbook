@@ -58,7 +58,7 @@
     regexp: '{{ item.source }}'
     line: '{{ item.dest }}'
     backrefs: yes
-  with_items: "{{ mongod_config_lines }}"
+  with_items: "{{ mongos_config_lines }}"
   notify:
     - restart mongodb
   tags:
@@ -75,5 +75,16 @@
     - { domain: mongod, type: hard, item: nproc, value: "64000"}
     - { domain: mongod, type: soft, item: nofile, value: "64000"}
     - { domain: mongod, type: hard, item: nofile, value: "64000"}
+  tags:
+    - mongodb
+
+- name: Allow mongodb related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  with_items: "{{ mongodb_iptables_allow_ports }}"
   tags:
     - mongodb

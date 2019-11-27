@@ -1,0 +1,20 @@
+mongod_port: "27017"
+mongos_port: "27018"
+bind_ip: "0.0.0.0"
+
+mongod_config_lines: [
+  { source: "^bind_ip = 127", dest:  "bind_ip = {{ bind_ip }}"},
+  { source: "^#port =", dest:  "port = {{ mongod_port }}"},
+  { source: "^port =", dest:  "port = {{ mongod_port }}"},
+]
+
+mongos_config_lines: [
+  { source: "^bind_ip = 127", dest:  "bind_ip = {{ bind_ip }}"},
+  { source: "^#port =", dest:  "port = {{ mongos_port }}"},
+  { source: "^port =", dest:  "port = {{ mongos_port }}"},
+]
+
+mongodb_iptables_allow_ports: [
+    "{{ mongod_port }}",
+    "{{ mongos_port }}",
+]

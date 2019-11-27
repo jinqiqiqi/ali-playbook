@@ -1,3 +1,0 @@
-mongod_config_lines: [
-  { source: "^bind_ip = 127", dest:  "bind_ip = 0.0.0.0"},
-]
