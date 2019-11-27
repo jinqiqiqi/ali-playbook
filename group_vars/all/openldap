@@ -70,3 +70,8 @@ openldap_hosts: [
         ssl_certificate_key: "{{ nginx_gitlab_dir }}/{{ nginx_ssl_key_file }}",
     }
 ]
+
+openldap_iptables_allow_ports: [
+    "80",
+    "389"
+]

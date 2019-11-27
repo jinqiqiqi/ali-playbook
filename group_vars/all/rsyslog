@@ -1,0 +1,3 @@
+rsyslog_iptables_allow_ports: [
+    "514"
+]

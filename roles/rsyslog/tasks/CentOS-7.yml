@@ -27,7 +27,19 @@
     name: rsyslog
     state: started
     enabled: yes
+  tags:
+    - rsyslog
 
+- name: Allow rsyslog related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  loop: "{{ rsyslog_iptables_allow_ports }}"
+  tags:
+    - rsyslog
 
 # # start to install rsyslog.conf file.
 # - name: Update Rsyslog Config file.

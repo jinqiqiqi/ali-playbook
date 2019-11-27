@@ -46,6 +46,7 @@
     - rabbitmq
 
 
+
 # - name: Change bind from 127.0.0.1 to 0.0.0.0
 #   # command: sed -e 's/bind 127.0.0.1/bind 0.0.0.0/' -i /etc/rabbitmq.conf
 #   lineinfile: 
@@ -57,3 +58,16 @@
 #     - rabbitmq
 #   notify:
 #     - restart rabbitmq
+
+
+
+- name: Allow rabbitmq-server related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  loop: "{{ rabbitmq_iptables_allow_ports }}"
+  tags:
+    - rabbitmq

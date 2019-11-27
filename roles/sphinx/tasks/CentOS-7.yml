@@ -98,3 +98,16 @@
     - { src: "libsphinxclient.conf", dest: "/etc/ld.so.conf.d/libsphinxclient.conf" }
   tags:
     - sphinx
+
+
+
+- name: Allow sphinx related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  loop: "{{ sphinx_iptables_allow_ports }}"
+  tags:
+    - sphinx

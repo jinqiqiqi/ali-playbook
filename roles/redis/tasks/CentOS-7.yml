@@ -27,3 +27,14 @@
     - redis
   notify:
     - restart redis
+
+- name: Allow redis related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  loop: "{{ redis_iptables_allow_ports }}"
+  tags:
+    - redis

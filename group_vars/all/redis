@@ -1,0 +1,3 @@
+redis_iptables_allow_ports: [
+    "6379"
+]

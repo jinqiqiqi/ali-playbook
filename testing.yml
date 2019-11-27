@@ -27,10 +27,10 @@
     # - memcache
     # - openldap
     # - rabbitmq
-    - mongodb
+    # - mongodb
     # - php5-remi
     # - php7-remi
-    # - sphinx
+    - sphinx
 
 
 

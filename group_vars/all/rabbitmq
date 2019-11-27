@@ -1,3 +1,10 @@
 rabbitmq_admin_users: [
     { user: "admin", password: "password", tags: "admin" },
 ]
+
+rabbitmq_iptables_allow_ports: [
+    "25672",
+    "15672",
+    "5672",
+    "4396",
+]
