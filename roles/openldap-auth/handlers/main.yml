@@ -1,0 +1,8 @@
+---
+# handlers file for roles/openlda-auth
+# 
+- name: restart sssd
+  service: 
+    name: sssd
+    state: restarted
+    enabled: yes

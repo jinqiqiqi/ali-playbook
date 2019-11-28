@@ -1,0 +1,20 @@
+
+ldap_server: "192.168.0.53"
+ldap_usergroup: ops
+
+auth_ldap: "ldap://{{ ldap_server }}"
+ldap_search_base: dc=eefocus,dc=tech
+auth_base: "ou=users,{{ ldap_search_base }}"
+
+
+ldap_binddn: cn=admin,dc=eefocus,dc=tech
+ldap_bindpw: adminpassword
+ldap_filter: (&(objectClass=shadowAccount)(gidnumber=507))
+
+sssd_config: [
+    'ldap_tls_reqcert = never',
+    'ldap_id_mapping = False',
+    'ldap_group_object_class = posixGroup',
+    'access_provider = ldap',
+    'ldap_access_filter = {{ ldap_filter }}'
+]
