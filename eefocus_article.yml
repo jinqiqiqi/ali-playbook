@@ -1,7 +1,7 @@
 ---
 - name: Proxy machines are gonna prepare.
   hosts: 
-    - gg
+    - eefocus_article
   become_user: root
   become: yes
 

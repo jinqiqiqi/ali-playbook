@@ -4,7 +4,7 @@
     # - localhost
     # - l201
     # - l196
-    # - master
+    # - all
     - localtesting
     # - libvirt
     # - virtualbox
@@ -16,7 +16,7 @@
   #     dnf: name=* state=latest
 
   roles:
-    # - base
+    - base
     # - iptables
     # - nginx
     # - nodejs
@@ -32,10 +32,15 @@
     # - php5-remi
     # - php7-remi
     # - sphinx
-    - openldap-auth
+    # - openldap-auth
 
-
-
-  # post_tasks:
-  #   - name: post tasks
-  #     dnf: name=* state=latest
+  post_tasks:
+    - name: Successfully finished
+      mattermost:
+        url: http://218.4.226.238:8065
+        api_key: yosqbqtpkp818cax6kzh89ctyr
+        text: "hhhiiixxxx"
+        username: "testing.yml"
+        channel: "bashme"
+      tags:
+        - noti

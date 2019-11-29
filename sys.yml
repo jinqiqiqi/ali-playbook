@@ -1,0 +1,35 @@
+---
+- name: Proxy machines are gonna prepare.
+  hosts: 
+    - sys
+  become_user: root
+  become: yes
+
+  # pre_tasks:
+  #   - name: Pre Task => Update Yum
+  #     dnf: name=* state=latest
+
+  roles:
+    - base
+    # - iptables
+    # - nginx
+    # - nodejs
+    # - dnsmasq
+    # - php5
+    # - php7
+    # - rsyslog
+    # - redis
+    # - memcache
+    # - openldap
+    # - rabbitmq
+    # - mongodb
+    # - php5-remi
+    # - php7-remi
+    # - sphinx
+    # - openldap-auth
+
+
+
+  # post_tasks:
+  #   - name: post tasks
+  #     dnf: name=* state=latest
