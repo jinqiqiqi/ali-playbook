@@ -18,7 +18,16 @@
   tags:
     - dnsmasq
 
-
+- name: Replace lines in dns config file.
+  lineinfile:
+    dest: "/etc/dnsmasq.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: "yes"
+  with_items: "{{ dnsmasq_config_lines }}"
+  tags:
+    - dnsmasq
+  notify: restart dnsmasq
 
 - name: Copy config file that contains custom rules
   template: 
