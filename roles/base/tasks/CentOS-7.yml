@@ -73,6 +73,13 @@
   tags:
     - base
   
-  
+- name: "update dnsresolve in all group servers"
+  lineinfile:
+    dest: "/etc/resolv.conf"
+    regexp: '^nameserver'
+    line: 'nameserver    {{ ldap_ip_address }}'
+    backrefs: "yes"
+  tags:
+    - base
  
 

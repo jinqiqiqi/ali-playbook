@@ -21,13 +21,13 @@
   listen:
     - "crontab updated"
 
-- name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
-  lineinfile:
-    dest: "/etc/resolv.conf"
-    regexp: '^nameserver'
-    line: 'nameserver    {{ ldap_ip_address }}'
-    backrefs: "yes"
-  delegate_to: "{{ item }}"
-  loop: "{{ groups['all'] }}"
-  listen:
-    - "restart dnsmasq"
+# - name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
+#   lineinfile:
+#     dest: "/etc/resolv.conf"
+#     regexp: '^nameserver'
+#     line: 'nameserver    {{ ldap_ip_address }}'
+#     backrefs: "yes"
+#   delegate_to: "{{ item }}"
+#   loop: "{{ groups['all'] }}"
+#   listen:
+#     - "restart dnsmasq"
