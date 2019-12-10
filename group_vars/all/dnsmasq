@@ -1,4 +1,4 @@
-dnsmasq_dns_port: 53
+dnsmasq_dns_port: "53"
 
 dnsmasq_iptables_allow_ports: [
     "{{ dnsmasq_dns_port }}"
