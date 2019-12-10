@@ -35,7 +35,7 @@ server {
     }
 
     location / {
-        autoindex on;
+        autoindex off;
         try_files $uri $uri/ /index.php?$args;
     }
 

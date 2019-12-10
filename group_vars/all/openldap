@@ -63,7 +63,7 @@ nginx_ssl_key_file: nginx.key
 openldap_hosts: [
     {
         listen: 80,
-        server_name: 'ld.eefocus.tech',
+        server_name: 'ldap.ac.eefocus.tech',
         root: /usr/share/phpldapadmin/htdocs/,
 
         ssl_certificate: "{{ nginx_gitlab_dir }}/{{ nginx_ssl_crt_file }}",
