@@ -21,7 +21,7 @@
   listen:
     - "crontab updated"
 
-- name: update dnsresolve in all group servers
+- name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
   lineinfile:
     dest: "/etc/resolv.conf"
     regexp: '^nameserver'
