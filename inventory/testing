@@ -1,27 +1,27 @@
-[virtualbox]
-master
+; [virtualbox]
+; master
 
-[virtualbox:vars]
-ansible_connection=smart
-ansible_ssh_host=127.0.0.1
-ansible_ssh_port=2222
-ansible_ssh_user=vagrant
-ansible_ssh_private_key_file=~/Public/devops/vagrant/centos/7/.vagrant/machines/master/virtualbox/private_key
+; [virtualbox:vars]
+; ansible_connection=smart
+; ansible_ssh_host=127.0.0.1
+; ansible_ssh_port=2222
+; ansible_ssh_user=vagrant
+; ansible_ssh_private_key_file=~/Public/devops/vagrant/centos/7/.vagrant/machines/master/virtualbox/private_key
 
-[localtesting]
-local-100 ansible_ssh_host=192.168.0.100
+; [localtesting]
+; local-100 ansible_ssh_host=192.168.0.100
 
-[localtesting:vars]
-ansible_connection=smart
-ansible_ssh_port=22
-ansible_ssh_user=root
-ansible_ssh_private_key_file=~/.ssh/id_rsa
+; [localtesting:vars]
+; ansible_connection=smart
+; ansible_ssh_port=22
+; ansible_ssh_user=root
+; ansible_ssh_private_key_file=~/.ssh/id_rsa
 
-[libvirt]
-; virtm ansible_ssh_host=192.168.121.146
+; [libvirt]
+; ; virtm ansible_ssh_host=192.168.121.146
 
-[libvirt:vars]
-ansible_connection=smart
-ansible_ssh_port=22
-ansible_ssh_user=vagrant
-ansible_ssh_private_key_file=~/Public/devops/testing/.vagrant/machines/default/libvirt/private_key
+; [libvirt:vars]
+; ansible_connection=smart
+; ansible_ssh_port=22
+; ansible_ssh_user=vagrant
+; ansible_ssh_private_key_file=~/Public/devops/testing/.vagrant/machines/default/libvirt/private_key
