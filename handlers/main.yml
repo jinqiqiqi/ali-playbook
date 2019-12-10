@@ -26,7 +26,7 @@
     dest: "/etc/resolv.conf"
     regexp: '^nameserver'
     line: 'nameserver    {{ ldap_ip_address }}'
-    backrefs: "yes
+    backrefs: "yes"
   delegate_to: bridge-00
   listen:
     - "restart dnsmasq"
