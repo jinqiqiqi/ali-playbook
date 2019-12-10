@@ -27,6 +27,10 @@
     regexp: '^nameserver'
     line: 'nameserver    {{ ldap_ip_address }}'
     backrefs: "yes"
-  delegate_to: bridge-00
+  delegate_to: 
+    - bridge
+    - sys
+    - nginx
+    - jenkins
   listen:
     - "restart dnsmasq"
