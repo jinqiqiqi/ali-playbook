@@ -1,6 +1,9 @@
 ---
 # handlers file for roles/php5
 
+- include: ../../../handlers/main.yml
+
+
 - name: restart php-fpm
   systemd:
     name: php-fpm

@@ -1,5 +1,8 @@
 ---
 # handlers file for roles/php7
+- include: ../../../handlers/main.yml
+
+
 
 - name: restart php7-fpm
   systemd:

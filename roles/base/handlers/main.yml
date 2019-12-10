@@ -1,2 +1,3 @@
 ---
 # handlers file for roles/base
+- include: ../../../handlers/main.yml

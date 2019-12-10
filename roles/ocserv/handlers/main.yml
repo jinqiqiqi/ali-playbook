@@ -1,2 +1,4 @@
 ---
 # handlers file for roles/ocserv
+- include: ../../../handlers/main.yml
+

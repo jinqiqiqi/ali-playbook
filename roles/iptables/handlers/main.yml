@@ -1,2 +1,3 @@
 ---
 # handlers file for roles/iptables
+- include: ../../../handlers/main.yml

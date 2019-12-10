@@ -1,7 +1,6 @@
 ---
 # handlers file for roles/dnsmasq
-
+- include: ../../../handlers/main.yml
 
 - name: restart dnsmasq
   service: name=dnsmasq state=restarted enabled=yes
-  
