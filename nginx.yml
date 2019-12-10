@@ -11,7 +11,24 @@
 
   roles:
     - base
-    - ocserv
+    # - iptables
+    # - nginx
+    # - nodejs
+    # - dnsmasq
+    # - php5
+    # - php7
+    # - rsyslog
+    # - redis
+    # - memcache
+    # - openldap
+    # - rabbitmq
+    # - mongodb
+    # - php5-remi
+    # - php7-remi
+    # - sphinx
+    # - openldap-auth
+
+
 
   # post_tasks:
   #   - name: post tasks

@@ -1,7 +1,7 @@
 ---
-- name: Proxy machines are gonna prepare.
+- name: Playbook for sys servers
   hosts: 
-    - sys
+    - "{{ host }}"
   become_user: root
   become: yes
 
@@ -11,24 +11,9 @@
 
   roles:
     - base
-    # - iptables
-    # - nginx
-    # - nodejs
-    # - dnsmasq
-    # - php5
-    # - php7
-    # - rsyslog
-    # - redis
-    # - memcache
-    # - openldap
-    # - rabbitmq
-    # - mongodb
-    # - php5-remi
-    # - php7-remi
-    # - sphinx
-    # - openldap-auth
-
-
+    - openldap
+    # - ansible
+    - dnsmasq
 
   # post_tasks:
   #   - name: post tasks
