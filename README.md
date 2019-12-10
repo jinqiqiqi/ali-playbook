@@ -1,8 +1,8 @@
-# 阿里云基础设施的playbook
+# PLAYBOOKS FOR ALI-ESC
 
 [TOC]
 
-## Roles清单
+## Roles list
 
 ### Base
 
@@ -94,15 +94,15 @@
 ### Elasticsearch (#)
 
 
-## 入口文件列表
+## entries
 
-### 入口文件模板
+### template
 
-请参看testing.yml文件。
+Reference testing.yml for more info.
 
 
 
-## 注意事项
+## notes
 
 ### 配置相关
 
