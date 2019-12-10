@@ -10,12 +10,25 @@
   tags:
     - dnsmasq
 
-- name: Copy config file that contains custom rules
-  template: 
-    src: sample.conf 
-    dest: /etc/dnsmasq.d/sample.conf
+- name: Start dnsmasq
+  service:
+    name: dnsmasq
+    state: started
+    enabled: yes
   tags:
     - dnsmasq
+
+
+
+- name: Copy config file that contains custom rules
+  template: 
+    src: "{{ item.src }}" 
+    dest: "{{ item.dest }}"
+  tags:
+    - dnsmasq
+  with_items:
+    - { src: sample.conf, dest: /etc/dnsmasq.d/sample.conf }
+    - { src: resolv.dnsmasq.conf, dest: /etc/resolv.dnsmasq.conf }
   notify:
     - restart dnsmasq
     
