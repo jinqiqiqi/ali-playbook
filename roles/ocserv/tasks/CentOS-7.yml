@@ -205,7 +205,7 @@
 
 - name: Create ocpasswd.generated file
   file:
-    path: {{ ocpasswd_file }}.generated
+    path: "{{ ocpasswd_file }}.generated"
     state: touch
   when: ocpasswd.changed
   tags:
