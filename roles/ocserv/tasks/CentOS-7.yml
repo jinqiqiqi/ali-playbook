@@ -102,7 +102,8 @@
   file:
     path: "{{ certificates_path }}"
     state: directory
-    mode: 0755
+    recurse: "yes"
+    mode: "0755"
   tags:
     - ocserv
 
@@ -196,7 +197,7 @@
 - name: Generate ocpasswd file
   command: sh -c '(echo "{{item.password}}"; sleep 1; echo "{{ item.password}}")  | ocpasswd -c "{{ ocpasswd_file }}" "{{ item.username }}"'
   args:
-    creates: {{ ocpasswd_file }}.generated
+    creates: "{{ ocpasswd_file }}.generated"
   register: ocpasswd
   with_items: "{{ oc_users }}"
   tags:
