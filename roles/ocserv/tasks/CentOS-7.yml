@@ -192,31 +192,31 @@
     - ocserv
 
 
-- name: Generate ocpasswd file
-  command: sh -c '(echo "{{item.password}}"; sleep 1; echo "{{ item.password}}")  | ocpasswd -c "{{ ocpasswd_file }}" "{{ item.username }}"'
-  args:
-    creates: "{{ ocpasswd_file }}.generated"
-  register: ocpasswd
-  with_items: "{{ oc_users }}"
-  tags:
-    - ocserv
-    - ocpasswd
+# - name: Generate ocpasswd file
+#   command: sh -c '(echo "{{item.password}}"; sleep 1; echo "{{ item.password}}")  | ocpasswd -c "{{ ocpasswd_file }}" "{{ item.username }}"'
+#   args:
+#     creates: "{{ ocpasswd_file }}.generated"
+#   register: ocpasswd
+#   with_items: "{{ oc_users }}"
+#   tags:
+#     - ocserv
+#     - ocpasswd
 
-- name: Create ocpasswd.generated file
-  file:
-    path: "{{ ocpasswd_file }}.generated"
-    state: touch
-  when: ocpasswd.changed
-  tags:
-    - ocserv
+# - name: Create ocpasswd.generated file
+#   file:
+#     path: "{{ ocpasswd_file }}.generated"
+#     state: touch
+#   when: ocpasswd.changed
+#   tags:
+#     - ocserv
 
-- name: Remove specific users
-  command: ocpasswd -c "{{ ocpasswd_file }}" -d "{{ item.username }}"
-  with_items: "{{ oc_delete_users }}"
-  when: oc_delete_users
-  tags:
-    - ocserv
-    - ocpasswd
+# - name: Remove specific users
+#   command: ocpasswd -c "{{ ocpasswd_file }}" -d "{{ item.username }}"
+#   with_items: "{{ oc_delete_users }}"
+#   when: oc_delete_users
+#   tags:
+#     - ocserv
+#     - ocpasswd
 
 
 
