@@ -79,6 +79,15 @@
   tags:
     - openldap
 
+- name: touch the target file if all is ok
+  file:
+    path: /tmp/password_generated
+    owner: root
+    group: root
+    mode: 0600
+  when: ldap_result_code.changed
+  tags:
+    - openldap
 
 - name: "Load ldap root entry, {{ ldap_auth }}, {{ ldap_basedn }}"
   ldap_entry:
