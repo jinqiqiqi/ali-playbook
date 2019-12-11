@@ -1,5 +1,5 @@
 ---
-- name: Proxy machines are gonna prepare.
+- name: Playbook for bridge group
   hosts: 
     - "{{ host }}"
   become_user: root

@@ -1,5 +1,5 @@
 ---
-- name: Proxy machines are gonna prepare.
+- name: Playbook for nginx group
   hosts: 
     - "{{ host }}"
   become_user: root
@@ -13,24 +13,6 @@
     - base
     - nginx
     - openldap-auth
-    # - iptables
-    # - nginx
-    # - nodejs
-    # - dnsmasq
-    # - php5
-    # - php7
-    # - rsyslog
-    # - redis
-    # - memcache
-    # - openldap
-    # - rabbitmq
-    # - mongodb
-    # - php5-remi
-    # - php7-remi
-    # - sphinx
-    # - openldap-auth
-
-
 
   # post_tasks:
   #   - name: post tasks

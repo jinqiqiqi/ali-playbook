@@ -1,5 +1,5 @@
 ---
-- name: Playbook for sys servers
+- name: Playbook for sys group
   hosts: 
     - "{{ host }}"
   become_user: root
@@ -12,7 +12,6 @@
   roles:
     - base
     - openldap
-    # - ansible
     - dnsmasq
     - openldap-auth
 
