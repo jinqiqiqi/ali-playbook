@@ -47,7 +47,7 @@
 - name: "Register encripted password: {{ ldap_auth.bind_pw }}"
   command: slappasswd -s "{{ ldap_auth.bind_pw }}"
   args:
-    - creates: "/tmp/password.generated"
+    creates: "/tmp/password_generated"
   register: ldap_encripted_password
   tags:
     - openldap
@@ -68,7 +68,7 @@
     - openldap
 
 - name: Load some schemas (ignoring duplicate entries error for idempotence)
-  command: "ldapadd -Y EXTERNAL -H ldapi:/// -f {{ schema_path }}/{{ item }} && touch /tmp/password.generated"
+  command: "ldapadd -Y EXTERNAL -H ldapi:/// -f {{ schema_path }}/{{ item }} && touch /tmp/password_generated"
   register: ldap_result_code
   failed_when: ldap_result_code.rc not in [0,80]
   changed_when: ldap_result_code.rc not in [0,80]
