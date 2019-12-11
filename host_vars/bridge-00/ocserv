@@ -62,6 +62,7 @@ ocserv_config: [
     { src: '^#ipv4-network\s=\s192\.168\.1\.0\/24', target: "ipv4-network = {{ ip_range }}" },
     { src: '^#ipv4-netmask\s=\s', target: 'ipv4-netmask = 255.255.255.0' },
     { src: '^#dns\s=\s', target: "dns = {{ dns_server }}" },
+    { src: '^dns\s=\s', target: "dns = {{ dns_server }}" },
     { src: '^#route\s=\s', target: "route = 192.168.0.0/255.255.0.0" },
     { src: '^#tunnel-all-dns\s=\s', target: "tunnel-all-dns = true" },
     { src: '^#banner\s=\s', target: "banner = \"{{ welcome_banner }}\"" },
