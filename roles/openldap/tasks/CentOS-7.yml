@@ -79,12 +79,13 @@
   tags:
     - openldap
 
-- name: touch the target file if all is ok
+- name: touch the target file if all is ok 
   file:
     path: /tmp/password_generated
     owner: root
     group: root
     mode: 0600
+    state: touch
   when: ldap_result_code.changed
   tags:
     - openldap
