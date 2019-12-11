@@ -53,13 +53,15 @@
 
 - name: Copy db templates, root password "{{ ldap_auth.bind_pw }}" is converted to "{{ ldap_encripted_password.stdout }}"
   template:
-    src: db.ldif.j2
-    dest: /tmp/db.ldif
+    src: "db.ldif.j2"
+    dest: "/tmp/db.ldif"
+  register: copied
   tags:
     - openldap
 
 - name: Load ddbb template into ldap
   command: ldapmodify -Y EXTERNAL  -H ldapi:/// -f /tmp/db.ldif
+  when: copied.changed
   tags:
     - openldap
 
