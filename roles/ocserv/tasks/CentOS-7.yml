@@ -52,7 +52,7 @@
     action: insert
     source: "{{ ip_range }}"
     jump: ACCEPT
-    rule_num: 1
+    rule_num: "1"
   # notify:
   #   - restart iptables
   tags:
