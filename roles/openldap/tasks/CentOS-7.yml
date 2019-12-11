@@ -166,15 +166,6 @@
     - openldap
     - group_user
 
-- name: Restart OpenLDAP service
-  service:
-    name: slapd
-    state: restarted
-    enabled: yes
-  tags:
-    - openldap
-    - group_user
-
 
 - name: Install phpLdapAdmin
   package:

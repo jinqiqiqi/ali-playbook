@@ -14,6 +14,7 @@
     - openldap
     # - ansible
     - dnsmasq
+    - openldap-auth
 
   # post_tasks:
   #   - name: post tasks

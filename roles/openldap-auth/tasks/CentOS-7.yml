@@ -46,7 +46,6 @@
   tags:
     - openldap_auth
 
-
 - name: Settings in /etc/sssd/sssd.conf
   blockinfile:
     dest: "/etc/sssd/sssd.conf"

@@ -1,5 +1,5 @@
 
-ldap_server: "192.168.0.53"
+ldap_server: "192.168.0.227"
 ldap_usergroup: ops
 
 auth_ldap: "ldap://{{ ldap_server }}"
@@ -9,7 +9,7 @@ auth_base: "ou=users,{{ ldap_search_base }}"
 
 ldap_binddn: cn=admin,dc=eefocus,dc=tech
 ldap_bindpw: adminpassword
-ldap_filter: (&(objectClass=shadowAccount)(gidnumber=507))
+ldap_filter: (&(objectClass=shadowAccount)(gidnumber=502))
 
 sssd_config: [
     'ldap_tls_reqcert = never',
