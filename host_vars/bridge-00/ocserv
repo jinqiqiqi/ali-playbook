@@ -46,7 +46,7 @@ nsswitch_config: [
 ]
 
 
-vpn_port: 4443
+vpn_port: 4433
 
 ocserv_config: [
     { src: '^auth\s=\s\"pam\"', target: 'auth = "pam"' },
