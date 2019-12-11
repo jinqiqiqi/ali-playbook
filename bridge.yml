@@ -11,6 +11,7 @@
 
   roles:
     - base
+    - nginx
     - ocserv
 
   # post_tasks:

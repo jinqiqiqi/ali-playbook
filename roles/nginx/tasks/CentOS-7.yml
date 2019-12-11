@@ -18,6 +18,18 @@
   tags:
     - nginx
 
+- name: Adding nginx config files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  when: inventory_hostname == "bridge-00"
+  with_items:
+    - { src: "openldap.conf.j2", dest: "/etc/nginx/conf.d/openldap.conf" }
+  tags:
+    - nginx
+  notify:
+    - restart nginx
+
 - name: Allow nginx related ports in INPUT chain
   iptables:
     chain: INPUT
@@ -28,10 +40,6 @@
   loop: "{{ nginx_iptables_allow_ports }}"
   tags:
     - nginx
-
-# - name: insert firewalld rule for nginx
-#   firewalld: port={{ nginx_port }}/tcp permanent=true state=enabled immediate=yes
-#   ignore_errors: yes
 
 # - name: Nginx move sites.conf files
 #   template: src=sites.conf dest=/etc/nginx/conf.d/

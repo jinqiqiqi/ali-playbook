@@ -1,0 +1,93 @@
+ca_cn: vpn.eefocus.tech
+ca_organization: EEFOCUS Corp
+
+server_ca_cn: vpn.eefocus.tech
+server_ca_organization: EEfocus Corp
+welcome_banner: Welcome <:))))>< ! 
+
+ocpasswd_file: /opt/ocserv/ocpasswd
+certificates_path: /opt/ocserv/certificates
+
+ip_range: 10.10.10.0/24
+ip_interface: eth0
+dns_server: 192.168.0.53
+
+auth_ldap: "ldap://{{ nginx_ldap_host }}"
+auth_base: "ou=users,dc=eefocus,dc=tech"
+auth_cert: /xlxlxlx/lwlwlw
+
+ldap_search_base: dc=eefocus,dc=tech
+
+ldap_binddn: cn=admin,dc=eefocus,dc=tech
+ldap_bindpw: adminpassword
+
+nslcd_config: [
+    { src: '^uri\sldap', target: 'uri {{ auth_ldap }}' },
+    { src: '^base\s', target: 'base ou=users,{{ ldap_search_base }}' },
+    { src: '^#ssl\sstart_tls', target: 'ssl no' },
+    { src: '^#base\s+group', target: 'base group ou=groups,{{ ldap_search_base }}' },
+    { src: '^#base\s+passwd', target: 'base passwd ou=users,{{ ldap_search_base }}' },
+    { src: '^#base\s+shadow', target: 'base shadow ou=users,{{ ldap_search_base }}' },
+    { src: '^#binddn\s', target: 'binddn {{ ldap_binddn }}' },
+    { src: '^#bindpw\s', target: 'bindpw {{ ldap_bindpw }}' },
+    { src: '^#scope\ssub', target: 'scope sub' }
+]
+
+authconfig_config: [
+    { src: '^PASSWDALGORITHM=', target: 'PASSWDALGORITHM=descrypt' },
+    { src: '^USELDAP=', target: 'USELDAP=yes' },
+    { src: '^USELDAPAUTH=', target: 'USELDAPAUTH=yes' }
+]
+
+nsswitch_config: [
+    { src: '^passwd:\s+', target: 'passwd:  files ldap' },
+    { src: '^shadow:\s+', target: 'shadow:  files ldap' },
+    { src: '^group:\s+', target: 'group:  files ldap' }
+]
+
+
+vpn_port: 4443
+
+ocserv_config: [
+    { src: '^auth\s=\s\"pam\"', target: 'auth = "pam"' },
+    { src: '^#auth\s=\s\"plain', target: '#auth = "plain[/opt/ocserv/ocpasswd]"' },
+    { src: '^#listen-host\s=\s', target: 'listen-host = 0.0.0.0' },
+#    { src: '^#auth\s=\s\"plain', target: 'auth = "plain[/opt/ocserv/ocpasswd]"' },
+    { src: '^server-cert\s=\s', target: 'server-cert = /opt/ocserv/certificates/server-cert.pem' },
+    { src: '^server-key\s=\s', target: 'server-key = /opt/ocserv/certificates/server-key.pem' },
+    { src: '^max-clients\s=\s', target: "max-clients = 0" },
+    { src: '^max-same-clients\s=\s', target: "max-same-clients = 10" },
+    { src: '^tcp-port\s=\s', target: "tcp-port = {{ vpn_port }}" },
+    { src: '^udp-port\s=\s', target: "udp-port = {{ vpn_port }}" },
+    { src: '^#ipv4-network\s=\s192\.168\.1\.0\/24', target: "ipv4-network = {{ ip_range }}" },
+    { src: '^#ipv4-netmask\s=\s', target: 'ipv4-netmask = 255.255.255.0' },
+    { src: '^#dns\s=\s', target: "dns = {{ dns_server }}" },
+    { src: '^#route\s=\s', target: "route = 192.168.0.0/255.255.0.0" },
+    { src: '^#tunnel-all-dns\s=\s', target: "tunnel-all-dns = true" },
+    { src: '^#banner\s=\s', target: "banner = \"{{ welcome_banner }}\"" },
+    { src: '^default-domain\s=\sexample\.com', target: "default-domain = {{ dns_server }}" },
+    { src: '^try-mtu-discovery\s=\s', target: 'try-mtu-discovery = true' }
+]
+
+
+oc_users: [
+    { username: qjin, password: g00d8ye. },
+    { username: chenye, password: 9kfJSGJv },
+    { username: jxy, password: 7NppCl9d },
+    { username: yuchen, password: fmeLOJM6 },
+    { username: zhaomi, password: ujZCTD86 },
+    { username: lijun, password: lijun@eefocus },
+    { username: xiaoshi, password: password },
+    { username: ltorres, password: 8BynG7qU },
+    { username: igor, password: grRC7TB2 },
+    { username: liuzhuo, password: liuzhuopassword },
+    { username: yfmo, password: tja7kaqG },
+    { username: sdzhu, password: uBoDzF97 },
+    { username: donglijun, password: uBax@Q97 },
+    { username: yuanshuai, password: 1wax@QSZ }
+]
+
+oc_delete_users: [
+    # { username: ek },
+    # { username: xiaoshi }
+]

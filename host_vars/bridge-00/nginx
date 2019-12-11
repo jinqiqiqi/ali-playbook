@@ -1,0 +1,20 @@
+
+nginx_ldap_host: "192.168.0.227"
+nginx_ldap_port: "80"
+nginx_ldap_domain: "ldap.ac.eefocus.tech"
+
+nginx_iptables_allow_ports: [
+    "80",
+    "443",
+    "8888"
+]
+
+nginx_configd_hosts: [
+  {
+    listen: 8888,
+    server_name: "{{ nginx_ldap_domain }}",
+    proxy_pass: "http://{{ nginx_ldap_host }}:{{ nginx_ldap_port }}/",
+    access_log: "/var/log/access_openldap.log main",
+    error_log: "/var/log/error_openldap.log",
+  }
+]
