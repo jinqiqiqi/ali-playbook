@@ -9,7 +9,8 @@ auth_base: "ou=users,{{ ldap_search_base }}"
 
 ldap_binddn: cn=admin,dc=eefocus,dc=tech
 ldap_bindpw: adminpassword
-ldap_filter: (&(objectClass=shadowAccount)(gidnumber=502))
+# ldap_filter: (&(objectClass=shadowAccount)(gidnumber=502))
+ldap_filter: (&(objectClass=shadowAccount))
 
 sssd_config: [
     'ldap_tls_reqcert = never',
