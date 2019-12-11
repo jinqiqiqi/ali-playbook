@@ -10,6 +10,7 @@
   # when: inventory_hostname != "cache-1"
   listen:
     - "crontab updated"
+    - "restart jenkins"
 
 - name: Send Mattermost notification.
   mattermost:
@@ -20,6 +21,7 @@
   # when: inventory_hostname != "cache-1"
   listen:
     - "crontab updated"
+    - "restart jenkins"
 
 # - name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
 #   lineinfile:
