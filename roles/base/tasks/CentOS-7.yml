@@ -47,6 +47,7 @@
     - python-pip
     - bind-utils
     - iptables-services
+    - nfs-utils
   tags:
     - base
 
