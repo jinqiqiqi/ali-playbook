@@ -86,7 +86,7 @@
     group: root
     mode: 0600
     state: touch
-  when: ldap_result_code.changed
+  when: copied.changed
   tags:
     - openldap
 
