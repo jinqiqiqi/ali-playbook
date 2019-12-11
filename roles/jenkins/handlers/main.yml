@@ -2,3 +2,10 @@
 # handlers file for roles/jenkins
 
 - include: ../../../handlers/main.yml
+
+- name: "restart jenkins"
+  systemd:
+    state: restarted
+    name: jenkins
+    daemon_reload: yes
+    enabled: yes

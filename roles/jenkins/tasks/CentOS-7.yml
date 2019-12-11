@@ -1,0 +1,70 @@
+---
+
+# - name: "Install jenkins.repo"
+#   get_url:
+#     url: "{{ item.url }}"
+#     dest: "{{ item.dest }}"
+#     checksum: "sha256:{{ item.checksum }}"
+#     timeout: 60
+#   loop: "{{ jenkins_repos }}"
+#   tags:
+#     - jenkins
+
+# - name: "Import the GPG keys for Jenkins repositories"
+#   rpm_key: 
+#     key: "{{ item }}"
+#     state: present 
+#   with_items:
+#     - "https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
+#   tags:
+#     - jenkins
+
+- name: "Install jenkins repository config file"
+  template:
+    src: "jenkins.repo.j2"
+    dest: "/etc/yum.repos.d/jenkins.repo"
+  tags:
+    - jenkins
+
+- name: "Install/Update Jenkins to the latest stable version"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - java-1.8.0-openjdk
+    - jenkins
+  tags:
+    - jenkins
+
+- name: "Start Jenkins service"
+  systemd:
+    state: started
+    name: jenkins
+    daemon_reload: yes
+    enabled: yes
+  tags:
+    - jenkins
+
+- name: Settings in /etc/sysconfig/jenkins
+  lineinfile: 
+    dest: "/etc/sysconfig/jenkins"
+    regexp: "{{ item.src }}"
+    line: "{{ item.target }}"
+    state: "present"
+    backrefs: "yes"
+  with_items: "{{ jenkins_sysconfig }}"
+  notify:
+    - restart jenkins
+  tags:
+    - jenkins
+
+- name: Allow jenkins related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  loop: "{{ jenkins_iptables_allow_ports }}"
+  tags:
+    - jenkins

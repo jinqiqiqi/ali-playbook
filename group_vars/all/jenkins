@@ -1,0 +1,18 @@
+# jenkins_repos: [
+#   { url: "http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo", dest: "/etc/yum.repos.d/jenkins-stable.repo", checksum: "9d836919c158c4189aae93e892f3ff4ceea25a23ac352dc2df26494286ea146c" },
+# ]
+
+jenkins_listen_port: "8080"
+jenkins_listen_addr: "0.0.0.0"
+jenkins_home_dir: "/var/lib/jenkins"
+
+jenkins_iptables_allow_ports: [
+    "{{ jenkins_listen_port }}",
+]
+
+jenkins_sysconfig: [
+    { src: '^JENKINS_HOME=\"', target: 'JENKINS_HOME="{{ jenkins_home_dir }}"' },
+    { src: '^JENKINS_PORT=\"', target: 'JENKINS_PORT="{{ jenkins_listen_port }}"' },
+    { src: '^JENKINS_LISTEN_ADDRESS=\"', target: 'JENKINS_LISTEN_ADDRESS="{{ jenkins_listen_addr }}"' },
+]
+
