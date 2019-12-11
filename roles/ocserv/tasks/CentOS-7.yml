@@ -186,7 +186,7 @@
 - name: set ipv4.ip_forward to be true
   sysctl:
     name: net.ipv4.ip_forward
-    value: 1
+    value: "1"
     sysctl_file: /etc/sysctl.conf
     state: present
     reload: yes
