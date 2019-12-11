@@ -33,7 +33,7 @@
     dest: /etc/ocserv/ocserv.conf.orig
     remote_src: yes
     force: false
-  when: not /etc/ocserv/ocserv.conf.orig
+  when: not "/etc/ocserv/ocserv.conf.orig"
   tags:
     - ocserv
     - config

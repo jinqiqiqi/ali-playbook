@@ -1,0 +1,6 @@
+#%PAM-1.0
+auth       include      password-auth
+account    required     pam_nologin.so
+session    include      password-auth
+# account    include    password-auth
+account sufficient pam_succeed_if.so quiet_success

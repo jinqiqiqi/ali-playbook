@@ -5,6 +5,7 @@ nginx_ldap_domain: "ldap.ac.eefocus.tech"
 
 nginx_iptables_allow_ports: [
     "80",
+    "22",
     "443",
     "8888",
     "4433"

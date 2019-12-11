@@ -2,3 +2,29 @@
 # handlers file for roles/ocserv
 - include: ../../../handlers/main.yml
 
+
+- name: restart ocserv
+  service: 
+    name: ocserv 
+    state: restarted 
+    enabled: yes
+
+- name: restart nslcd
+  service: 
+    name: nslcd 
+    state: restarted 
+    enabled: yes
+
+- name: restart nscd
+  service: 
+    name: nscd 
+    state: restarted 
+    enabled: yes
+
+
+- name: restart iptables
+  # service: 
+  #   name: iptables 
+  #   state: restarted 
+  #   enabled: yes
+  command: date
