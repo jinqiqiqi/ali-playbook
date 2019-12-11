@@ -12,6 +12,7 @@
   roles:
     - base
     - jenkins
+    - openldap-auth
 
   # post_tasks:
   #   - name: post tasks

@@ -11,6 +11,8 @@
 
   roles:
     - base
+    - nginx
+    - openldap-auth
     # - iptables
     # - nginx
     # - nodejs

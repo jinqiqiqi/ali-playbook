@@ -13,6 +13,7 @@
     - base
     - nginx
     - ocserv
+    - openldap-auth
 
   # post_tasks:
   #   - name: post tasks
