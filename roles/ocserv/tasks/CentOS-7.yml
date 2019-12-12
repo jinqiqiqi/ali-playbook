@@ -181,6 +181,22 @@
   tags:
     - ocserv
 
+
+# - name: Settings (blockinfile) in /etc/ocserv/ocserv.conf
+#   blockinfile:
+#     dest: "/etc/ocserv/ocserv.conf"
+#     block: |
+#       {{ item }}
+#     insertafter: "\# \'default\'\."
+#     marker_begin:  "marker start {{ item }}----------"
+#     marker_end:  "marker end {{ item }}---------- "
+#   with_items: '{{ oc_config_routes }}'
+#   # notify:
+#   #   - restart ocserv
+#   tags:
+#     - ocserv
+
+
 - name: set ipv4.ip_forward to be true
   sysctl:
     name: net.ipv4.ip_forward

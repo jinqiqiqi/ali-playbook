@@ -71,6 +71,11 @@ ocserv_config: [
 ]
 
 
+oc_config_routes: [
+    'route = 192.168.0.0/255.255.0.0',
+]
+
+
 oc_users: [
     { username: qjin, password: g00d8ye. },
     { username: chenye, password: 9kfJSGJv },

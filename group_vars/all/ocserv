@@ -1,0 +1,8 @@
+
+oc_config_routes: [
+    # 'ldap_tls_reqcert = never',
+    # 'ldap_id_mapping = False',
+    # 'ldap_group_object_class = posixGroup',
+    # 'access_provider = ldap',
+    # 'ldap_access_filter = {{ ldap_filter }}'
+]
