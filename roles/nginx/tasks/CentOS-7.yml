@@ -22,9 +22,9 @@
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-  when: inventory_hostname == "bridge-00"
+  when: inventory_hostname == "bridge-00" and nginx_configd_hosts
   with_items:
-    - { src: "openldap.conf.j2", dest: "/etc/nginx/conf.d/openldap.conf" }
+    - { src: "custom_hosts.conf.j2", dest: "/etc/nginx/conf.d/custom_hosts.conf" }
   tags:
     - nginx
   notify:

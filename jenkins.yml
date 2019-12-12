@@ -1,5 +1,5 @@
 ---
-- name: "Playbook for jenkins server, jenkins"
+- name: "Playbook for jenkins server, jenkins and openldap-auth"
   hosts: 
     - "{{ host }}"
   become_user: root
@@ -11,23 +11,8 @@
 
   roles:
     - jenkins
-
-  # post_tasks:
-  #   - name: post tasks
-  #     dnf: name=* state=latest
-
-- name: "Playbook for jenkins server, openldap-auth"
-  hosts: 
-    - "{{ host }}"
-  become_user: root
-  become: yes
-
-  # pre_tasks:
-  #   - name: Pre Task => Update Yum
-  #     dnf: name=* state=latest
-
-  roles:
     - openldap-auth
+    - nginx
 
   # post_tasks:
   #   - name: post tasks
