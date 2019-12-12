@@ -10,10 +10,10 @@
   #     dnf: name=* state=latest
 
   roles:
-    - base
     - openldap
     - dnsmasq
     - openldap-auth
+    - nginx
 
   # post_tasks:
   #   - name: post tasks

@@ -1,6 +1,6 @@
 ---
 # handlers file for roles/redis
-- include: ../../../handlers/main.yml
+
 
 
 - name: restart redis

@@ -1,6 +1,6 @@
 ---
 # handlers file for roles/rsyslog
-- include: ../../../handlers/main.yml
+
 
 
 
@@ -10,4 +10,3 @@
     state: restarted
     enabled: yes
 
-# - include: ../../../global/handlers.yml

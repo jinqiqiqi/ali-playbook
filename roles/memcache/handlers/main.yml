@@ -1,7 +1,7 @@
 ---
 # handlers file for roles/memcache
 
-- include: ../../../handlers/main.yml
+
 
 - name: restart memcached
   systemd: 

@@ -1,6 +1,6 @@
 ---
 # handlers file for roles/php7-remi
-- include: ../../../handlers/main.yml
+
 
 
 

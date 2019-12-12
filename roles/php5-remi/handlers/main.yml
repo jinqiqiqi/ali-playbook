@@ -1,6 +1,6 @@
 ---
 # handlers file for roles/php5-remi
-- include: ../../../handlers/main.yml
+
 
 
 

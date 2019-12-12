@@ -10,8 +10,6 @@
   #     dnf: name=* state=latest
 
   roles:
-    - base
-    # - nginx
     - ocserv
     - openldap-auth
 
