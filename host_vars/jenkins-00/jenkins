@@ -11,5 +11,6 @@ jenkins_sysconfig: [
     { src: '^JENKINS_HOME=\"', target: 'JENKINS_HOME="{{ jenkins_home_dir }}"' },
     { src: '^JENKINS_PORT=\"', target: 'JENKINS_PORT="{{ jenkins_listen_port }}"' },
     { src: '^JENKINS_LISTEN_ADDRESS=\"', target: 'JENKINS_LISTEN_ADDRESS="{{ jenkins_listen_addr }}"' },
+    { src: '^JENKINS_JAVA_OPTIONS=\"', target: 'JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -Dhudson.model.DownloadService.noSignatureCheck=true"' },
 ]
 
