@@ -1,8 +1,6 @@
 ---
 # handlers file for roles/jenkins
 
-- include: ../../../handlers/main.yml
-
 - name: "restart jenkins"
   systemd:
     state: restarted
