@@ -13,6 +13,7 @@
     - "restart jenkins"
     - "restart sssd"
     - "restart nginx"
+    - "restart dnsmasq"
 
 - name: Send Mattermost notification.
   mattermost:
@@ -26,6 +27,7 @@
     - "restart jenkins"
     - "restart sssd"
     - "restart nginx"
+    - "restart dnsmasq"
 
 # - name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
 #   lineinfile:

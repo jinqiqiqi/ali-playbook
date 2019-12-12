@@ -13,7 +13,6 @@
     - openldap
     - dnsmasq
     - openldap-auth
-    - nginx
 
   # post_tasks:
   #   - name: post tasks
