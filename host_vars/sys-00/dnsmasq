@@ -23,7 +23,9 @@ dnsmasq_dns_lines: [
     list: [
         "sys-00.{{ dnsmasq_dns_domain }}",
         "jenkins.{{ dnsmasq_dns_domain }}",
+        "j.{{ dnsmasq_dns_domain }}",
         "ldap.{{ dnsmasq_dns_domain }}",
+        "l.{{ dnsmasq_dns_domain }}",
         "sys-00"
     ]
   },
