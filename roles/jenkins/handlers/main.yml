@@ -1,6 +1,6 @@
 ---
 # handlers file for roles/jenkins
-handlers:
+
 - include: ../../../handlers/main.yml
 
 - name: "restart jenkins"
