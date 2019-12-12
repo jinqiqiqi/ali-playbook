@@ -12,6 +12,7 @@
     - "crontab updated"
     - "restart jenkins"
     - "restart sssd"
+    - "restart nginx"
 
 - name: Send Mattermost notification.
   mattermost:
@@ -24,6 +25,7 @@
     - "crontab updated"
     - "restart jenkins"
     - "restart sssd"
+    - "restart nginx"
 
 # - name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
 #   lineinfile:
