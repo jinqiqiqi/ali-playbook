@@ -1,5 +1,5 @@
 ---
-- name: Proxy machines are gonna prepare.
+- name: "Playbook for jenkins server, jenkins"
   hosts: 
     - "{{ host }}"
   become_user: root
@@ -10,8 +10,23 @@
   #     dnf: name=* state=latest
 
   roles:
-    - base
     - jenkins
+
+  # post_tasks:
+  #   - name: post tasks
+  #     dnf: name=* state=latest
+
+- name: "Playbook for jenkins server, openldap-auth"
+  hosts: 
+    - "{{ host }}"
+  become_user: root
+  become: yes
+
+  # pre_tasks:
+  #   - name: Pre Task => Update Yum
+  #     dnf: name=* state=latest
+
+  roles:
     - openldap-auth
 
   # post_tasks:
