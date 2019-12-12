@@ -22,7 +22,7 @@
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-  when: inventory_hostname == "bridge-00" and nginx_configd_hosts
+  # when: nginx_configd_hosts
   with_items:
     - { src: "custom_hosts.conf.j2", dest: "/etc/nginx/conf.d/custom_hosts.conf" }
   tags:
