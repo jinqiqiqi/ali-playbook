@@ -29,21 +29,21 @@ dnsmasq_dns_lines: [
     hostname: "jenkins-00",
     addr: "192.168.0.229",
     list: [
-        jenkins-00.ac{{ dnsmasq_dns_domain }},
+        "jenkins-00.ac{{ dnsmasq_dns_domain }}",
     ]
   },
   {
     hostname: "nginx-1",
     addr: "192.168.0.228",
     list: [
-        nginx-1.ac{{ dnsmasq_dns_domain }},
+        "nginx-1.ac{{ dnsmasq_dns_domain }}",
     ]
   },
   {
     hostname: "bridge-00",
     addr: "192.168.0.226",
     list: [
-        bridge-00.ac{{ dnsmasq_dns_domain }},
+        "bridge-00.ac{{ dnsmasq_dns_domain }}",
     ]
   },
 
