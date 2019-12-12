@@ -17,7 +17,7 @@ nginx_configd_hosts: [
   {
     listen: 80,
     server_name: "l.ac.eefocus.tech",
-    proxy_pass: "http://192.168.0.227:80/",
+    proxy_pass: "http://ldap.ac.eefocus.tech/",
     access_log: "/var/log/nginx/access_openldap.log main",
     error_log: "/var/log/nginx/error_openldap.log",
   }
