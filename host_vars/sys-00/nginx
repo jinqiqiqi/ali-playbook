@@ -9,14 +9,14 @@ nginx_iptables_allow_ports: [
 nginx_configd_hosts: [
   {
     listen: 80,
-    server_name: "jenkins.ac.eefocus.tech",
+    server_name: "j.ac.eefocus.tech jenkins.ac.eefocus.tech",
     proxy_pass: "http://192.168.0.229:8080/",
     access_log: "/var/log/nginx/access_jenkins.log main",
     error_log: "/var/log/nginx/error_jenkins.log",
   },
   {
     listen: 80,
-    server_name: "ldap.ac.eefocus.tech",
+    server_name: "l.ac.eefocus.tech",
     proxy_pass: "http://192.168.0.227:80/",
     access_log: "/var/log/nginx/access_openldap.log main",
     error_log: "/var/log/nginx/error_openldap.log",
