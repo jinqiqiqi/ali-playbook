@@ -21,6 +21,7 @@ server {
         expires max;
         log_not_found off;
         access_log  off;
+        proxy_pass {{ nginx_host.proxy_pass }};
     }
 
     location / {
