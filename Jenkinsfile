@@ -36,7 +36,7 @@ pipeline {
 
                 withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
                     sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
-                    ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'bridge.yml sys.yml jenkins.yml nginx.yml'
+                    ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'bridge.yml'
                     sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
                 }
             }
