@@ -18,6 +18,7 @@ pipeline {
                 script {
                     last_running_stage = env.STAGE_NAME
                 }
+                sh "mkdir -p ~/.ssh/eefocus/"
                 withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
                     slackSend teamDomain: 'bigeworld',
                         channel: '#jenkins', 
