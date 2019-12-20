@@ -35,7 +35,7 @@
   #   - name: post tasks
   #     dnf: name=* state=latest
   
-  - name: Playbook for sys group
+- name: Playbook for sys group
   hosts: 
     - sys
   become_user: root
@@ -54,7 +54,7 @@
   #   - name: post tasks
   #     dnf: name=* state=latest
   
-  ---
+
 - name: Playbook for nginx group
   hosts: 
     - nginx
