@@ -16,44 +16,44 @@ ldap_auth: {
 
 # definitions for groups and users
 ldap_users: [
-    {
-        cn: qi, # uid
-        givenname: qi,
-        sn: qi,
-        mail: qi@eefocus.com,
-        userpassword: password,
-        uidNumber: 1000,
-        gidNumber: 500,
-        homeDirectory: /home/users/qi
-    },
-    {
-        cn: jin,
-        givenname: jin,
-        sn: jin,
-        mail: jin@eefocus.com,
-        userpassword: password,
-        uidNumber: 1001,
-        gidNumber: 501,
-        homeDirectory: /home/users/jin
-    }
+    # {
+    #     cn: qi, # uid
+    #     givenname: qi,
+    #     sn: qi,
+    #     mail: qi@eefocus.com,
+    #     userpassword: password,
+    #     uidNumber: 1000,
+    #     gidNumber: 500,
+    #     homeDirectory: /home/users/qi
+    # },
+    # {
+    #     cn: jin,
+    #     givenname: jin,
+    #     sn: jin,
+    #     mail: jin@eefocus.com,
+    #     userpassword: password,
+    #     uidNumber: 1001,
+    #     gidNumber: 501,
+    #     homeDirectory: /home/users/jin
+    # }
 ]
 
 ldap_groups: [
-    {
-        name: 技术部,
-        gidNumber: 500,
-        members: [
-            jin,
-            qi
-        ]
-    },
-    {
-        name: 运营部,
-        gidNumber: 501,
-        members: [
-            qi
-        ]
-    }
+    # {
+    #     name: 技术部,
+    #     gidNumber: 500,
+    #     members: [
+    #         jin,
+    #         qi
+    #     ]
+    # },
+    # {
+    #     name: 运营部,
+    #     gidNumber: 501,
+    #     members: [
+    #         qi
+    #     ]
+    # }
 ]
 
 

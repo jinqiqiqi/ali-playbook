@@ -36,50 +36,50 @@ pipeline {
 
                 withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
                     sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
-                    ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'bridge.yml'
+                    ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'bridge.yml sys.yml jenkins.yml nginx.yml'
                     sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
                 }
             }
         }
-        stage('build_sys') {
-            steps {
-                script {
-                    last_running_stage = env.STAGE_NAME
-                }
+        // stage('build_sys') {
+        //     steps {
+        //         script {
+        //             last_running_stage = env.STAGE_NAME
+        //         }
 
-                withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
-                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
-                    ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'sys.yml'
-                    sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
-                }
-            }
-        }
-        stage('build_jenkins') {
-            steps {
-                script {
-                    last_running_stage = env.STAGE_NAME
-                }
+        //         withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
+        //             sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
+        //             ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'sys.yml'
+        //             sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
+        //         }
+        //     }
+        // }
+        // stage('build_jenkins') {
+        //     steps {
+        //         script {
+        //             last_running_stage = env.STAGE_NAME
+        //         }
 
-                withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
-                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
-                    ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'jenkins.yml'
-                    sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
-                }
-            }
-        }
-        stage('build_nginx') {
-            steps {
-                script {
-                    last_running_stage = env.STAGE_NAME
-                }
+        //         withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
+        //             sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
+        //             ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'jenkins.yml'
+        //             sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
+        //         }
+        //     }
+        // }
+        // stage('build_nginx') {
+        //     steps {
+        //         script {
+        //             last_running_stage = env.STAGE_NAME
+        //         }
 
-                withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
-                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
-                    ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'nginx.yml'
-                    sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
-                }
-            }
-        }
+        //         withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
+        //             sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
+        //             ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'nginx.yml'
+        //             sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
+        //         }
+        //     }
+        // }
 
         stage('publish') {
             steps {
