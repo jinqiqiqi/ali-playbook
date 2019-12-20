@@ -6,3 +6,6 @@ nginx_iptables_allow_ports: [
     # "8888",
     # "4433"
 ]
+
+nginx_configd_hosts: [
+]
