@@ -1,7 +1,7 @@
 ---
 - name: Playbook for bridge group
   hosts: 
-    - "{{ host }}"
+    - "bridge"
   become_user: root
   become: yes
 

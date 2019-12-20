@@ -1,7 +1,7 @@
 ---
 - name: "Playbook for jenkins server, jenkins and openldap-auth"
   hosts: 
-    - "{{ host }}"
+    - "jenkins"
   become_user: root
   become: yes
 

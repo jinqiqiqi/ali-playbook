@@ -1,7 +1,7 @@
 ---
 - name: Playbook for sys group
   hosts: 
-    - "{{ host }}"
+    - sys
   become_user: root
   become: yes
 

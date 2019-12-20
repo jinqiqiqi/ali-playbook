@@ -1,7 +1,7 @@
 ---
 - name: Playbook for nginx group
   hosts: 
-    - "{{ host }}"
+    - nginx
   become_user: root
   become: yes
 
