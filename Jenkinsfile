@@ -1,9 +1,9 @@
 GITHUB_PROJECT=""
 pipeline {
     agent  any 
-    // triggers {
-        // cron('0 */2 * * *')
-    // }
+    triggers {
+        cron('0 */2 * * *')
+    }
     environment {
         BUILD_USER = ''
     }
@@ -126,13 +126,6 @@ pipeline {
             mail to: 'qi.jin@supplyframe.cn',
               subject: "${currentBuild.currentResult} of ${currentBuild.fullDisplayName} from [Jenkins-mailer@aliyun-eefocus]",
               body: "Result: \t${currentBuild.currentResult}\nJob Name: \t${env.JOB_NAME}\nBuild Number: \t#${env.BUILD_NUMBER}\nBuild URL: \t${env.BUILD_URL}\nBranch: \t${env.GIT_BRANCH} \nDuration: \t${currentBuild.durationString}\nChange Set:\t${currentBuild.changeSets}\nLast Stage: \t${last_running_stage}"
-            // withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-            //     slackSend teamDomain: 'bigeworld',
-            //         channel: '#jenkins', 
-            //         token: slackCredentials, 
-            //         color: 'good',
-            //         message: "${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL}) has result (always): ${currentBuild.currentResult}."
-            // }
         }
         unstable {
             echo "Unstable result. 5"
@@ -166,6 +159,7 @@ pipeline {
         }
         cleanup {
             echo "Cleanup result. 8"
+            sh "rm -rf ~/.ssh/eefocus/"
         }
     }
 }
