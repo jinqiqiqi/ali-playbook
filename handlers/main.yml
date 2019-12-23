@@ -4,7 +4,7 @@
 - name: Send Slack notification.
   slack:
     token: "TD91LBXBM/BFRTW9P54/SwzT2sC2UJPsSWj3NRKW1sl5"
-    msg: "Service in role: [{{ role_name }}] {{ role_names }}@{{ inventory_hostname }} is restarted/changed! {{ addition }}"
+    msg: "Service in role: <{{ role_name }}> {{ role_names }}@{{ inventory_hostname }} is restarted/changed! {{ addition }}"
     username: "aliyun >>> {{ inventory_hostname }} ({{ ansible_eth0['ipv4']['address'] }})"
     channel: "#sync-nginx-conf"
   # when: inventory_hostname != "cache-1"
@@ -19,7 +19,7 @@
   mattermost:
     url: "http://218.4.226.238:8065"
     api_key: "if11n7se63ycpx43sh37yskkyo"
-    text: "Service in role: [{{ role_name }}] {{ role_names }}@{{ inventory_hostname }} is restarted/changed! {{ addition }}"
+    text: "Service in role: <{{ role_name }}> {{ role_names }}@{{ inventory_hostname }} is restarted/changed! {{ addition }}"
     username: "aliyun >>> {{ inventory_hostname }} ({{ ansible_eth0['ipv4']['address'] }})"
   # when: inventory_hostname != "cache-1"
   listen:

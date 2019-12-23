@@ -36,11 +36,11 @@ pipeline {
                 withCredentials ([sshUserPrivateKey(credentialsId: 'gitk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
                     sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.ali.git; chmod 600 ~/.ssh/eefocus/id_rsa.ali.git"
                     ansiColor('xterm') {
-                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'dnsmasq.yml', colorized: true, extras: '-e addition="${BUILD_URL}, ${JOB_NAME}"'
-                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'jenkins.yml', colorized: true, extras: '-e addition="${BUILD_URL}, ${JOB_NAME}"'
-                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'nginx.yml', colorized: true, extras: '-e addition="${BUILD_URL}, ${JOB_NAME}"'
-                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'ocserv.yml', colorized: true, extras: '-e addition="${BUILD_URL}, ${JOB_NAME}"'
-                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'openldap-auth.yml', colorized: true, extras: '-e addition="${BUILD_URL}, ${JOB_NAME}"'
+                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'dnsmasq.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'jenkins.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'nginx.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'ocserv.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'openldap-auth.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                     }
                     sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
                 }
