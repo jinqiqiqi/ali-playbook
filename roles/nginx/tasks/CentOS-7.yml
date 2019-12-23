@@ -2,7 +2,7 @@
 # tasks file for roles/CentOS-7.yml
 
 
-- name: Install nginx
+- name: "Install nginx => {{ role_name }}"
   package: name="{{ item }}" state=present
   loop:
     - nginx

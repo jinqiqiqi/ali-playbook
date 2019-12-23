@@ -1,4 +1,6 @@
 ---
 # handlers file for roles/base
 
-- include: ../../../handlers/main.yml
+# - include: ../../../handlers/main.yml
+- include_tasks: ../../../handlers/main.yml
+
