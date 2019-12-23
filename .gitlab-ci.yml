@@ -22,9 +22,6 @@ stages:
 #   - mv inventory /root/
 #   # - cat ~/.ssh/id_rsa
 
-
-
-
 testing_jobs:
   # <<: *default_tags
   stage: prepare
@@ -34,4 +31,3 @@ testing_jobs:
   #   - master
   # when: manual
   
-

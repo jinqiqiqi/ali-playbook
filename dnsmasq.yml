@@ -1,7 +1,7 @@
 ---
-- name: Playbook for sys group
+- name: Playbook for role dnsmasq
   hosts: 
-    - sys
+    - dnsmasq
   become_user: root
   become: yes
 
@@ -10,9 +10,7 @@
   #     dnf: name=* state=latest
 
   roles:
-    - openldap
     - dnsmasq
-    - openldap-auth
 
   # post_tasks:
   #   - name: post tasks

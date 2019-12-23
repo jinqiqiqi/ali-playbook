@@ -1,99 +1,41 @@
-[bridge]
-bridge-00 ansible_ssh_host=192.168.0.226
 
-[sys]
 sys-00 ansible_ssh_host=192.168.0.227
-
-[nginx]
+bridge-00 ansible_ssh_host=192.168.0.226
+jenkins-00 ansible_ssh_host=192.168.0.229
 nginx-1 ansible_ssh_host=192.168.0.228
 
+[bridge]
+bridge-00
+
+[dnsmasq]
+sys-00
+
 [jenkins]
-jenkins-00 ansible_ssh_host=192.168.0.229
+jenkins-00
 
-; [eefocus_main]
-; eefocus_main_0 ansible_ssh_host=192.168.0.196 ansible_ssh_port=2018
-; eefocus_main_1 ansible_ssh_host=192.168.0.68
+[sys]
+sys-00
 
-; [eefocus_article]
-; eefocus_article_0 ansible_ssh_host=192.168.0.100
-; eefocus_article_1 ansible_ssh_host=192.168.0.100
+[nginx]
+nginx-1
 
-; [datasheet5]
-; datasheet5_0 ansible_ssh_host=192.168.0.100
-; datasheet5_1 ansible_ssh_host=192.168.0.100
+[ocserv]
+bridge-00
 
-; [account]
-; account_0 ansible_ssh_host=192.168.0.100
-; account_1 ansible_ssh_host=192.168.0.100
+[openldap-auth]
+sys-00
+nginx-1
+jenkins-00
+bridge-00
 
-; [eeboard]
-; eeboard_0 ansible_ssh_host=192.168.0.100
-; eeboard_1 ansible_ssh_host=192.168.0.100
-
-; [community]
-; community_0 ansible_ssh_host=192.168.0.100
-; community_1 ansible_ssh_host=192.168.0.100
-
-; [cirmall]
-; cirmall_0 ansible_ssh_host=192.168.0.100
-; cirmall_1 ansible_ssh_host=192.168.0.100
-
-; [moore8]
-; moore8_0 ansible_ssh_host=192.168.0.100
-; moore8_1 ansible_ssh_host=192.168.0.100
-
-; [gg]
-; gg_0 ansible_ssh_host=192.168.0.100
-; gg_1 ansible_ssh_host=192.168.0.100
-
-; [sso]
-; sso_0 ansible_ssh_host=192.168.0.100
-; sso_1 ansible_ssh_host=192.168.0.100
-
-; [sns]
-; sns_0 ansible_ssh_host=192.168.0.100
-; sns_1 ansible_ssh_host=192.168.0.100
-
-; [support]
-; support_0 ansible_ssh_host=192.168.0.100
-; support_1 ansible_ssh_host=192.168.0.100
-
-
-; [cache]
-; cache_0 ansible_ssh_host=192.168.0.100
-; cache_1 ansible_ssh_host=192.168.0.100
-
-; [index]
-; index_0 ansible_ssh_host=192.168.0.100
-; index_1 ansible_ssh_host=192.168.0.100
 
 [all:vars]
 ansible_connection=smart
 ; ansible_ssh_host=127.0.0.1
-; ansible_ssh_port=22
+ansible_ssh_port=22
 ansible_ssh_user=git
 ; ansible_ssh_private_key_file=~/.ssh/id_rsa
 ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.ali.git
 
-[all:children]
-; eefocus_main
-; eefocus_article
-; datasheet5
-; account
-; eeboard
-; community
-; cirmall
-; moore8
-; gg
-; sso
-; sns
-; support
-; cache
-; index
-
-bridge
-sys
-nginx
-jenkins
 
 

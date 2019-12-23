@@ -1,7 +1,7 @@
 ---
-- name: Playbook for nginx role
+- name: Playbook for openldap-auth role
   hosts: 
-    - nginx
+    - openldap-auth
   become_user: root
   become: yes
 
@@ -10,8 +10,9 @@
   #     dnf: name=* state=latest
 
   roles:
-    - nginx
+    - openldap-auth
 
   # post_tasks:
   #   - name: post tasks
   #     dnf: name=* state=latest
+

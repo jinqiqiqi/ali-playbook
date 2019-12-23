@@ -1,7 +1,7 @@
 ---
-- name: "Playbook for jenkins server, jenkins and openldap-auth"
+- name: Playbook for jenkins role
   hosts: 
-    - "jenkins"
+    - jenkins
   become_user: root
   become: yes
 
@@ -11,8 +11,8 @@
 
   roles:
     - jenkins
-    - openldap-auth
 
   # post_tasks:
   #   - name: post tasks
   #     dnf: name=* state=latest
+
