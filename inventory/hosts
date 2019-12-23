@@ -22,7 +22,7 @@ nginx-1
 [ocserv]
 bridge-00
 
-[openldap-auth]
+[openldap_auth]
 sys-00
 nginx-1
 jenkins-00

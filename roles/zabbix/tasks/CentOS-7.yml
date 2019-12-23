@@ -1,0 +1,57 @@
+---
+
+- name: "copy zabbix repository file"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+  tags:
+    - zabbix
+  with_items:
+    - { src: zabbix.repo, dest: /etc/yum.repos.d/zabbix.repo }
+
+
+- name: "install zabbix server packages"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - MySQL-python
+    - mariadb-server
+    - zabbix-server-mysql
+    - zabbix-proxy-mysql
+    - zabbix-web-mysql
+    # - zabbix-nginx-conf
+  tags:
+    - zabbix
+
+- name: "start mariadb server"
+  systemd:
+    name: mariadb
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  tags:
+    - zabbix
+
+- name: Create a new database with name 'zabbix'
+  mysql_db:
+    name: zabbix
+    state: import
+    target: /usr/share/doc/zabbix-server-mysql-4.4.4/create.sql.gz
+  tags:
+    - zabbix
+
+
+# - name: "install zabbix client packages"
+#   package:
+#     name: "{{ item }}"
+#     state: latest
+#   loop:
+#     - zabbix40-agent
+#   tags:
+#     - zabbix
+
+
+

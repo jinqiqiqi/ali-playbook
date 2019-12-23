@@ -1,14 +1,6 @@
 ---
 - name: "Playbook testing for {{ host }}"
   hosts: 
-    # - localhost
-    # - l201
-    # - l196
-    # - all
-    # - "{{ host }}"
-    # - "{{ host }}"
-    # - libvirt
-    # - localtesting
     - virtualbox
   become_user: root
   become: yes
@@ -18,23 +10,7 @@
   #     dnf: name=* state=latest
 
   roles:
-    - jenkins
-    # - iptables
-    # - nginx
-    # - nodejs
-    # - dnsmasq
-    # - php5
-    # - php7
-    # - rsyslog
-    # - redis
-    # - memcache
-    # - openldap
-    # - rabbitmq
-    # - mongodb
-    # - php5-remi
-    # - php7-remi
-    # - sphinx
-    # - openldap-auth
+    - zabbix
 
   # post_tasks:
   #   - name: Successfully finished

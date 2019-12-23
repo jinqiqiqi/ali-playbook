@@ -1,7 +1,7 @@
 ---
 - name: Playbook for openldap-auth role
   hosts: 
-    - openldap-auth
+    - openldap_auth
   become_user: root
   become: yes
 
@@ -10,7 +10,7 @@
   #     dnf: name=* state=latest
 
   roles:
-    - openldap-auth
+    - openldap_auth
 
   # post_tasks:
   #   - name: post tasks
