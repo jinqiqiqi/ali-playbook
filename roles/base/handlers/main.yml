@@ -3,5 +3,3 @@
 
 # - include: ../../../handlers/main.yml
 - include: ../../../handlers/main.yml
-- import: ../../../handlers/main.yml
-
