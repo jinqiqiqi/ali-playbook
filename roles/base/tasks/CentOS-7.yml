@@ -80,6 +80,7 @@
     regexp: '^nameserver'
     line: 'nameserver    {{ ldap_ip_address }}'
     backrefs: "yes"
+  when: inventory_hostname != 'master'
   tags:
     - base
  

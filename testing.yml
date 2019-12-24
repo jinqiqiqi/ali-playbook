@@ -1,7 +1,7 @@
 ---
 - name: "Playbook testing for {{ host }}"
   hosts: 
-    - virtualbox
+    - localtesting
   become_user: root
   become: yes
 

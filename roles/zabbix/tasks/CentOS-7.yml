@@ -22,11 +22,11 @@
     - zabbix-server-mysql
     - zabbix-proxy-mysql
     - zabbix-web-mysql
-    # - zabbix-nginx-conf
+    - zabbix-nginx-conf
   tags:
     - zabbix
 
-- name: "start mariadb server"
+- name: "Start mariadb server"
   systemd:
     name: mariadb
     state: started
@@ -35,14 +35,70 @@
   tags:
     - zabbix
 
-- name: Create a new database with name 'zabbix'
+# - name: "Update root user for zabbix"
+#   mysql_user:
+#     name: "root"
+#     password: "{{ zabbix_db_root_password }}"
+#     state: present
+#   tags:
+#     - zabbix
+#     - zabbix_db
+
+- name: "Create database if zabbix database is not exist"
   mysql_db:
-    name: zabbix
-    state: import
-    target: /usr/share/doc/zabbix-server-mysql-4.4.4/create.sql.gz
+    name: "{{ zabbix_db_name }}"
+    state: present
+    encoding: "utf8"
+    # login_host: "localhost"
+    # login_user: root
+    # login_password: "{{ zabbix_db_root_password }}"
+  register: database_exists
   tags:
     - zabbix
+    - zabbix_db
 
+- name: "Create a new database with name zabbix"
+  mysql_db:
+    name: "{{ zabbix_db_name }}"
+    state: import
+    encoding: "utf8"
+    # login_host: "localhost"
+    # login_user: root
+    # login_password: "{{ zabbix_db_root_password }}"
+    target: /usr/share/doc/zabbix-server-mysql-4.4.4/create.sql.gz
+  when: database_exists.changed
+  # creates: /tmp/create.sql.gz
+  tags:
+    - zabbix
+    - zabbix_db
+
+
+- name: "Create database user for zabbix"
+  mysql_user:
+    name: "{{ zabbix_db_user }}"
+    password: "{{ zabbix_db_password }}"
+    state: present
+    priv: "{{ zabbix_db_name }}.*:ALL"
+    host: "localhost"
+    # login_host: "localhost"
+    # login_user: root
+    # login_password: "{{ zabbix_db_root_password }}"
+  tags:
+    - zabbix
+    - zabbix_db
+
+
+- name: Replace items in zabbix config files
+  lineinfile:
+    dest: "/etc/zabbix/zabbix_server.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ zabbix_server_config_lines }}"
+  notify: restart zabbix_server
+  tags:
+    - zabbix
+    - zabbix_db
 
 # - name: "install zabbix client packages"
 #   package:
