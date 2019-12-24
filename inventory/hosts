@@ -18,6 +18,8 @@ sys-00
 
 [nginx]
 nginx-1
+sys-00
+
 
 [ocserv]
 bridge-00
