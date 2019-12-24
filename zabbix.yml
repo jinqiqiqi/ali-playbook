@@ -1,7 +1,7 @@
 ---
-- name: "Playbook testing for {{ host }}"
+- name: "Playbook zabbix role."
   hosts: 
-    - virtualbox
+    - zabbix
   become_user: root
   become: yes
 
@@ -20,17 +20,5 @@
   #       text: "hhhiiixxxx"
   #       username: "testing.yml"
   #       channel: "bashme"
-  #     tags:
-  #       - noti
-
-  # post_tasks:
-  #   - name: Successfully finished
-  #     slack:
-  #       token: "TD91LBXBM/BDAF3HP38/XIrbT3A1jVhRGJST1V3DcKtr"
-  #       channel: "rsyslog"
-  #       msg: "Failed in msg field @Xiaoshi <@UFMESDLQ4> <@>"
-  #       attachments:
-  #         - text: hi failed.
-  #           color: "#FF0000"
   #     tags:
   #       - noti

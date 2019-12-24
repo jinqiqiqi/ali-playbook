@@ -1,10 +1,25 @@
 --- 
+# default user: Admin
+# default password: zabbix
+# 
+# define the zabbix master hostname
+zabbix_master: "sys-00"
+zabbix_agent_server: "192.168.0.227"
+zabbix_agent_listen_port: 10050
+
+
+zabbix_agent_iptables_allow_ports: [
+  "{{ zabbix_agent_listen_port }}"
+]
 
 zabbix_db_name: zabbix
 zabbix_db_user: zabbix_user
 zabbix_db_password: "zabbix_password123"
 
 zabbix_db_root_password: "root_password"
+
+zabbix_nginx_port: "80"
+zabbix_nginx_domain: "zabbix.ac.eefocus.tech"
 
 zabbix_server_config_lines: [
   {source: '^# DBHost=', dest: 'DBHost=localhost'},
@@ -14,5 +29,38 @@ zabbix_server_config_lines: [
   {source: '^DBUser=', dest: "DBUser={{ zabbix_db_user }}"},
   {source: '^# DBPassword=', dest: 'DBPassword={{ zabbix_db_password }}'},
   {source: '^DBPassword=', dest: 'DBPassword={{ zabbix_db_password }}'},
+
+]
+
+zabbix_nginx_config_lines: [
+  {source: '^#        listen', dest: '        listen {{ zabbix_nginx_port }};'},
+  {source: '#        server_name', dest: '        server_name {{ zabbix_nginx_domain }};'},
+]
+
+zabbix_phpfpm_config_lines: [
+  {source: '^php_value[max_execution_time]', dest: 'php_value[max_execution_time] = 600'},
+  {source: 'php_value[max_input_time]', dest: 'php_value[max_input_time] = 600'},
+  {source: 'php_value[memory_limit]', dest: 'php_value[memory_limit] = 256M'},
+  {source: 'php_value[post_max_size]', dest: 'php_value[post_max_size] = 32M'},
+  {source: 'php_value[upload_max_filesize]', dest: 'php_value[upload_max_filesize] = 32M'},
+  {source: '^; php_value[date.timezone]', dest: 'php_value[date.timezone] = Asia/Shanghai'},
+  {source: 'php_value[date.timezone]', dest: 'php_value[date.timezone] = Asia/Shanghai'},
+]
+
+zabbix_phpini_config_lines: [
+  {source: '^;date.timezone', dest: 'date.timezone = Asia/Shanghai'},
+  {source: 'date.timezone', dest: 'date.timezone = Asia/Shanghai'},
+]
+
+
+# zabbix agent setting variables.
+zabbix_agentd_config_lines: [
+  {source: '^Server=', dest: 'Server={{ zabbix_agent_server }}'},
+  {source: '^ServerActive=', dest: 'ServerActive={{ zabbix_agent_server }}'},
+
+  {source: '^Hostname=', dest: 'Hostname={{ inventory_hostname }}'},
+
+  {source: '^# ListenPort=', dest: 'ListenPort={{ zabbix_agent_listen_port }}'},
+  {source: '^ListenPort=', dest: 'ListenPort={{ zabbix_agent_listen_port }}'},
 
 ]

@@ -28,6 +28,9 @@ nginx-1
 jenkins-00
 bridge-00
 
+[zabbix:children]
+openldap_auth
+
 
 [all:vars]
 ansible_connection=smart

@@ -40,7 +40,8 @@ pipeline {
                         ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'jenkins.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                         ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'nginx.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                         ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'ocserv.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
-                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'openldap-auth.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'openldap_auth.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'gitk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'zabbix.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                     }
                     sh "rm -f ~/.ssh/eefocus/id_rsa.ali.git"
                 }

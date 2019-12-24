@@ -1,6 +1,6 @@
 ---
 
-- name: "copy zabbix repository file"
+- name: "Copy zabbix repository file"
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -11,8 +11,7 @@
   with_items:
     - { src: zabbix.repo, dest: /etc/yum.repos.d/zabbix.repo }
 
-
-- name: "install zabbix server packages"
+- name: "Install zabbix server packages"
   package:
     name: "{{ item }}"
     state: latest
@@ -23,6 +22,7 @@
     - zabbix-proxy-mysql
     - zabbix-web-mysql
     - zabbix-nginx-conf
+  when: inventory_hostname == zabbix_master
   tags:
     - zabbix
 
@@ -32,6 +32,38 @@
     state: started
     daemon_reload: yes
     enabled: yes
+  when: inventory_hostname == zabbix_master
+  tags:
+    - zabbix
+
+- name: "Start zabbix-server server"
+  systemd:
+    name: zabbix-server
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  when: inventory_hostname == zabbix_master
+  tags:
+    - zabbix
+
+- name: "Start php-fpm server"
+  systemd:
+    name: php-fpm
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  when: inventory_hostname == zabbix_master
+  tags:
+    - zabbix
+
+
+- name: "Start nginx server"
+  systemd:
+    name: nginx
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  when: inventory_hostname == zabbix_master
   tags:
     - zabbix
 
@@ -53,6 +85,7 @@
     # login_user: root
     # login_password: "{{ zabbix_db_root_password }}"
   register: database_exists
+  when: inventory_hostname == zabbix_master
   tags:
     - zabbix
     - zabbix_db
@@ -66,12 +99,11 @@
     # login_user: root
     # login_password: "{{ zabbix_db_root_password }}"
     target: /usr/share/doc/zabbix-server-mysql-4.4.4/create.sql.gz
-  when: database_exists.changed
+  when: inventory_hostname == zabbix_master and database_exists.changed
   # creates: /tmp/create.sql.gz
   tags:
     - zabbix
     - zabbix_db
-
 
 - name: "Create database user for zabbix"
   mysql_user:
@@ -83,10 +115,10 @@
     # login_host: "localhost"
     # login_user: root
     # login_password: "{{ zabbix_db_root_password }}"
+  when: inventory_hostname == zabbix_master
   tags:
     - zabbix
     - zabbix_db
-
 
 - name: Replace items in zabbix config files
   lineinfile:
@@ -95,19 +127,97 @@
     line: '{{ item.dest }}'
     backrefs: yes
   with_items: "{{ zabbix_server_config_lines }}"
-  notify: restart zabbix_server
+  when: inventory_hostname == zabbix_master
+  notify: restart zabbix
   tags:
     - zabbix
     - zabbix_db
 
-# - name: "install zabbix client packages"
-#   package:
-#     name: "{{ item }}"
-#     state: latest
-#   loop:
-#     - zabbix40-agent
-#   tags:
-#     - zabbix
+- name: Replace items in php-fpm config files
+  lineinfile:
+    dest: "/etc/php-fpm.d/zabbix.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ zabbix_phpfpm_config_lines }}"
+  when: inventory_hostname == zabbix_master
+  notify: restart php-fpm
+  tags:
+    - zabbix
+    - zabbix_db
+
+- name: Replace items in php-ini config files
+  lineinfile:
+    dest: "/etc/php.ini"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ zabbix_phpini_config_lines }}"
+  when: inventory_hostname == zabbix_master
+  notify: restart php-fpm
+  tags:
+    - zabbix
+    - zabbix_db
+
+- name: Replace items in nginx config files
+  lineinfile:
+    dest: "/etc/nginx/conf.d/zabbix.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ zabbix_nginx_config_lines }}"
+  when: inventory_hostname == zabbix_master
+  notify: restart nginx
+  tags:
+    - zabbix
+    - zabbix_db
 
 
 
+# package installation for zabbix client
+
+
+- name: "install zabbix client packages"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - zabbix-agent
+  tags:
+    - zabbix
+    - zabbix-agent
+
+- name: "Start zabbix-agent server"
+  systemd:
+    name: zabbix-agent
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  tags:
+    - zabbix
+    - zabbix-agent
+
+- name: "Replace items in zabbix-agent config files"
+  lineinfile:
+    dest: "/etc/zabbix/zabbix_agentd.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ zabbix_agentd_config_lines }}"
+  notify: restart zabbix-agent
+  tags:
+    - zabbix
+    - zabbix-agent
+
+- name: Allow zabbix agent related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+    comment: "zabbix agent related ports"
+  loop: "{{ zabbix_agent_iptables_allow_ports }}"
+  tags:
+    - zabbix
+    - zabbix-agent

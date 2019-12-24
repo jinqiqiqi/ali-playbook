@@ -1,2 +1,31 @@
 ---
 # handlers file for roles/zabbix
+# 
+- name: "restart nginx"
+  systemd:
+    name: nginx
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+
+- name: "restart php-fpm"
+  systemd:
+    name: php-fpm
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+
+- name: "restart zabbix"
+  systemd:
+    name: zabbix-server
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+
+- name: "restart zabbix-agent"
+  systemd:
+    name: zabbix-agent
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+
