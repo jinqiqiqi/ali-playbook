@@ -1,7 +1,6 @@
 ---
 # handlers file for roles/redis
-
-
+- include: ../../../handlers/main.yml
 
 - name: restart redis
   systemd: name=redis state=restarted enabled=yes

@@ -1,4 +1,7 @@
 ---
+
+- include: ../../../handlers/main.yml
+
 # handlers file for roles/zabbix
 # 
 - name: "restart nginx"

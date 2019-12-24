@@ -1,4 +1,6 @@
 ---
+- include: ../../../handlers/main.yml
+
 # tasks file for memcached
 
 - name: Install memcached Package

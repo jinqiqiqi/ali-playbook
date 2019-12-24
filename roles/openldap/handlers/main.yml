@@ -1,8 +1,7 @@
 ---
 # handlers file for roles/openldap
 
-
-
+- include: ../../../handlers/main.yml
 
 - name: restart nginx service
   service: 

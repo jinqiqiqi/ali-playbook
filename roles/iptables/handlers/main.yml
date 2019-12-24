@@ -1,1 +1,2 @@
 ---
+- include: ../../../handlers/main.yml

@@ -1,8 +1,6 @@
 ---
 # handlers file for roles/php7-remi
-
-
-
+- include: ../../../handlers/main.yml
 
 - name: restart php72-php-fpm
   systemd:
