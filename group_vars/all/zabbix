@@ -7,6 +7,7 @@ zabbix_master: "sys-00"
 zabbix_agent_server: "192.168.0.227"
 zabbix_agent_listen_port: 10050
 
+zabbix_slack_url: "https://hooks.slack.com/services/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"
 
 zabbix_agent_iptables_allow_ports: [
   "{{ zabbix_agent_listen_port }}"
