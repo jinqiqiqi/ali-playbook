@@ -8,7 +8,7 @@ pipeline {
         BUILD_USER = ''
     }
     options {
-        retry(2)
+        // retry(2)
         timeout(time: 45, unit: 'MINUTES')
         timestamps()
     }
