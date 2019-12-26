@@ -1,0 +1,54 @@
+## settings for m.ac.eefocus.tech refers to mysql.ac.eefocus.tech
+
+server {
+    listen 80;
+    server_name m.ac.eefocus.tech;
+    root /usr/share/nginx/mysql/;
+
+    index index.php;
+
+    client_max_body_size 0;
+    chunked_transfer_encoding on;
+
+    charset utf-8;
+
+    location ~* \.(ico|css|js|gif|jpe?g|png)(\?[0-9]+)?$ {
+        expires max;
+        log_not_found off;
+        access_log  off;
+    }
+
+    location / {
+        autoindex off;
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html/;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html/;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_intercept_errors on;
+        fastcgi_pass php-fpm;
+        fastcgi_index index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        /etc/nginx/fastcgi_params;
+        # include        fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny  all;
+    }
+    access_log /var/log/nginx/log/mysql.access.log;
+    error_log /var/log/nginx/log/mysql.error.log;
+}
+
+## end of settings for m.ac.eefocus.tech
+# -------------------------------------------------

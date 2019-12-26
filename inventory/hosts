@@ -33,6 +33,10 @@ bridge-00
 [zabbix:children]
 openldap_auth
 
+[rsyslog:children]
+openldap_auth
+
+
 
 [all:vars]
 ansible_connection=smart

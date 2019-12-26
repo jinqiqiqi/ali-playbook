@@ -22,9 +22,32 @@
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-  # when: nginx_configd_hosts
+  when: nginx_configd_hosts and inventory_hostname == 'sys-00'
   with_items:
     - { src: "custom_hosts.conf.j2", dest: "/etc/nginx/conf.d/custom_hosts.conf" }
+  tags:
+    - nginx
+  notify:
+    - restart nginx
+
+- name: Create directory for mysql admin backend
+  file:
+    path: "/usr/share/nginx/mysql/"
+    state: directory
+    recurse: "yes"
+    mode: "0755"
+  when: inventory_hostname == 'sys-00'
+  tags:
+    - nginx
+
+- name: Adding nginx config file for mysql admin backend.
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  when: inventory_hostname == 'sys-00'
+  with_items:
+    - { src: "mysql_admin.conf.j2", dest: "/etc/nginx/conf.d/mysql_admin.conf" }
+    - { src: "adminer-4.7.5-mysql-en.php", dest: "/usr/share/nginx/mysql/index.php" }
   tags:
     - nginx
   notify:
