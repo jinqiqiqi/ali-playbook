@@ -41,13 +41,22 @@
     - nginx
 
 - name: Adding nginx config file for mysql admin backend.
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  when: inventory_hostname == 'sys-00'
+  with_items:
+    - { src: "adminer-4.7.5-mysql-en.php", dest: "/usr/share/nginx/mysql/index.php" }
+  tags:
+    - nginx
+
+- name: Adding nginx config file for mysql admin backend.
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   when: inventory_hostname == 'sys-00'
   with_items:
     - { src: "mysql_admin.conf.j2", dest: "/etc/nginx/conf.d/mysql_admin.conf" }
-    - { src: "adminer-4.7.5-mysql-en.php", dest: "/usr/share/nginx/mysql/index.php" }
   tags:
     - nginx
   notify:
