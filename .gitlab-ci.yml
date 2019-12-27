@@ -19,9 +19,7 @@ before_script:
   - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
   - chmod 600  -Rf ~/.ssh
   - mv .ansible.cfg.a ~/.ansible.cfg
-  - cat ~/.ansible.cfg && ls -lha ~/
   - mv inventory ~/
-  # - cat ~/.ssh/id_rsa
 
 syntax_check:
   # <<: *default_tags
@@ -32,9 +30,35 @@ syntax_check:
   #   - master
   # when: manual
 
-playbooks:
+playbook_nginx:
   stage: install
   script:
     - ansible-playbook nginx.yml
-  
+
+
+playbook_dnsmasq:
+  stage: install
+  script:
+    - ansible-playbook dnsmasq.yml
+
+
+playbook_ocserv:
+  stage: install
+  script:
+    - ansible-playbook ocserv.yml
+
+playbook_openldap_auth:
+  stage: install
+  script:
+    - ansible-playbook openldap_auth.yml
+
+playbook_zabbix:
+  stage: install
+  script:
+    - ansible-playbook zabbix.yml
+
+# playbook_ocserv:
+#   stage: install
+#   script:
+#     - ansible-playbook ocserv.yml
   
