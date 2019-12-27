@@ -16,9 +16,11 @@ before_script:
   # - docker login -u ek -p ek "${CI_REGISTRY}"
   - mkdir -p ~/.ssh/eefocus/
   - echo "$SSH_PRIVATE_KEY" > ~/.ssh/eefocus/id_rsa.ali.git
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
   - chmod 600  -Rf ~/.ssh
-  - mv .ansible.cfg.a /root/.ansible.cfg
-  - mv inventory /root/
+  - mv .ansible.cfg.a ~/.ansible.cfg
+  - cat ~/.ansible.cfg && ls -lha ~/
+  - mv inventory ~/
   # - cat ~/.ssh/id_rsa
 
 syntax_check:
