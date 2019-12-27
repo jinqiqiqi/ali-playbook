@@ -1,6 +1,6 @@
 ---
 - name: "Playbook for localhost"
-  hosts: "{{ host_name }}"
+  hosts: localhost
   connection: local
   become_user: root
   become: yes
@@ -8,7 +8,8 @@
   # pre_tasks:
   #   - name: Pre Task => Update Yum
   #     dnf: name=* state=latest
-  roles: "{{ roles_list }}"
+  roles: 
+    - "{{ role_name }}"
   # post_tasks:
   #   - name: post tasks
   #     dnf: name=* state=latest
