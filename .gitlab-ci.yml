@@ -30,34 +30,34 @@ syntax_check:
   #   - master
   # when: manual
 
-playbook_nginx:
+nginx:
   stage: install
   script:
     - ansible-playbook nginx.yml
 
 
-playbook_dnsmasq:
+dnsmasq:
   stage: install
   script:
     - ansible-playbook dnsmasq.yml
 
 
-playbook_ocserv:
+ocserv:
   stage: install
   script:
     - ansible-playbook ocserv.yml
 
-playbook_openldap_auth:
+openldap_auth:
   stage: install
   script:
     - ansible-playbook openldap_auth.yml
 
-playbook_zabbix:
+zabbix:
   stage: install
   script:
     - ansible-playbook zabbix.yml
 
-# playbook_ocserv:
+# ocserv:
 #   stage: install
 #   script:
 #     - ansible-playbook ocserv.yml
