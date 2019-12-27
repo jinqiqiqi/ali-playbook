@@ -28,7 +28,6 @@ dnsmasq_dns_lines: [
         "l.{{ dnsmasq_dns_domain }}",
         "sys-00",
         "z.{{ dnsmasq_dns_domain }}",
-        "zabbix.{{ dnsmasq_dns_domain }}",
         "m.{{ dnsmasq_dns_domain }}",
     ]
   },
