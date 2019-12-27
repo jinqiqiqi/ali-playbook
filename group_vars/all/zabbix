@@ -36,6 +36,7 @@ zabbix_server_config_lines: [
 zabbix_nginx_config_lines: [
   {source: '^#        listen', dest: '        listen {{ zabbix_nginx_port }};'},
   {source: '#        server_name', dest: '        server_name {{ zabbix_nginx_domain }};'},
+  {source: '        server_name', dest: '        server_name {{ zabbix_nginx_domain }};'},
 ]
 
 zabbix_phpfpm_config_lines: [
