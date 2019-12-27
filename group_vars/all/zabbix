@@ -20,7 +20,7 @@ zabbix_db_password: "zabbix_password123"
 zabbix_db_root_password: "root_password"
 
 zabbix_nginx_port: "80"
-zabbix_nginx_domain: "zabbix.ac.eefocus.tech"
+zabbix_nginx_domain: "zabbix.ac.eefocus.tech z.ac.eefocus.tech"
 
 zabbix_server_config_lines: [
   {source: '^# DBHost=', dest: 'DBHost=localhost'},
