@@ -1,74 +1,14 @@
 ---
-- name: Playbook for bridge group
-  hosts: 
-    - bridge
+- name: "Playbook for {{ host }}, {{ roles }}"
+  hosts: "{{ host }}"
+  connection: local
   become_user: root
   become: yes
 
   # pre_tasks:
   #   - name: Pre Task => Update Yum
   #     dnf: name=* state=latest
-
-  roles:
-    - ocserv
-    - openldap_auth
-
-  # post_tasks:
-  #   - name: post tasks
-  #     dnf: name=* state=latest
-
-- name: "Playbook for jenkins server, jenkins and openldap_auth"
-  hosts: 
-    - jenkins
-  become_user: root
-  become: yes
-
-  # pre_tasks:
-  #   - name: Pre Task => Update Yum
-  #     dnf: name=* state=latest
-
-  roles:
-    - jenkins
-    - openldap_auth
-
-  # post_tasks:
-  #   - name: post tasks
-  #     dnf: name=* state=latest
-  
-- name: Playbook for sys group
-  hosts: 
-    - sys
-  become_user: root
-  become: yes
-
-  # pre_tasks:
-  #   - name: Pre Task => Update Yum
-  #     dnf: name=* state=latest
-
-  roles:
-    - openldap
-    - dnsmasq
-    - openldap_auth
-
-  # post_tasks:
-  #   - name: post tasks
-  #     dnf: name=* state=latest
-  
-
-- name: Playbook for nginx group
-  hosts: 
-    - nginx
-  become_user: root
-  become: yes
-
-  # pre_tasks:
-  #   - name: Pre Task => Update Yum
-  #     dnf: name=* state=latest
-
-  roles:
-    - nginx
-    - openldap_auth
-
+  roles: "{{ roles }}"
   # post_tasks:
   #   - name: post tasks
   #     dnf: name=* state=latest
