@@ -1,5 +1,5 @@
 ---
-- name: Playbook for openldap-auth role
+- name: Playbook for openldap_auth role
   hosts: 
     - openldap_auth
   become_user: root

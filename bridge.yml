@@ -11,13 +11,13 @@
 
   roles:
     - ocserv
-    - openldap-auth
+    - openldap_auth
 
   # post_tasks:
   #   - name: post tasks
   #     dnf: name=* state=latest
 
-- name: "Playbook for jenkins server, jenkins and openldap-auth"
+- name: "Playbook for jenkins server, jenkins and openldap_auth"
   hosts: 
     - jenkins
   become_user: root
@@ -29,7 +29,7 @@
 
   roles:
     - jenkins
-    - openldap-auth
+    - openldap_auth
 
   # post_tasks:
   #   - name: post tasks
@@ -48,7 +48,7 @@
   roles:
     - openldap
     - dnsmasq
-    - openldap-auth
+    - openldap_auth
 
   # post_tasks:
   #   - name: post tasks
@@ -67,7 +67,7 @@
 
   roles:
     - nginx
-    - openldap-auth
+    - openldap_auth
 
   # post_tasks:
   #   - name: post tasks
