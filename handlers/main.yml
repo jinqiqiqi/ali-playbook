@@ -17,6 +17,7 @@
     - "restart php-fpm"
     - "restart zabbix-agent"
     - "restart zabbix"
+    - "restart rsyslog"
 
 - name: "Send Mattermost notification"
   mattermost:
@@ -34,6 +35,7 @@
     - "restart php-fpm"
     - "restart zabbix-agent"
     - "restart zabbix"
+    - "restart rsyslog"
 
 # - name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
 #   lineinfile:

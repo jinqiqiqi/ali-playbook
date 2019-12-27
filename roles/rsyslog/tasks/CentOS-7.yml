@@ -42,6 +42,31 @@
   tags:
     - rsyslog
 
+# replaces lines in master hosts
+- name: Replace items in rsyslog master config files
+  lineinfile:
+    dest: "/etc/rsyslog.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ rsyslog_master_config_lines }}"
+  when: inventory_hostname == rsyslog_master
+  notify: restart rsyslog
+  tags:
+    - rsyslog
+
+# replaces lines in slave hosts
+- name: Replace items in rsyslog config config files
+  lineinfile:
+    dest: "/etc/rsyslog.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ rsyslog_slave_config_lines }}"
+  when: inventory_hostname != rsyslog_master
+  notify: restart rsyslog
+  tags:
+    - rsyslog
 # # start to install rsyslog.conf file.
 # - name: Update Rsyslog Config file.
 #   template:

@@ -3,3 +3,15 @@ rsyslog_iptables_allow_ports: [
 ]
 
 rsyslog_master: "sys-00"
+
+rsyslog_master_config_lines: [
+    {source: '^#\$ModLoad imtcp', dest: '\$ModLoad imtcp'},
+    {source: '^#\$InputTCPServerRun 514', dest: '\$InputTCPServerRun 514'}
+]
+
+
+rsyslog_slave_config_lines: [
+    {source: '^#*.* @@', dest: '*.* @@{{ rsyslog_master }}:514'},
+    {source: '^*.* @@', dest: '*.* @@{{ rsyslog_master }}:514'}
+]
+
