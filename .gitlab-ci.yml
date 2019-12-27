@@ -8,7 +8,7 @@ services:
     command: ["--insecure-registry=$CI_REGISTRY"]
 
 stages:
-  - prepare
+  # - prepare
   - install
   
 before_script:
@@ -21,11 +21,11 @@ before_script:
   - mv .ansible.cfg.a ~/.ansible.cfg
   - mv inventory ~/
 
-syntax_check:
-  # <<: *default_tags
-  stage: prepare
-  script:
-    - for job in `ls *.yml`; do ansible-playbook $job --syntax-check; done
+# syntax_check:
+#   # <<: *default_tags
+#   stage: prepare
+#   script:
+#     - for job in `ls *.yml`; do ansible-playbook $job --syntax-check; done
   # only:
   #   - master
   # when: manual
