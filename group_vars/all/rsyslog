@@ -11,7 +11,7 @@ rsyslog_master_config_lines: [
 
 
 rsyslog_slave_config_lines: [
-    {source: '^#*.* @@', dest: '*.* @@{{ rsyslog_master }}:514'},
-    {source: '^*.* @@', dest: '*.* @@{{ rsyslog_master }}:514'}
+    {source: '^#\*\.\* @@', dest: '*.* @@{{ rsyslog_master }}:514'},
+    {source: '^\*\.\* @@', dest: '*.* @@{{ rsyslog_master }}:514'}
 ]
 
