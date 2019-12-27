@@ -1,5 +1,5 @@
 ---
-- name: "Playbook for {{ host_name }}, {{ roles_list }}"
+- name: "Playbook for localhost"
   hosts: "{{ host_name }}"
   connection: local
   become_user: root
