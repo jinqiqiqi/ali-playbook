@@ -1,3 +1,5 @@
 rsyslog_iptables_allow_ports: [
     "514"
 ]
+
+rsyslog_master: "sys-00"

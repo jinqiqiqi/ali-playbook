@@ -38,6 +38,7 @@
     jump: ACCEPT
     action: insert
   loop: "{{ rsyslog_iptables_allow_ports }}"
+  when: inventory_hostname == rsyslog_master
   tags:
     - rsyslog
 
