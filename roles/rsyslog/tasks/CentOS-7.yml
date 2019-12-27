@@ -30,7 +30,7 @@
   tags:
     - rsyslog
 
-- name: Allow rsyslog related ports in INPUT chain
+- name: "Allow rsyslog related ports in INPUT chain"
   iptables:
     chain: INPUT
     protocol: tcp
@@ -55,7 +55,7 @@
 #     - rsyslog
 #     - copyshell
 #   notify:
-#     - restart rsyslog service
+#     - restart rsyslog
 
 # - name: Update Rsyslog Config files.
 #   template:
