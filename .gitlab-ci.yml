@@ -14,8 +14,8 @@ stages:
 before_script:
   # - docker login -u "${CI_REGISTRY_USER}" -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
   # - docker login -u ek -p ek "${CI_REGISTRY}"
-  - mkdir -p ~/.ssh/
-  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+  - mkdir -p ~/.ssh/eefocus/
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/eefocus/id_rsa.ali.git
   - chmod 600  -Rf ~/.ssh
   - mv .ansible.cfg.a /root/.ansible.cfg
   - mv inventory /root/
