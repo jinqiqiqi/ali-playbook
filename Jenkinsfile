@@ -1,6 +1,9 @@
 GITHUB_PROJECT=""
 pipeline {
-    agent  any 
+    agent  any
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: PT_BRANCH
+    }
     triggers {
         cron('0 */4 * * *')
     }
@@ -15,6 +18,7 @@ pipeline {
     stages {
         stage("start") {
             steps {
+                git branch: "${params.BRANCH}", url: 'https://github.com/jinqiqiqi/ali-playbook.git'
                 script {
                     last_running_stage = env.STAGE_NAME
                 }
