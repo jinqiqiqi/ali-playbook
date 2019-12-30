@@ -2,7 +2,7 @@ GITHUB_PROJECT=""
 pipeline {
     agent  any
     parameters {
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: PT_BRANCH
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
     }
     triggers {
         cron('0 */4 * * *')
