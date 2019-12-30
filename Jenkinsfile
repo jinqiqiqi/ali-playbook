@@ -16,9 +16,13 @@ pipeline {
         timestamps()
     }
     stages {
+        stage("repo") {
+            steps {
+                git branch: "${params.BRANCH}", url: 'https://github.com/jinqiqiqi/ali-playbook.git'
+            }
+        }
         stage("start") {
             steps {
-                // git branch: "${params.BRANCH}", url: 'https://github.com/jinqiqiqi/ali-playbook.git'
                 script {
                     last_running_stage = env.STAGE_NAME
                 }
