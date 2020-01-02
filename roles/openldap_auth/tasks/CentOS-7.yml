@@ -22,7 +22,7 @@
 - name: Update authconfig
   shell: authconfig --enableldap --enableldapauth  --enablemkhomedir --updateall --enableldap --disablemd5 --enableshadow --disableldaptls --enablesssd --enablesssdauth  --enablelocauthorize --ldapserver={{ ldap_server }} --ldapbasedn="{{ ldap_search_base }}"
   args:
-    chdir: /tmp/
+    chdir: /opt/
     creates: updated.authconfig.txt
   register: authconfig_out
   notify:
@@ -32,7 +32,7 @@
 
 - name: Create lock file if created successfully '{{ authconfig_out.changed }}'
   file:
-    path: "/tmp/updated.authconfig.txt"
+    path: "/opt/updated.authconfig.txt"
     state: touch
   tags:
     - openldap_auth
