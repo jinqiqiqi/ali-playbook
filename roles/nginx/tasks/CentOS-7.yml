@@ -60,7 +60,7 @@
     insertafter: "        include /etc/nginx/default.d/*.conf;"
     marker_begin: "# marker start stub_status"
     marker_end: "# marker end stub_status"
-    validate: nginx -t
+    validate: nginx -t -c %s
   notify:
     - restart nginx
   tags:
