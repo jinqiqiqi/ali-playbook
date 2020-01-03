@@ -62,6 +62,14 @@
   tags:
     - base
 
+- name: Change the motd file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "motd.j2", dest: "/etc/motd" }
+  tags:
+    - base
 
 - name: Settings to sysctl.conf
   sysctl:
@@ -78,6 +86,7 @@
   lineinfile:
     dest: "/etc/resolv.conf"
     regexp: '^nameserver'
+    insertbefore: "^; generated.*"
     line: 'nameserver    {{ ldap_ip_address }}'
     backrefs: "yes"
   when: inventory_hostname != 'master' and inventory_hostname != 'slave1' and inventory_hostname != 'slave2'
