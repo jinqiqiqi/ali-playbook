@@ -43,6 +43,7 @@ pipeline {
                 }
                 withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
                     sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client; chmod 600 ~/.ssh/eefocus/id_rsa.client"
+                    sh 'mv .ansible.cfg.d ~/.ansible.cfg'
                     ansiColor('xterm') {
                         ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'dnsmasq.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                         ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'jenkins.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
