@@ -3,6 +3,8 @@ sys-00 ansible_ssh_host=192.168.0.227
 bridge-00 ansible_ssh_host=192.168.0.226
 jenkins-00 ansible_ssh_host=192.168.0.229
 nginx-1 ansible_ssh_host=192.168.0.228
+cirmall-00 ansible_ssh_host=192.168.0.230
+gg-00 ansible_ssh_host=192.168.0.231
 
 [bridge]
 bridge-00
@@ -19,6 +21,8 @@ sys-00
 [nginx]
 nginx-1
 sys-00
+cirmall-00
+gg-00
 
 
 [ocserv]
@@ -29,6 +33,8 @@ sys-00
 nginx-1
 jenkins-00
 bridge-00
+cirmall-00
+gg-00
 
 [zabbix:children]
 openldap_auth
@@ -42,9 +48,10 @@ openldap_auth
 ansible_connection=smart
 ; ansible_ssh_host=127.0.0.1
 ansible_ssh_port=22
-ansible_ssh_user=git
+ansible_ssh_user=root
 ; ansible_ssh_private_key_file=~/.ssh/id_rsa
-ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.ali.git
+; ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.ali.git
+ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.client
 
 
 
