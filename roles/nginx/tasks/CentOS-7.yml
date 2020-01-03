@@ -50,6 +50,22 @@
   tags:
     - nginx
 
+- name: adding stub config for nginx
+  blockinfile:
+    dest: '/etc/nginx/nginx.conf'
+    block: |
+      location = /basic_status {
+          stub_status;
+      }
+    insertafter: "^\s+include /etc/nginx/default.d/*.conf;"
+    marker_begin: "# marker start stub_status"
+    marker_end: "# marker end stub_status"
+    validate: nginx -t
+  notify:
+    - restart nginx
+  tags:
+    - nginx
+
 - name: Adding nginx config file for mysql admin backend.
   template:
     src: "{{ item.src }}"
