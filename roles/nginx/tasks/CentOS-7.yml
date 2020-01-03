@@ -57,7 +57,7 @@
       location = /basic_status {
           stub_status;
       }
-    insertafter: "^\s+include /etc/nginx/default.d/*.conf;"
+    insertafter: "        include /etc/nginx/default.d/*.conf;"
     marker_begin: "# marker start stub_status"
     marker_end: "# marker end stub_status"
     validate: nginx -t
