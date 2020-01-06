@@ -1,5 +1,5 @@
 [defaults]
-inventory=./inventory
+inventory=./inventory/hosts
 remote_user=root
 host_key_checking=False
 forks=30
