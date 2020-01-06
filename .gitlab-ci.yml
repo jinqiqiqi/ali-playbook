@@ -36,7 +36,7 @@ before_script:
 nginx:
   stage: install
   script:
-    - ansible-playbook build-dev.yml -e addition="\"$CI_JOB_URL\""
+    - ansible-playbook build-env.yml -e addition="\"$CI_JOB_URL\""
 
 
 # dnsmasq:
