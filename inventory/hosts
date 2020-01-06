@@ -9,24 +9,23 @@ gg-00 ansible_ssh_host=192.168.0.231
 [bridge]
 bridge-00
 
+[ocserv]
+bridge-00
+
 [dnsmasq]
+sys-00
+
+[sys]
 sys-00
 
 [jenkins]
 jenkins-00
-
-[sys]
-sys-00
 
 [nginx]
 nginx-1
 sys-00
 cirmall-00
 gg-00
-
-
-[ocserv]
-bridge-00
 
 [openldap_auth]
 sys-00
@@ -41,7 +40,6 @@ openldap_auth
 
 [rsyslog:children]
 openldap_auth
-
 
 
 [all:vars]
