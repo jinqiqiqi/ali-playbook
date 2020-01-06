@@ -50,31 +50,6 @@
   #       - noti
 
 
-- name: "Playbook for sys group"
-  hosts: 
-    - sys
-  become_user: root
-  become: yes
-
-  # pre_tasks:
-  #   - name: Pre Task => Update Yum
-  #     dnf: name=* state=latest
-
-  roles:
-    - sys
-
-  # post_tasks:
-  #   - name: Successfully finished
-  #     mattermost:
-  #       url: http://218.4.226.238:8065
-  #       api_key: yosqbqtpkp818cax6kzh89ctyr
-  #       text: "hhhiiixxxx"
-  #       username: "testing.yml"
-  #       channel: "bashme"
-  #     tags:
-  #       - noti
-
-
 - name: "Playbook for jenkins group"
   hosts: 
     - jenkins
