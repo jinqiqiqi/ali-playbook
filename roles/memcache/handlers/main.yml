@@ -1,8 +1,6 @@
 ---
 # handlers file for roles/memcache
 
-
-
 - name: restart memcached
   systemd: 
     name=memcached 

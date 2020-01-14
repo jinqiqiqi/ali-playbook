@@ -46,7 +46,8 @@
     dest: "{{ item.dest }}"
   when: inventory_hostname == 'sys-00'
   with_items:
-    - { src: "adminer-4.7.5-mysql-en.php", dest: "/usr/share/nginx/mysql/index.php" }
+    # - { src: "adminer-4.7.5-mysql-en.php", dest: "/usr/share/nginx/mysql/index.php" }
+    - { src: "adminer-4.7.5.php", dest: "/usr/share/nginx/mysql/index.php" }
   tags:
     - nginx
 

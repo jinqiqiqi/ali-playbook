@@ -1,12 +1,14 @@
 ---
 # tasks file for roles/nodejs
 
-# - name: Install nodejs
-#   package: name="{{ item }}" state=present
-#   loop:
-#     - nodejs
-#   tags:
-#     - nodejs
+- name: Install ruby
+  package: name="{{ item }}" state=present
+  loop:
+    - ruby
+    - ruby-devel
+    - git
+  tags:
+    - nodejs
 
 # - name: Download NVM installation file.
 #   get_url:
@@ -51,9 +53,9 @@
 
 - name: "Install pm2"
   shell: >
-    source /etc/profile && npm install pm2
+    source /etc/profile && npm install -g pm2
   args:
-    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/{{ nodejs_version}}/lib/node_modules/npm"
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/{{ nodejs_version}}/lib/node_modules/npmx"
   become: true
   become_user: "{{ nodejs_user }}"
   tags:

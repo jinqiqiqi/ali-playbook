@@ -1,5 +1,4 @@
 ---
-- include: ../../../handlers/main.yml
 
 # tasks file for memcached
 

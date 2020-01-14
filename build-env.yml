@@ -1,6 +1,6 @@
 ---
 
-- name: "Playbook for base role"
+- name: Playbook for base role
   hosts: 
     - all
   become_user: root
@@ -9,13 +9,36 @@
   # pre_tasks:
   #   - name: Pre Task => Update Yum
   #     dnf: name=* state=latest
-  block:
-    - include_role:
-      name:
-        - base
-    - fail:
-      msg: "I've gone and failed the play!"
+  
+  tasks:
+  - name: Roles for all servers
+    block:
+      # - name: Include roles
+      #   include_role: 
+      #     name: base
+      - name: force faliure
+        command: /bin/false
+    rescue:
+      - include_role:
+        name: slack_handler
+        tasks_fram: failure
+      - debug:
+          msg: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
 
+    # - rescure:
+    #   - debug:
+    #     msg: 'hihi'
+    # block:
+    #   - include_role:
+    #     name:
+    #       - base
+    #   - fail:
+    #     msg: "I've gone and failed the play!"
+#   roles:
+#     - base
+
+# - fail:
+#   msg: "I've gone and failed the play!"
   # post_tasks:
   #   - name: Successfully finished
   #     mattermost:

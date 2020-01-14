@@ -1,10 +1,11 @@
 
-sys-00 ansible_ssh_host=192.168.0.227
 bridge-00 ansible_ssh_host=192.168.0.226
-jenkins-00 ansible_ssh_host=192.168.0.229
+sys-00 ansible_ssh_host=192.168.0.227
 nginx-1 ansible_ssh_host=192.168.0.228
+jenkins-00 ansible_ssh_host=192.168.0.229
 cirmall-00 ansible_ssh_host=192.168.0.230
 gg-00 ansible_ssh_host=192.168.0.231
+cache-00 ansible_ssh_host=192.168.0.232
 
 [bridge]
 bridge-00
@@ -14,6 +15,9 @@ bridge-00
 
 [dnsmasq]
 sys-00
+
+[nodejs]
+cirmall-00
 
 [sys]
 sys-00
@@ -33,6 +37,15 @@ nginx-1
 jenkins-00
 bridge-00
 cirmall-00
+gg-00
+cache-00
+
+[cache]
+redis
+memcache
+rabbitmq
+
+[php7-remi]
 gg-00
 
 [zabbix:children]

@@ -1,21 +1,21 @@
 ---
 # tasks file for roles/php7
-- name: "Create {{ fpm_group }} for php7"
-  group:
-    name: "{{ fpm_group }}"
-    state: present
-  tags:
-    - php7-remi
+# - name: "Create {{ fpm_group }} for php7"
+#   group:
+#     name: "{{ fpm_group }}"
+#     state: present
+#   tags:
+#     - php7-remi
 
-- name: "Create {{ fpm_user }} for php7"
-  user:
-    name: "{{ fpm_user }}"
-    comment: "php user"
-    create_home: no
-    state: present
-    group: "{{ fpm_group }}"
-  tags:
-    - php7-remi
+# - name: "Create {{ fpm_user }} for php7"
+#   user:
+#     name: "{{ fpm_user }}"
+#     comment: "php user"
+#     create_home: no
+#     state: present
+#     group: "{{ fpm_group }}"
+#   tags:
+#     - php7-remi
 
 
 - name: "Adding remi repositories"

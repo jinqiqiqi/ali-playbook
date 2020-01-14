@@ -221,3 +221,16 @@
   tags:
     - zabbix
     - zabbix-agent
+
+- name: Change to use custom DNS
+  blockinfile:
+    path: "/etc/sysconfig/network-scripts/ifcfg-eth0"
+    block: |
+      DNS1=192.168.0.227
+      DNS2=8.8.4.4
+    marker: "# custom dns lines"
+  tags:
+    - zabbix
+  notify: restart network
+
+- name: 
