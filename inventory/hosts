@@ -41,9 +41,8 @@ gg-00
 cache-00
 
 [cache]
-redis
-memcache
-rabbitmq
+cache-00
+
 
 [php7-remi]
 gg-00

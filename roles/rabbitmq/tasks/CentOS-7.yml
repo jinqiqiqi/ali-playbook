@@ -38,12 +38,13 @@
   tags:
     - rabbitmq
 
-- name: remove default guest user
-  rabbitmq_user:
-    user: guest
-    state: absent
-  tags:
-    - rabbitmq
+# - name: remove default guest user
+#   rabbitmq_user:
+#     user: guest
+#     password: guest
+#     state: present
+#   tags:
+#     - rabbitmq
 
 
 
