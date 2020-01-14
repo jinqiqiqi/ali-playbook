@@ -9,6 +9,7 @@
   tags:
     - nginx
 
+
 - name: Start nginx service
   systemd:
     state: started
@@ -78,6 +79,32 @@
     - nginx
   notify:
     - restart nginx
+
+- name: Change user for nignx running user
+  lineinfile:
+    path: "/etc/nginx/nginx.conf"
+    regexp: "^user "
+    line: "user www devops;"
+    state: present
+  tags:
+    - nginx
+  notify:
+    - restart nginx
+
+- name: "Change the permission to www:group"
+  file:
+    path: "{{ item }}"
+    owner: www
+    group: devops
+    recurse: yes
+  loop:
+    - /var/lib/nginx
+    - /var/log/nginx
+  tags:
+    - nginx
+  notify:
+    - restart nginx
+
 
 - name: Allow nginx related ports in INPUT chain
   iptables:

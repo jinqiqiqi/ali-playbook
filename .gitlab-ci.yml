@@ -20,7 +20,7 @@ before_script:
   # - mv .ansible.cfg.a ~/.ansible.cfg
   - echo "$SSH_ROOT_PRIVATE_KEY" > ~/.ssh/id_rsa
   - echo "$SSH_ROOT_PRIVATE_KEY" > ~/.ssh/eefocus/id_rsa.client
-  - mv .ansible.cfg.d ~/.ansible.cfg
+  - mv -fv .ansible.cfg.d ~/.ansible.cfg
   - chmod 600  -Rf ~/.ssh
   - mv inventory ~/
 

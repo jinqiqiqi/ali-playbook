@@ -45,7 +45,9 @@ dnsmasq_dns_lines: [
     addr: "192.168.0.228",
     list: [
         "nginx-1.{{ dnsmasq_dns_domain }}",
-        "nginx-1"
+        "nginx-1",
+        "www.cirmall.com",
+        "basic.eefocus.com"
     ]
   },
   {
@@ -61,7 +63,7 @@ dnsmasq_dns_lines: [
     addr: "192.168.0.230",
     list: [
         "cirmall-00.{{ dnsmasq_dns_domain }}",
-        "cirmall-00"
+        "cirmall-00",
     ]
   },
   {
@@ -69,7 +71,9 @@ dnsmasq_dns_lines: [
     addr: "192.168.0.231",
     list: [
         "gg-00.{{ dnsmasq_dns_domain }}",
-        "gg-00"
+        "gg-00",
+        "sso.eefocus.com",
+        "account.eefocus.com"
     ]
   },
   {

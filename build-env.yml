@@ -19,9 +19,9 @@
       - name: force faliure
         command: /bin/false
     rescue:
-      - include_role:
-        name: slack_handler
-        tasks_fram: failure
+      # - include_role:
+      #   name: php5
+      #   tasks_fram: failure
       - debug:
           msg: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
 
