@@ -124,6 +124,14 @@ dnsmasq_dns_lines: [
         "cache-00"
     ]
   },
+  {
+    hostname: "moore8-00",
+    addr: "192.168.66.33",
+    list: [
+        "moore8-00.{{ dnsmasq_dns_domain }}",
+        "moore8-00"
+    ]
+  },
 
 ]
 

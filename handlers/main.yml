@@ -18,6 +18,7 @@
     - "restart zabbix-agent"
     - "restart zabbix"
     - "restart rsyslog"
+    - "restart network"
 
 - name: "Send Mattermost notification"
   mattermost:
@@ -36,6 +37,7 @@
     - "restart zabbix-agent"
     - "restart zabbix"
     - "restart rsyslog"
+    - "restart network"
 
 # - name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
 #   lineinfile:

@@ -1,6 +1,6 @@
 ---
 
-- include: ../../../handlers/main.yml
+# - include: ../../../handlers/main.yml
 
 # handlers file for roles/zabbix
 # 

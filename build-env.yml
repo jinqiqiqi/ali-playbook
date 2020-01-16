@@ -2,30 +2,38 @@
 
 - name: Playbook for base role
   hosts: 
-    - all
+    - common_group
   become_user: root
   become: yes
 
   handlers:
-    - include: ./handlers/main.yml role_name=dnsmasqqq
+    - include: ./handlers/main.yml
 
   # pre_tasks:
   #   - include_role: 
   #     name: base
-  
   tasks:
     - name: Roles for all servers
       block:
         - include_role: 
             name: base
-          tags:
-            - base-motd
-        # - name: force faliure
-        #   command: /bin/false
+        - include_role: 
+            name: rsyslog
+        - include_role: 
+            name: zabbix
       rescue:
         # - include_role:
         #   name: php5
         #   tasks_fram: failure
+        - name: Successfully finished
+          mattermost:
+            url: http://218.4.226.238:8065
+            api_key: yosqbqtpkp818cax6kzh89ctyr
+            text: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
+            username: "aliyun-playbooks"
+            channel: "#github-repo"
+          tags:
+            - noti
         - debug:
             msg: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
 

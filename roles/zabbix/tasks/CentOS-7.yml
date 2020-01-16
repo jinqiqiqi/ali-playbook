@@ -223,14 +223,18 @@
     - zabbix-agent
 
 - name: Change to use custom DNS
-  blockinfile:
-    path: "/etc/sysconfig/network-scripts/ifcfg-eth0"
-    block: |
-      DNS1=192.168.66.227
-      DNS2=8.8.4.4
-    marker: "# custom dns lines"
+  lineinfile:
+    dest: "/etc/sysconfig/network-scripts/ifcfg-eth0"
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    create: yes
+  with_items:
+    - { regexp: '^DNS1=', line: 'DNS1=192.168.66.227' }
+    - { regexp: '^DNS2=', line: 'DNS2=8.8.4.4' }
   tags:
     - zabbix
+    - zabbix-agent
+    - zabbix-network
   notify: restart network
 
 - name: Switch to user

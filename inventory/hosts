@@ -6,6 +6,7 @@ jenkins-00 ansible_ssh_host=192.168.66.229
 cirmall-00 ansible_ssh_host=192.168.66.230
 gg-00 ansible_ssh_host=192.168.66.231
 cache-00 ansible_ssh_host=192.168.66.232
+moore8-00 ansible_ssh_host=192.168.66.33
 
 [bridge]
 bridge-00
@@ -18,6 +19,7 @@ sys-00
 
 [nodejs]
 cirmall-00
+moore8-00
 
 [sys]
 sys-00
@@ -31,8 +33,21 @@ sys-00
 cirmall-00
 gg-00
 bridge-00
+moore8-00
 
-[openldap_auth]
+[cache]
+cache-00
+
+[php7_remi]
+gg-00
+
+[php5_remi]
+gg-00
+moore8-00
+
+
+; common roles group
+[common_group]
 sys-00
 nginx-1
 jenkins-00
@@ -40,29 +55,27 @@ bridge-00
 cirmall-00
 gg-00
 cache-00
+moore8-00
 
-[cache]
-cache-00
-
-
-[php7_remi]
-gg-00
+[openldap_auth:children]
+common_group
 
 [zabbix:children]
-openldap_auth
+common_group
 
 [rsyslog:children]
-openldap_auth
+common_group
 
 
 [all:vars]
 ansible_connection=smart
-; ansible_ssh_host=127.0.0.1
 ansible_ssh_port=22
 ansible_ssh_user=root
+ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.client
+
+; ansible_ssh_host=127.0.0.1
 ; ansible_ssh_private_key_file=~/.ssh/id_rsa
 ; ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.ali.git
-ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.client
 
 
 

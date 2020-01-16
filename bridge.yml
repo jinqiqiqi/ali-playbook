@@ -1,7 +1,9 @@
 ---
+
 - name: "Playbook for localhost"
-  hosts: "{{ host_name }}"
-  connection: local
+  hosts: 
+    - "{{ host_name }}"
+  # connection: local
   become_user: root
   become: yes
 

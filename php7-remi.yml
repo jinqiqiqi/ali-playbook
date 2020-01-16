@@ -1,7 +1,7 @@
 ---
 - name: Playbook for role php7_remi
   hosts: 
-    - php7_remi
+    - php5_remi
   become_user: root
   become: yes
 

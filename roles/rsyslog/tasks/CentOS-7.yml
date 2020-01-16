@@ -21,6 +21,7 @@
     # - rsyslog-mysql
   tags:
     - rsyslog
+  notify: restart rsyslog
 
 - name: "Start rsyslog service"
   systemd:
