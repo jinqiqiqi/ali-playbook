@@ -6,3 +6,4 @@
     - zabbix
     - zabbix-db
     - zabbix-agent
+    - zabbix-network

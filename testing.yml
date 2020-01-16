@@ -1,16 +1,21 @@
 ---
 - name: "Playbook testing for {{ host }}"
   hosts: 
-    - virtualbox
+    - rsyslog
   become_user: root
   become: yes
+  handlers:
+    - include: ./handlers/main.yml
+  vars:
+    - 
 
   # pre_tasks:
   #   - name: Pre Task => Update Yum
   #     dnf: name=* state=latest
 
   roles:
-    - zabbix
+    - { role: dnsmasq, role_name: dnsmasqxx, when: inventory_hostname == 'sys-00' }
+    - { role: rsyslog, role_name: rsyslogxx, when: inventory_hostname == 'sys-00' }
 
   # post_tasks:
   #   - name: Successfully finished
@@ -20,17 +25,5 @@
   #       text: "hhhiiixxxx"
   #       username: "testing.yml"
   #       channel: "bashme"
-  #     tags:
-  #       - noti
-
-  # post_tasks:
-  #   - name: Successfully finished
-  #     slack:
-  #       token: "TD91LBXBM/BDAF3HP38/XIrbT3A1jVhRGJST1V3DcKtr"
-  #       channel: "rsyslog"
-  #       msg: "Failed in msg field @Xiaoshi <@UFMESDLQ4> <@>"
-  #       attachments:
-  #         - text: hi failed.
-  #           color: "#FF0000"
   #     tags:
   #       - noti

@@ -1,21 +1,21 @@
 ---
 # tasks file for roles/php5
-- name: "Create {{ fpm_group }} for php5"
-  group:
-    name: "{{ fpm_group }}"
-    state: present
-  tags:
-    - php5-remi
+# - name: "Create {{ fpm_group }} for php5"
+#   group:
+#     name: "{{ fpm_group }}"
+#     state: present
+#   tags:
+#     - php5_remi
 
-- name: "Create {{ fpm_user }} for php5"
-  user:
-    name: "{{ fpm_user }}"
-    comment: "php user"
-    create_home: no
-    state: present
-    group: "{{ fpm_group }}"
-  tags:
-    - php5-remi
+# - name: "Create {{ fpm_user }} for php5"
+#   user:
+#     name: "{{ fpm_user }}"
+#     comment: "php user"
+#     create_home: no
+#     state: present
+#     group: "{{ fpm_group }}"
+#   tags:
+#     - php5_remi
 
 
 - name: "Adding remi repositories"
@@ -25,7 +25,7 @@
     owner: root
     group: root
   tags:
-    - php5-remi
+    - php5_remi
   with_items:
     - { src: php-remi.repo, dest: /etc/yum.repos.d/php-remi.repo }
 
@@ -53,7 +53,7 @@
     - php56-php-xmlrpc
     - php56-php-cli
   tags:
-    - php5-remi
+    - php5_remi
 
 - name: "Start php56-php-fpm service"
   systemd:
@@ -61,7 +61,7 @@
     state: started
     enabled: yes
   tags:
-    - php5-remi
+    - php5_remi
 
 - name: Changes to the php.ini settings.
   lineinfile:
@@ -71,7 +71,7 @@
     backrefs: yes
   with_items: "{{ php5_remi_ini_config_lines }}"
   tags:
-    - php5-remi
+    - php5_remi
   notify: restart php56-php-fpm
 
 - name: Changes to the php-fpm.conf file.
@@ -81,6 +81,7 @@
     line: '{{ item.dest }}'
     backrefs: yes
   with_items: "{{ php5_remi_fpm_config_lines }}"
+  ignore_errors: yes
   tags:
-    - php5-remi
+    - php5_remi
   notify: restart php56-php-fpm

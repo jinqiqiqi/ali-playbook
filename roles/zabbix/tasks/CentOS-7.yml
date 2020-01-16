@@ -226,11 +226,34 @@
   blockinfile:
     path: "/etc/sysconfig/network-scripts/ifcfg-eth0"
     block: |
-      DNS1=192.168.0.227
+      DNS1=192.168.66.227
       DNS2=8.8.4.4
     marker: "# custom dns lines"
   tags:
     - zabbix
   notify: restart network
 
-- name: 
+- name: Switch to user
+  command: hostname
+  become_user: "{{ item.user }}"
+  args:
+    creates: /home/{{ item.user }}/.bash_profile
+  when: inventory_hostname != "bridge-00"
+  register: www_command
+  loop: "{{ zabbix_user_ssh_keys }}"
+  tags:
+    - zabbix
+    - zabbix-network
+  
+
+- name: Add private key for www user
+  authorized_key:
+    user: "{{ item.user }}"
+    state: present
+    key: "{{ item.key }}"
+  when: inventory_hostname != "bridge-00"
+  loop: "{{ zabbix_user_ssh_keys }}"
+  tags:
+    - zabbix
+    - zabbix-network
+  

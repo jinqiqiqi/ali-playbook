@@ -1,6 +1,6 @@
 ---
-# handlers file for roles/php5-remi
-- include: ../../../handlers/main.yml
+# handlers file for roles/php5_remi
+# - include: ../../../handlers/main.yml
 
 - name: restart php56-php-fpm
   systemd:

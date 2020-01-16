@@ -91,7 +91,7 @@
   notify:
     - restart nginx
 
-- name: "Change the permission to www:group"
+- name: "Change the permission to www:devops"
   file:
     path: "{{ item }}"
     owner: www

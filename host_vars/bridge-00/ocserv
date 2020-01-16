@@ -10,7 +10,7 @@ certificates_path: /opt/ocserv/certificates
 
 ip_range: 10.10.10.0/24
 ip_interface: eth0
-dns_server: 192.168.0.227
+dns_server: 192.168.66.227
 
 auth_ldap: "ldap://{{ nginx_ldap_host }}"
 auth_base: "ou=users,dc=eefocus,dc=tech"
@@ -63,16 +63,16 @@ ocserv_config: [
     { src: '^#ipv4-netmask\s=\s', target: 'ipv4-netmask = 255.255.255.0' },
     { src: '^#dns\s=\s', target: "dns = {{ dns_server }}" },
     { src: '^dns\s=\s', target: "dns = {{ dns_server }}" },
-    { src: '^#route\s=\s', target: "route = 192.168.0.0/255.255.0.0" },
+    { src: '^#route\s=\s', target: "route = 192.168.66.0/255.255.255.0" },
     { src: '^#tunnel-all-dns\s=\s', target: "tunnel-all-dns = true" },
     { src: '^#banner\s=\s', target: "banner = \"{{ welcome_banner }}\"" },
-    { src: '^default-domain\s=\sexample\.com', target: "default-domain = {{ dns_server }}" },
+    { src: '^default-domain\s=', target: "default-domain = {{ dns_server }}" },
     { src: '^try-mtu-discovery\s=\s', target: 'try-mtu-discovery = true' }
 ]
 
 
 oc_config_routes: [
-    'route = 192.168.0.0/255.255.0.0',
+    'route = 192.168.66.0/255.255.255.0',
 ]
 
 

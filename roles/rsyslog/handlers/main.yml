@@ -1,6 +1,6 @@
 ---
 # handlers file for roles/rsyslog
-- include: ../../../handlers/main.yml
+# - import_tasks: ../../../handlers/main.yml
 
 - name: restart rsyslog
   service:

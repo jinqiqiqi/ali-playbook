@@ -1,6 +1,10 @@
 ---
 # handlers file for roles/dnsmasq
-- include: ../../../handlers/main.yml
-
+# - import_tasks: ../../../handlers/main.yml
+#   static: yes
+  
 - name: restart dnsmasq
-  service: name=dnsmasq state=restarted enabled=yes
+  service: 
+    name: dnsmasq 
+    state: restarted
+    enabled: yes

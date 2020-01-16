@@ -1,7 +1,7 @@
 ---
 # handlers file for roles/openlda-auth
 
-- include: ../../../handlers/main.yml
+# - include: ../../../handlers/main.yml
 
 - name: restart sssd
   service: 

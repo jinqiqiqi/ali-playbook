@@ -5,7 +5,7 @@
 #     name: "{{ fpm_group }}"
 #     state: present
 #   tags:
-#     - php7-remi
+#     - php7_remi
 
 # - name: "Create {{ fpm_user }} for php7"
 #   user:
@@ -15,7 +15,7 @@
 #     state: present
 #     group: "{{ fpm_group }}"
 #   tags:
-#     - php7-remi
+#     - php7_remi
 
 
 - name: "Adding remi repositories"
@@ -25,7 +25,7 @@
     owner: root
     group: root
   tags:
-    - php7-remi
+    - php7_remi
   with_items:
     - { src: php-remi.repo, dest: /etc/yum.repos.d/php-remi.repo }
 
@@ -53,7 +53,7 @@
     - php72-php-xmlrpc
     - php72-php-cli
   tags:
-    - php7-remi
+    - php7_remi
 
 - name: "Start php72-php-fpm service"
   systemd:
@@ -61,7 +61,7 @@
     state: started
     enabled: yes
   tags:
-    - php7-remi
+    - php7_remi
 
 - name: Changes to the php.ini settings.
   lineinfile:
@@ -71,7 +71,7 @@
     backrefs: yes
   with_items: "{{ php7_remi_ini_config_lines }}"
   tags:
-    - php7-remi
+    - php7_remi
   notify: restart php72-php-fpm
 
 - name: Changes to the php-fpm.conf file.
@@ -80,7 +80,8 @@
     regexp: '{{ item.source }}'
     line: '{{ item.dest }}'
     backrefs: yes
+  ignore_errors: yes
   with_items: "{{ php7_remi_fpm_config_lines }}"
   tags:
-    - php7-remi
+    - php7_remi
   notify: restart php72-php-fpm

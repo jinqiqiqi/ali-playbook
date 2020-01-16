@@ -6,24 +6,28 @@
   become_user: root
   become: yes
 
+  handlers:
+    - include: ./handlers/main.yml role_name=dnsmasqqq
+
   # pre_tasks:
-  #   - name: Pre Task => Update Yum
-  #     dnf: name=* state=latest
+  #   - include_role: 
+  #     name: base
   
   tasks:
-  - name: Roles for all servers
-    block:
-      # - name: Include roles
-      #   include_role: 
-      #     name: base
-      - name: force faliure
-        command: /bin/false
-    rescue:
-      # - include_role:
-      #   name: php5
-      #   tasks_fram: failure
-      - debug:
-          msg: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
+    - name: Roles for all servers
+      block:
+        - include_role: 
+            name: base
+          tags:
+            - base-motd
+        # - name: force faliure
+        #   command: /bin/false
+      rescue:
+        # - include_role:
+        #   name: php5
+        #   tasks_fram: failure
+        - debug:
+            msg: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
 
     # - rescure:
     #   - debug:

@@ -1,7 +1,7 @@
 ---
 # handlers file for roles/nginx
 
-- include: ../../../handlers/main.yml
+# - include: ../../../handlers/main.yml
 
 - name: restart nginx
   service:

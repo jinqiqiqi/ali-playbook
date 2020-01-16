@@ -7,7 +7,7 @@ php5_remote_package: "http://mirrors.sohu.com/php/{{ php5_file_name }}.tar.gz"
 
 # specify the running user for php-fpm
 fpm_user: "www"
-fpm_group: "www"
+fpm_group: "devops"
 
 installation_dir: "/usr/local"
 src_code_dir: "{{ installation_dir }}/src"

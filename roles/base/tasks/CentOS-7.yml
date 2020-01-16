@@ -6,7 +6,9 @@
     state: disabled
 
 - name: Install / Enable EPEL repo for servers.
-  package: name={{ item }} state=present
+  package: 
+    name: "{{ item }}"
+    state: present
   loop:
     - epel-release
   tags:
@@ -70,6 +72,7 @@
     - { src: "motd.j2", dest: "/etc/motd" }
   tags:
     - base
+    - base-motd
 
 - name: Settings to sysctl.conf
   sysctl:
@@ -82,15 +85,53 @@
   tags:
     - base
   
-- name: "update dnsresolve in all group servers"
-  lineinfile:
-    dest: "/etc/resolv.conf"
-    regexp: '^nameserver'
-    insertbefore: "^; generated.*"
-    line: 'nameserver    {{ ldap_ip_address }}'
-    backrefs: "yes"
-  when: inventory_hostname != 'master' and inventory_hostname != 'slave1' and inventory_hostname != 'slave2'
+# - name: "update dnsresolve in all group servers"
+#   lineinfile:
+#     dest: "/etc/resolv.conf"
+#     regexp: '^nameserver'
+#     insertbefore: "^; generated.*"
+#     line: 'nameserver    {{ ldap_ip_address }}'
+#     backrefs: "yes"
+#   when: inventory_hostname != 'master' and inventory_hostname != 'slave1' and inventory_hostname != 'slave2'
+#   tags:
+#     - base
+
+- name: Create /data directory for server
+  file:
+    path: "/data/"
+    state: directory
   tags:
     - base
- 
+    - base-motd
+    
+- name: Adding nfs line to /etc/fstab file
+  lineinfile:
+    dest: "/etc/fstab"
+    regexp: '^337b949743-jsu49.cn-shanghai.nas.aliyuncs.com'
+    line: '337b949743-jsu49.cn-shanghai.nas.aliyuncs.com:/ /data/                  nfs vers=4,minorversion=0,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,noresvport 0 0'
+    create: yes
+  register: var_fstab
+  tags:
+    - base
+    - base-motd
+  
+- name: Adding SNAT for aliyun servers without public ip
+  iptables:
+    table: nat
+    action: insert
+    chain: POSTROUTING
+    source: "192.168.66.0/24"
+    to_source: "192.168.66.226"
+    jump: SNAT
+    comment: "snat settings"
+  when: inventory_hostname == 'bridge-00'
+  tags:
+    - base
+    - base-motd
 
+- name: Change the hostname step
+  hostname:
+    name: "{{ inventory_hostname }}"
+  tags:
+    - base
+    - base-motd

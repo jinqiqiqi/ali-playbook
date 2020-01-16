@@ -288,7 +288,7 @@ $servers->newServer('ldap_pla');
 
 /* A convenient name that will appear in the tree viewer and throughout
    phpLDAPadmin to identify this LDAP server to users. */
-$servers->setValue('server','name','LDAP server');
+$servers->setValue('server', 'name', 'LDAP server');
 
 /* Examples:
    'ldap.example.com',
@@ -385,7 +385,7 @@ $servers->setValue('server','tls',false);
 /* Default password hashing algorithm. One of md5, ssha, sha, md5crpyt, smd5,
    blowfish, crypt or leave blank for now default algorithm. */
 // $servers->setValue('appearance','password_hash','md5');
-$servers->setValue('appearance','password_hash','');
+$servers->setValue('appearance', 'password_hash' ,'');
 
 /* If you specified 'cookie' or 'session' as the auth_type above, you can
    optionally specify here an attribute to use when logging in. If you enter
@@ -398,7 +398,7 @@ $servers->setValue('appearance','password_hash','');
 // $servers->setValue('login','attr','uid');
 
 // ==
-$servers->setValue('login','attr','dn');
+$servers->setValue('login', 'attr', 'dn');
 // ==
 
 /* Base DNs to used for logins. If this value is not set, then the LDAP server
@@ -426,7 +426,7 @@ $servers->setValue('login','attr','dn');
 
 /* Specify false if you do not want phpLDAPadmin to draw the 'Create new' links
    in the tree viewer. */
-$servers->setValue('appearance','show_create',true);
+$servers->setValue('appearance', 'show_create', true);
 
 /* Set to true if you would like to initially open the first level of each tree. */
 // $servers->setValue('appearance','open_tree',false);
@@ -487,7 +487,7 @@ $servers->setValue('appearance','show_create',true);
 /* This is the time out value in minutes for the server. After as many minutes
    of inactivity you will be automatically logged out. If not set, the default
    value will be ( session_cache_expire()-1 ) */
- $servers->setValue('login','timeout',60);
+ $servers->setValue('login', 'timeout', 60);
 
 /* Set this if you want phpldapadmin to perform rename operation on entry which
    has children. Certain servers are known to allow it, certain are not. */
@@ -584,4 +584,3 @@ $servers->setValue('server','custom_sys_attrs',array('passwordExpirationTime','p
 $servers->setValue('server','custom_attrs',array('nsRoleDN','nsRole','nsAccountLock'));
 $servers->setValue('server','force_may',array('uidNumber','gidNumber','sambaSID'));
 */
-?>

@@ -1,6 +1,6 @@
 ---
-# tasks file for roles/php7-remi
+# tasks file for roles/php7_remi
 - name: "Try to including task file: {{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
   include_tasks: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
   tags:
-    - php7-remi
+    - php7_remi

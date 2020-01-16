@@ -19,7 +19,7 @@ dnsmasq_dns_domain: ".eefocus.tech"
 dnsmasq_dns_lines: [
   # {
   #   hostname: "sys-00",
-  #   addr: "192.168.0.227",
+  #   addr: "192.168.66.227",
   #   list: [
   #       "sys-00.ac{{ dnsmasq_dns_domain }}",
   #       "ldap.ac{{ dnsmasq_dns_domain }}"

@@ -6,7 +6,7 @@ schema_path: /etc/openldap/schema
 
 
 # base definitions
-ldap_ip_address: 192.168.0.227
+ldap_ip_address: 192.168.66.227
 ldap_basedn: dc=eefocus,dc=tech
 ldap_auth: {
     server_uri: 'ldap://{{ ldap_ip_address }}:389',

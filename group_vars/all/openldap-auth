@@ -1,5 +1,5 @@
 
-ldap_server: "192.168.0.227"
+ldap_server: "192.168.66.227"
 ldap_usergroup: devops
 
 auth_ldap: "ldap://{{ ldap_server }}"

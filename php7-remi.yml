@@ -1,7 +1,7 @@
 ---
-- name: Playbook for role php7-remi
+- name: Playbook for role php7_remi
   hosts: 
-    - php7-remi
+    - php7_remi
   become_user: root
   become: yes
 
@@ -10,7 +10,8 @@
   #     dnf: name=* state=latest
 
   roles:
-    - php7-remi
+    # - php7_remi
+    - php5_remi
     - nginx
 
   # post_tasks:

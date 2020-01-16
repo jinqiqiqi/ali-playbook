@@ -1,11 +1,11 @@
 
-bridge-00 ansible_ssh_host=192.168.0.226
-sys-00 ansible_ssh_host=192.168.0.227
-nginx-1 ansible_ssh_host=192.168.0.228
-jenkins-00 ansible_ssh_host=192.168.0.229
-cirmall-00 ansible_ssh_host=192.168.0.230
-gg-00 ansible_ssh_host=192.168.0.231
-cache-00 ansible_ssh_host=192.168.0.232
+bridge-00 ansible_ssh_host=192.168.66.226
+sys-00 ansible_ssh_host=192.168.66.227
+nginx-1 ansible_ssh_host=192.168.66.228
+jenkins-00 ansible_ssh_host=192.168.66.229
+cirmall-00 ansible_ssh_host=192.168.66.230
+gg-00 ansible_ssh_host=192.168.66.231
+cache-00 ansible_ssh_host=192.168.66.232
 
 [bridge]
 bridge-00
@@ -30,6 +30,7 @@ nginx-1
 sys-00
 cirmall-00
 gg-00
+bridge-00
 
 [openldap_auth]
 sys-00
@@ -44,7 +45,7 @@ cache-00
 cache-00
 
 
-[php7-remi]
+[php7_remi]
 gg-00
 
 [zabbix:children]

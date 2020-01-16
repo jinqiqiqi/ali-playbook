@@ -4,7 +4,7 @@
 # 
 # define the zabbix master hostname
 zabbix_master: "sys-00"
-zabbix_agent_server: "192.168.0.227"
+zabbix_agent_server: "192.168.66.227"
 zabbix_agent_listen_port: 10050
 
 zabbix_slack_url: "https://hooks.slack.com/services/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"
@@ -65,4 +65,10 @@ zabbix_agentd_config_lines: [
   {source: '^# ListenPort=', dest: 'ListenPort={{ zabbix_agent_listen_port }}'},
   {source: '^ListenPort=', dest: 'ListenPort={{ zabbix_agent_listen_port }}'},
 
+]
+
+
+zabbix_user_ssh_keys: [
+  {user: 'www', key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEBPKbUhaeNKGAKJ+3hVEyFYpIM4o3KSRLaFFvHhYVOYJweHXslM54oLnSxPYmYhElDtbi36eMLf3DxApl51fqigzW61PTQL2Xl1zBCRcCYmIInm80yAYbS/Dck3mx0A0RN4xlmUaqxmbDORu6L238Pl9COmXWPxRSkHumvw9H6j6XB9e/4UtDpDr6DUMoCLODABqeOXotx7hwcDBRCEfSoZiUGCOXdun3J/aBgFA6CQ6zGT4KZ3Mq2mu/nKQjaa28ATiLg+mp9sL15L/lrMSlPjOSdHPav5yKqkFtrbEDQdLj6lhrCgjRv0V5aHsxlF1fNhOtiCunIL3wiA7WAnfB qq@focusEE.local" },
+  {user: 'syuan', key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDE6CSFONOD1YK4ZyAsH/Bku9qhpIJcSs9sJIzEoDBYVz4pD/AJ/VRdpt0l+t4OXgu3XWOByCTeM1LUqN12jCTnoJ+hudJZTqb1fJFnVLIs+llyvvPkVxt5CZn0tM6bs1R7AiA/z1wX7ltoUfGrFtPAdPFyBmNcLhL8JagFwgXgBw==" },
 ]
