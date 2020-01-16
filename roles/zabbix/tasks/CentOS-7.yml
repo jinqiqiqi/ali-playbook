@@ -228,9 +228,7 @@
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
     create: yes
-  with_items:
-    - { regexp: '^DNS1=', line: 'DNS1=192.168.66.227' }
-    - { regexp: '^DNS2=', line: 'DNS2=8.8.4.4' }
+  with_items: "{{ zabbix_dns_settings }}"
   tags:
     - zabbix
     - zabbix-agent

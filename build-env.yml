@@ -1,19 +1,19 @@
 ---
 
-- name: Playbook for base role
+- name: "Playbook for base role, named: common_service"
   hosts: 
     - common_group
   become_user: root
   become: yes
 
   handlers:
-    - include: ./handlers/main.yml
+    - include: ./handlers/main.yml role_name=common_service
 
   # pre_tasks:
   #   - include_role: 
   #     name: base
   tasks:
-    - name: Roles for all servers
+    - name: Roles for common services
       block:
         - include_role: 
             name: base
@@ -25,17 +25,9 @@
         # - include_role:
         #   name: php5
         #   tasks_fram: failure
-        - name: Successfully finished
-          mattermost:
-            url: http://218.4.226.238:8065
-            api_key: yosqbqtpkp818cax6kzh89ctyr
-            text: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
-            username: "aliyun-playbooks"
-            channel: "#github-repo"
-          tags:
-            - noti
-        - debug:
-            msg: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
+        - include: handlers/exception.yml role_name=common_service
+        # - debug:
+        #   msg: 'I caught an error, ansible_hostname: {{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}, ansible_failed_task.name: {{ ansible_failed_task.name }}, ansible_failed_result: {{ ansible_failed_task }}'
 
     # - rescure:
     #   - debug:

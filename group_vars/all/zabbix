@@ -67,6 +67,10 @@ zabbix_agentd_config_lines: [
 
 ]
 
+zabbix_dns_settings: [
+  { regexp: '^DNS1=', line: 'DNS1=192.168.66.227' },
+  { regexp: '^DNS2=', line: 'DNS2=8.8.8.8' }
+]
 
 zabbix_user_ssh_keys: [
   {user: 'www', key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEBPKbUhaeNKGAKJ+3hVEyFYpIM4o3KSRLaFFvHhYVOYJweHXslM54oLnSxPYmYhElDtbi36eMLf3DxApl51fqigzW61PTQL2Xl1zBCRcCYmIInm80yAYbS/Dck3mx0A0RN4xlmUaqxmbDORu6L238Pl9COmXWPxRSkHumvw9H6j6XB9e/4UtDpDr6DUMoCLODABqeOXotx7hwcDBRCEfSoZiUGCOXdun3J/aBgFA6CQ6zGT4KZ3Mq2mu/nKQjaa28ATiLg+mp9sL15L/lrMSlPjOSdHPav5yKqkFtrbEDQdLj6lhrCgjRv0V5aHsxlF1fNhOtiCunIL3wiA7WAnfB qq@focusEE.local" },
