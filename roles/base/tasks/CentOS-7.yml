@@ -25,7 +25,9 @@
     - base
     
 - name: Import the GPG keys for CentOS repositories.
-  rpm_key: state=present key={{ item }}
+  rpm_key: 
+    state: present
+    key: "{{ item }}"
   with_items:
     - /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
     - /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
@@ -38,7 +40,9 @@
 #     - base
 
 - name: Install basic tools and packages.
-  package: name="{{ item }}" state=present
+  package: 
+    name: "{{ item }}" 
+    state: present
   loop:
     - lsof
     - telnet

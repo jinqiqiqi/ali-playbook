@@ -2,7 +2,9 @@
 # tasks file for roles/nodejs
 
 - name: Install ruby
-  package: name="{{ item }}" state=present
+  package: 
+    name: "{{ item }}" 
+    state: present
   loop:
     - ruby
     - ruby-devel

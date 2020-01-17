@@ -3,16 +3,16 @@
 
 - name: Install rabbitmq Package
   package: 
-    name=rabbitmq-server 
-    state=latest
+    name: rabbitmq-server 
+    state: latest
   tags:
     - rabbitmq
 
 - name: Start rabbitmq service
   systemd: 
-    name=rabbitmq-server
-    state=started 
-    enabled=yes
+    name: rabbitmq-server
+    state: started 
+    enabled: yes
   tags:
     - rabbitmq
 

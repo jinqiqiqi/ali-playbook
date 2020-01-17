@@ -4,26 +4,26 @@
 
 - name: Install memcached Package
   package: 
-    name=memcached 
-    state=latest
+    name: memcached 
+    state: latest
   tags:
     - memcached
 
 - name: Start memcached service
   systemd: 
-    name=memcached 
-    state=started 
-    enabled=yes
+    name: memcached 
+    state: started 
+    enabled: yes
   tags:
     - memcached
 
   # command: sed -e 's/bind 127.0.0.1/bind 0.0.0.0/' -i /etc/memcached.conf
 - name: Change bind from 127.0.0.1 to 0.0.0.0
   lineinfile: 
-    dest=/etc/sysconfig/memcached
-    regexp='{{ item.regexp }}'
-    line='{{ item.line }}'
-    state=present
+    dest: /etc/sysconfig/memcached
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: present
   with_items: "{{ memcahced_config }}"
   tags:
     - memcached

@@ -2,7 +2,8 @@
 
 - name: Install Sphinx dependencies
   package:
-    name="{{ item }}" state="present"
+    name: "{{ item }}" 
+    state: "present"
   loop:
     - automake
     - gcc

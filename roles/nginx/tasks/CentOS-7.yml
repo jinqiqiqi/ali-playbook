@@ -3,7 +3,9 @@
 
 
 - name: "Install nginx => {{ role_name }}"
-  package: name="{{ item }}" state=present
+  package: 
+    name: "{{ item }}" 
+    state: present
   loop:
     - nginx
   tags:

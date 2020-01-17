@@ -1,7 +1,9 @@
 ---
 
 - name: Install Ocserv packages
-  yum: name={{ item }} state=present
+  yum: 
+    name: "{{ item }}" 
+    state: present
   loop:
     - ocserv
     - iptables-services

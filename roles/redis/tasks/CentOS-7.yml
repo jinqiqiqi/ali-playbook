@@ -3,26 +3,26 @@
 
 - name: Install Redis Package
   package: 
-    name=redis 
-    state=latest
+    name: redis 
+    state: latest
   tags:
     - redis
 
 - name: Start Redis service
   systemd: 
-    name=redis 
-    state=started 
-    enabled=yes
+    name: redis 
+    state: started 
+    enabled: yes
   tags:
     - redis
 
 - name: Change bind from 127.0.0.1 to 0.0.0.0
   # command: sed -e 's/bind 127.0.0.1/bind 0.0.0.0/' -i /etc/redis.conf
   lineinfile: 
-    dest=/etc/redis.conf
-    regexp='^bind '
-    line='bind 0.0.0.0'
-    state=present
+    dest: /etc/redis.conf
+    regexp: '^bind '
+    line: 'bind 0.0.0.0'
+    state: present
   tags:
     - redis
   notify:
