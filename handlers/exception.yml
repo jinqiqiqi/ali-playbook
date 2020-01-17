@@ -1,6 +1,14 @@
-- name: Exception Notification
+- name: "Exception Notification (slack)"
   slack:
     token: "TD91LBXBM/BFRTW9P54/SwzT2sC2UJPsSWj3NRKW1sl5"
     msg: 'I caught an error, ansible_hostname: {{ role_name }}@{{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}'
     username: "aliyun >>> {{ inventory_hostname }} ({{ ansible_eth0['ipv4']['address'] }})"
     channel: "#sync-nginx-conf"
+
+- name: "Exception Notification (mattermost)"
+  mattermost:
+    url: http://218.4.226.238:8065
+    api_key: yosqbqtpkp818cax6kzh89ctyr
+    text: 'I caught an error, ansible_hostname: {{ role_name }}@{{ ansible_hostname }}, inventory_hostname: {{ inventory_hostname }}'
+    username: "aliyun >>> {{ inventory_hostname }} ({{ ansible_eth0['ipv4']['address'] }})"
+    channel: "#bashme"

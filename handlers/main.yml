@@ -19,6 +19,16 @@
     - "restart zabbix"
     - "restart rsyslog"
     - "restart network"
+    - "restart ocserv"
+    - "restart mongodb"
+    - "restart nslcd"
+    - "restart nscd"
+    - "restart iptables"
+    - "restart php56-php-fpm"
+    - "restart php72-php-fpm"
+    - "restart rabbitmq"
+    - "restart redis"
+    - "restart sphinx_search"
 
 - name: "Send Mattermost notification"
   mattermost:
@@ -38,6 +48,17 @@
     - "restart zabbix"
     - "restart rsyslog"
     - "restart network"
+    - "restart ocserv"
+    - "restart mongodb"
+    - "restart nslcd"
+    - "restart nscd"
+    - "restart iptables"
+    - "restart php56-php-fpm"
+    - "restart php72-php-fpm"
+    - "restart rabbitmq"
+    - "restart redis"
+    - "restart sphinx_search"
+
 
 # - name: " -> update dnsresolve in all group servers {{ groups['all'] }}"
 #   lineinfile:
