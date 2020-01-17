@@ -8,7 +8,7 @@
   handlers:
     - include: ./handlers/main.yml role_name=sys_service
   tasks:
-    - name: Roles for ocserv service
+    - name: Roles for dnsmasq and openldap service
       block:
         - include_role: 
             name: dnsmasq
@@ -16,6 +16,8 @@
             name: openldap
       rescue:
         - include: handlers/exception.yml role_name=sys_service
+  tags:
+    - sys
 
 
 - name: "Playbook for base role, named: common_service"
@@ -43,6 +45,8 @@
             name: openldap_auth
       rescue:
         - include: handlers/exception.yml role_name=common_service
+  tags:
+    - common_group
 
 # - fail:
 #   msg: "I've gone and failed the play!"
@@ -62,6 +66,8 @@
             name: ocserv
       rescue:
         - include: handlers/exception.yml role_name=ocserv_service
+  tags:
+    - bridge
 
 
 - name: "Playbook for jenkins role, named: jenkins"
@@ -78,6 +84,8 @@
             name: jenkins
       rescue:
         - include: handlers/exception.yml role_name=jenkins_service
+  tags:
+    - jenkins
 
 
 - name: "Playbook for nginx role, named: nginx"
@@ -94,6 +102,8 @@
             name: nginx
       rescue:
         - include: handlers/exception.yml role_name=nginx_service
+  tags:
+    - nginx
 
 
 - name: "Playbook for cache role, named: cache"
@@ -114,6 +124,8 @@
             name: rabbitmq
       rescue:
         - include: handlers/exception.yml role_name=cache_service
+  tags:
+    - cache
 
 
 - name: "Playbook for nodejs role, named: nodejs"
@@ -130,6 +142,8 @@
             name: nodejs
       rescue:
         - include: handlers/exception.yml role_name=nodejs_service
+  tags:
+    - nodejs
 
 
 - name: "Playbook for php5_remi role, named: php5_remi"
@@ -146,6 +160,8 @@
             name: php5_remi
       rescue:
         - include: handlers/exception.yml role_name=php5_remi_service
+  tags:
+    - php5_remi
 
 
 - name: "Playbook for php7_remi role, named: php7_remi"
@@ -162,4 +178,6 @@
             name: php7_remi
       rescue:
         - include: handlers/exception.yml role_name=php7_remi_service
+  tags:
+    - php7_remi
 
