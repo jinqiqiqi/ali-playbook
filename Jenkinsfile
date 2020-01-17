@@ -5,7 +5,7 @@ pipeline {
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH_TAG', quickFilterEnabled: true, tagFilter: '*'
     }
     triggers {
-        cron('0 */4 * * *')
+        cron('0 */10 * * *')
     }
     environment {
         BUILD_USER = ''
@@ -44,11 +44,11 @@ pipeline {
                 withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
                     sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client; chmod 600 ~/.ssh/eefocus/id_rsa.client"
                     sh "cat ${GIT_K} | tee ~/.ssh/id_rsa; chmod 600 ~/.ssh/id_rsa"
-                    sh 'mv .ansible.cfg.d ~/.ansible.cfg'
+                    sh 'mv -fv .ansible.cfg.a ~/.ansible.cfg; cat ~/.ansible.cfg'
                     ansiColor('xterm') {
                         ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                     }
-                    sh "rm -f ~/.ssh/eefocus/id_rsa.client"
+                    sh "rm -rf ~/.ssh/eefocus/ ~/.ssh/id_rsa"
                 }
             }
         }
