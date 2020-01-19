@@ -37,7 +37,7 @@
   shell: >
     bash /opt/nvm_install.sh
   args:
-    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+    creates: "/home/{{ nodejs_user }}/.nvm/nvm.sh"
   become: true
   become_user: "{{ nodejs_user }}"
   tags:
@@ -47,7 +47,7 @@
   shell: >
     source /etc/profile && nvm install {{ nodejs_version }}
   args:
-    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/{{ nodejs_version}}/bin/node"
+    creates: "/home/{{ nodejs_user }}/.nvm/versions/node/{{ nodejs_version}}/bin/node"
   become: true
   become_user: "{{ nodejs_user }}"
   tags:
@@ -57,7 +57,7 @@
   shell: >
     source /etc/profile && npm install -g pm2
   args:
-    creates: "{{ ansible_env.HOME }}/.nvm/versions/node/{{ nodejs_version}}/lib/node_modules/npmx"
+    creates: "/home/{{ nodejs_user }}/.nvm/versions/node/{{ nodejs_version}}/lib/node_modules/npm/bin/npx"
   become: true
   become_user: "{{ nodejs_user }}"
   tags:

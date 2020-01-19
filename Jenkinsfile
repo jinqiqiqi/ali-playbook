@@ -26,7 +26,7 @@ pipeline {
                 script {
                     last_running_stage = env.STAGE_NAME
                 }
-                sh "mkdir -p ~/.ssh/eefocus/"
+                sh "chmod -Rvf 600 ~/.ssh/*; mkdir -p ~/.ssh/eefocus/"
                 withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
                     slackSend teamDomain: 'bigeworld',
                         channel: '#jenkins', 
@@ -43,13 +43,13 @@ pipeline {
                 }
                 withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
                     sh "cat ${GIT_K} | tee ~/.ssh/id_rsa;"
-                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client; chmod -Rf 600 ~/.ssh/"
+                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client;"
                     sh 'mv -fv .ansible.cfg.a ~/.ansible.cfg; cat ~/.ansible.cfg'
                     sh 'mv -fv inventory ~/; ls -l ~/'
                     ansiColor('xterm') {
-                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: '~/inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                     }
-                    sh "rm -rf ~/.ssh/eefocus/ ~/.ssh/id_rsa"
+                    sh "chmod -Rvf 600 ~/.ssh/*"
                 }
             }
         }

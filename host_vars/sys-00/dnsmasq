@@ -6,12 +6,18 @@ dnsmasq_iptables_allow_ports: [
 
 dnsmasq_config_lines: [
   { source: '^#port=', dest: 'port={{ dnsmasq_dns_port }}' },
+  { source: '^port=', dest: 'port={{ dnsmasq_dns_port }}' },
   { source: '^#resolv-file=', dest: 'resolv-file=/etc/resolv.dnsmasq.conf' },
+  { source: '^resolv-file=', dest: 'resolv-file=/etc/resolv.dnsmasq.conf' },
   { source: '^#strict-order', dest: 'strict-order' },
   { source: '^#listen-address=', dest: 'listen-address=0.0.0.0' },
+  { source: '^listen-address=', dest: 'listen-address=0.0.0.0' },
   { source: '^#local-ttl=', dest: 'local-ttl=3600' },
+  { source: '^local-ttl=', dest: 'local-ttl=7200' },
   { source: '^#log-queries', dest: 'log-queries' },
+  { source: '^log-queries', dest: 'log-queries' },
   { source: '^#interface=', dest: 'interface=eth0' },
+  { source: '^interface=', dest: 'interface=eth0' },
 ]
 
 dnsmasq_dns_domain: "ac.eefocus.tech"
