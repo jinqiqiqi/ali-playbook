@@ -42,9 +42,10 @@ pipeline {
                     last_running_stage = env.STAGE_NAME
                 }
                 withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
-                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client; chmod 600 ~/.ssh/eefocus/id_rsa.client"
-                    sh "cat ${GIT_K} | tee ~/.ssh/id_rsa; chmod 600 ~/.ssh/id_rsa"
+                    sh "cat ${GIT_K} | tee ~/.ssh/id_rsa;"
+                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client; chmod -Rf 600 ~/.ssh/"
                     sh 'mv -fv .ansible.cfg.a ~/.ansible.cfg; cat ~/.ansible.cfg'
+                    sh 'mv -fv inventory ~/; ls -l ~/'
                     ansiColor('xterm') {
                         ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                     }
