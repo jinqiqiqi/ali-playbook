@@ -6,8 +6,6 @@
   become: yes
   handlers:
     - include: ./handlers/main.yml
-  vars:
-    - 
 
   # pre_tasks:
   #   - name: Pre Task => Update Yum

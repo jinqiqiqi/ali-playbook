@@ -18,50 +18,25 @@ before_script:
   # - echo "$SSH_PRIVATE_KEY" > ~/.ssh/eefocus/id_rsa.ali.git
   # - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
   # - mv .ansible.cfg.a ~/.ansible.cfg
-  - echo "$SSH_ROOT_PRIVATE_KEY" > ~/.ssh/id_rsa
-  - echo "$SSH_ROOT_PRIVATE_KEY" > ~/.ssh/eefocus/id_rsa.client
+  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/eefocus/id_rsa.client
   - mv -fv .ansible.cfg.d ~/.ansible.cfg
   - chmod 600  -Rf ~/.ssh
   - mv inventory ~/
 
-# syntax_check:
-#   # <<: *default_tags
-#   stage: prepare
-#   script:
-#     - for job in `ls *.yml`; do ansible-playbook $job --syntax-check; done
-  # only:
-  #   - master
+syntax_check:
+  # <<: *default_tags
+  stage: prepare
+  script:
+    - for job in `ls *.yml`; do ansible-playbook $job --syntax-check; done
+  only:
+    - master
   # when: manual
 
-nginx:
+build-env:
   stage: install
   script:
     - ansible-playbook build-env.yml -e addition="\"$CI_JOB_URL\""
+  only:
+    - master
+  # when: manual
 
-
-# dnsmasq:
-#   stage: install
-#   script:
-#     - ansible-playbook dnsmasq.yml -e addition="\"$CI_JOB_URL\""
-
-
-# ocserv:
-#   stage: install
-#   script:
-#     - ansible-playbook ocserv.yml -e addition="\"$CI_JOB_URL\""
-
-# openldap_auth:
-#   stage: install
-#   script:
-#     - ansible-playbook openldap_auth.yml -e addition="\"$CI_JOB_URL\""
-
-# zabbix:
-#   stage: install
-#   script:
-#     - ansible-playbook zabbix.yml -e addition="\"$CI_JOB_URL\""
-
-# rsyslog:
-#   stage: install
-#   script:
-#     - ansible-playbook rsyslog.yml -e addition="\"$CI_JOB_URL\""
-#   
