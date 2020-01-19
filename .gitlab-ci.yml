@@ -8,7 +8,7 @@ services:
     command: ["--insecure-registry=$CI_REGISTRY"]
 
 stages:
-  # - prepare
+  - prepare
   - install
   
 before_script:
@@ -32,7 +32,7 @@ syntax_check:
     - master
   # when: manual
 
-build-env:
+build_env:
   stage: install
   script:
     - ansible-playbook build-env.yml -e addition="\"$CI_JOB_URL\""
