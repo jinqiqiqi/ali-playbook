@@ -8,9 +8,9 @@ gathering=smart
 gather_facts=True
 fact_caching = jsonfile
 fact_caching_timeout = 3600
-fact_caching_connection = /tmp/ansible/facts/cache 
+fact_caching_connection = /tmp/ansible/facts/cache
 
 [ssh_connection]
 pipelining = True
-ssh_args=-o ForwardAgent=yes  -o ControlMaster=auto -o ControlPersist=60s
+ssh_args=-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s
 control_path = /tmp/ansible-ssh-%%h-%%p-%%r

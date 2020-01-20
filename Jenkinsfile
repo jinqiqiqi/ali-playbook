@@ -1,9 +1,10 @@
 
+
 pipeline {
     agent  any
     parameters {
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH_TAG', quickFilterEnabled: true, tagFilter: '*'
         string(name: "GITHUB_PROJECT", defaultValue: 'https://github.com/jinqiqiqi/ali-playbook.git', description: 'github code repository')
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH_TAG', quickFilterEnabled: true, tagFilter: '*'
     }
     triggers {
         cron('0 */10 * * *')
@@ -42,18 +43,18 @@ pipeline {
                 script {
                     last_running_stage = env.STAGE_NAME
                 }
-                withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
+                withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USER')]) {
                     sh "touch ~/.ssh/id_rsa"
                     sh "chmod 700 ~/.ssh/id_rsa;"
-                    sh "cat ${GIT_K} | tee ~/.ssh/id_rsa"
+                    sh "cat ${SSH_KEY_FILE} | tee ~/.ssh/id_rsa"
                     sh "chmod 600 ~/.ssh/id_rsa"
 
                     sh "touch ~/.ssh/eefocus/id_rsa.client"
                     sh "chmod 700 ~/.ssh/eefocus/id_rsa.client"
-                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client"
+                    sh "cat ${SSH_KEY_FILE} | tee ~/.ssh/eefocus/id_rsa.client"
                     sh "chmod 600 ~/.ssh/eefocus/id_rsa.client"
 
-                    sh 'mv -fv .ansible.cfg.a ~/.ansible.cfg; cat ~/.ansible.cfg'
+                    sh 'rm -fr ~/ansible.cfg; cp -fv ansible.cfg.direct ~/ansible.cfg; cat ~/.ansible.cfg'
                     sh 'ls -la ~/ ~/.ssh'
 
                     ansiColor('xterm') {
@@ -63,32 +64,6 @@ pipeline {
                 }
             }
         }
-        // stage('build_sys') {
-        //     steps {
-        //         script {
-        //             last_running_stage = env.STAGE_NAME
-        //         }
-
-        //         withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
-        //             sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client; chmod 600 ~/.ssh/eefocus/id_rsa.client"
-        //             ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'sys.yml'
-        //             sh "rm -f ~/.ssh/eefocus/id_rsa.client"
-        //         }
-        //     }
-        // }
-        // stage('build_jenkins') {
-        //     steps {
-        //         script {
-        //             last_running_stage = env.STAGE_NAME
-        //         }
-
-        //         withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
-        //             sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client; chmod 600 ~/.ssh/eefocus/id_rsa.client"
-        //             ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'jenkins.yml'
-        //             sh "rm -f ~/.ssh/eefocus/id_rsa.client"
-        //         }
-        //     }
-        // }
         // stage('build_nginx') {
         //     steps {
         //         script {
@@ -103,14 +78,6 @@ pipeline {
         //     }
         // }
 
-        stage('publish') {
-            steps {
-                script {
-                    last_running_stage = env.STAGE_NAME
-                }
-                sh 'date; pwd; hostname'
-            }
-        }
     }
     post {
         success {
@@ -125,23 +92,9 @@ pipeline {
         }
         failure {
             echo "Failure result. 2"
-            // withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-            //     slackSend teamDomain: 'bigeworld',
-            //         channel: '#jenkins', 
-            //         token: slackCredentials, 
-            //         color: 'danger',
-            //         message: "${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL}) has result (failure): ${currentBuild.currentResult}."
-            // }
         }
         changed {
             echo "Changed result. 3"
-            // withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-            //     slackSend teamDomain: 'bigeworld',
-            //         channel: '#jenkins', 
-            //         token: slackCredentials, 
-            //         color: 'danger',
-            //         message: "${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL}) has result (changed): ${currentBuild.currentResult}."
-            // }
         }
         always {
             echo "Always result. 4"
@@ -161,13 +114,6 @@ pipeline {
         }
         aborted {
             echo "Task aborted. 6"
-            // withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-            //     slackSend teamDomain: 'bigeworld',
-            //         channel: '#jenkins', 
-            //         token: slackCredentials, 
-            //         color: 'danger',
-            //         message: "${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL}) has result (aborted): ${currentBuild.currentResult}."
-            // }
         }
         unsuccessful {
             echo "Unsuccessful result. 7"
@@ -181,7 +127,6 @@ pipeline {
         }
         cleanup {
             echo "Cleanup result. 8"
-            // sh "rm -rf ~/.ssh/eefocus/*"
         }
     }
 }
