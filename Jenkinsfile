@@ -1,8 +1,9 @@
-GITHUB_PROJECT=""
+
 pipeline {
     agent  any
     parameters {
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH_TAG', quickFilterEnabled: true, tagFilter: '*'
+        string(name: "GITHUB_PROJECT", defaultValue: 'https://github.com/jinqiqiqi/ali-playbook.git', description: 'github code repository')
     }
     triggers {
         cron('0 */10 * * *')
@@ -18,7 +19,7 @@ pipeline {
     stages {
         stage("repo") {
             steps {
-                git branch: "${params.BRANCH}", url: 'https://github.com/jinqiqiqi/ali-playbook.git'
+                git branch: "${params.BRANCH}", url: "${params.GITHUB_PROJECT}"
             }
         }
         stage("start") {
@@ -26,7 +27,7 @@ pipeline {
                 script {
                     last_running_stage = env.STAGE_NAME
                 }
-                sh "chmod -Rvf 600 ~/.ssh/*; mkdir -p ~/.ssh/eefocus/"
+                sh "mkdir -p ~/.ssh/eefocus/"
                 withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
                     slackSend teamDomain: 'bigeworld',
                         channel: '#jenkins', 
@@ -42,14 +43,23 @@ pipeline {
                     last_running_stage = env.STAGE_NAME
                 }
                 withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
-                    sh "cat ${GIT_K} | tee ~/.ssh/id_rsa;"
-                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client;"
+                    sh "touch ~/.ssh/id_rsa"
+                    sh "chmod 700 ~/.ssh/id_rsa;"
+                    sh "cat ${GIT_K} | tee ~/.ssh/id_rsa"
+                    sh "chmod 600 ~/.ssh/id_rsa"
+
+                    sh "touch ~/.ssh/eefocus/id_rsa.client"
+                    sh "chmod 700 ~/.ssh/eefocus/id_rsa.client"
+                    sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client"
+                    sh "chmod 600 ~/.ssh/eefocus/id_rsa.client"
+
                     sh 'mv -fv .ansible.cfg.a ~/.ansible.cfg; cat ~/.ansible.cfg'
-                    sh 'mv -fv inventory ~/; ls -l ~/'
+                    sh 'ls -la ~/ ~/.ssh'
+
                     ansiColor('xterm') {
-                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: '~/inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                     }
-                    sh "chmod -Rvf 600 ~/.ssh/*"
+                    // sh "chmod -Rvf 600 ~/.ssh/*"
                 }
             }
         }
@@ -171,7 +181,7 @@ pipeline {
         }
         cleanup {
             echo "Cleanup result. 8"
-            sh "rm -rf ~/.ssh/eefocus/"
+            // sh "rm -rf ~/.ssh/eefocus/*"
         }
     }
 }
