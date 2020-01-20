@@ -19,8 +19,8 @@ before_script:
   # - echo "$SSH_PRIVATE_KEY" > ~/.ssh/eefocus/id_rsa.ali.git
   # - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
   # - mv .ansible.cfg.a ~/.ansible.cfg
-  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/id_rsa"
-  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/eefocus/id_rsa.client"
+  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/id_rsa
+  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/eefocus/id_rsa.client
   # - mv -fv .ansible.cfg.d ~/.ansible.cfg
   - chmod 600 -Rf ~/.ssh
 

@@ -7,7 +7,7 @@ pipeline {
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH_TAG', quickFilterEnabled: true, tagFilter: '*'
     }
     triggers {
-        cron('0 */10 * * *')
+        cron('0 23 * * *')
     }
     environment {
         BUILD_USER = ''
