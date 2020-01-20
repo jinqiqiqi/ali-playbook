@@ -10,6 +10,7 @@ services:
 stages:
   - prepare
   - install
+  - cleanup
   
 before_script:
   # - docker login -u "${CI_REGISTRY_USER}" -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
@@ -18,11 +19,10 @@ before_script:
   # - echo "$SSH_PRIVATE_KEY" > ~/.ssh/eefocus/id_rsa.ali.git
   # - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
   # - mv .ansible.cfg.a ~/.ansible.cfg
-  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/id_rsa
-  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/eefocus/id_rsa.client
-  - mv -fv .ansible.cfg.d ~/.ansible.cfg
+  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/id_rsa"
+  - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/eefocus/id_rsa.client"
+  # - mv -fv .ansible.cfg.d ~/.ansible.cfg
   - chmod 600 -Rf ~/.ssh
-  - mv inventory ~/
 
 # syntax_check:
 #   # <<: *default_tags
@@ -36,8 +36,13 @@ before_script:
 build_env:
   stage: install
   script:
-    - ansible-playbook build-env.yml -e addition="\"$CI_JOB_URL\""
+    - ansible-playbook -i inventory/hosts build-env.yml -e addition="\"$CI_JOB_URL\""
   only:
     - master
   # when: manual
+
+clean_up:
+  stage: cleanup
+  script:
+    - rm -fv ~/.ssh/eefocus/id_rsa.client ~/.ssh/id_rsa
 

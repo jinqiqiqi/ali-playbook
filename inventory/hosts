@@ -71,7 +71,7 @@ common_group
 ansible_connection=smart
 ansible_ssh_port=22
 ansible_ssh_user=root
-; ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.client
+ansible_ssh_private_key_file=~/.ssh/eefocus/id_rsa.client
 ; --private-key ~/.ssh/eefocus/id_rsa.client
 
 ; ansible_ssh_host=127.0.0.1
