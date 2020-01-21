@@ -22,7 +22,7 @@ before_script:
   - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/id_rsa
   - echo "$SSH_ROOT_PRIVATE_KEY" | tee ~/.ssh/eefocus/id_rsa.client
   # - mv -fv .ansible.cfg.d ~/.ansible.cfg
-  - chmod 600 -Rf ~/.ssh
+  - chmod 600 -Rv ~/.ssh/id_rsa ~/.ssh/eefocus/id_rsa.client
 
 # syntax_check:
 #   # <<: *default_tags
@@ -36,7 +36,7 @@ before_script:
 build_env:
   stage: install
   script:
-    - ansible-playbook -i inventory/hosts build-env.yml -e addition="\"$CI_JOB_URL\""
+    - ansible-playbook build-env.yml -e addition="\"$CI_JOB_URL\""
   only:
     - master
   # when: manual
