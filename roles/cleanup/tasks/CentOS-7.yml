@@ -1,0 +1,25 @@
+---
+# tasks file for roles/cleanup
+
+- name: Remove rpm lock files
+  file:
+    path: "{{ item }}"
+    state: absent
+    # recurse: yes
+  register: file_removed
+  with_items:
+    - /var/lib/rpm/.rpm.lock
+    - /var/lib/rpm/.dbenv.lock
+    - /var/lib/rpm/__db.001
+    - /var/lib/rpm/__db.002
+    - /var/lib/rpm/__db.003
+  tags:
+    - cleanup
+
+- name: Rebuild rpm database
+  command: /usr/bin/rpm --rebuilddb
+  when: file_removed.changed
+  tags:
+    - cleanup
+
+    

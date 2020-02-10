@@ -47,14 +47,18 @@ pipeline {
                     sh "touch ~/.ssh/id_rsa"
                     sh "chmod 700 ~/.ssh/id_rsa;"
                     sh "cat ${SSH_KEY_FILE} | tee ~/.ssh/id_rsa"
+                    sh "chmod 600 ~/.ssh/id_rsa"
 
                     sh "touch ~/.ssh/eefocus/id_rsa.client"
                     sh "chmod 700 ~/.ssh/eefocus/id_rsa.client"
                     sh "cat ${SSH_KEY_FILE} | tee ~/.ssh/eefocus/id_rsa.client"
-                    sh "chmod 600 ~/.ssh/eefocus/id_rsa.client ~/.ssh/id_rsa"
+                    sh "chmod 600 ~/.ssh/eefocus/id_rsa.client"
 
-                    sh 'rm -fr ansible.cfg'
+                    sh 'rm -fr ~/ansible.cfg ansible.cfg'
+                    sh 'cp -fv ansible.cfg.direct ~/ansible.cfg'
                     sh 'cp -fv ansible.cfg.direct ansible.cfg'
+                    sh 'cat ~/.ansible.cfg'
+                    sh 'ls -la ~/ ~/.ssh'
 
                     ansiColor('xterm') {
                         ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
@@ -63,20 +67,6 @@ pipeline {
                 }
             }
         }
-        // stage('build_nginx') {
-        //     steps {
-        //         script {
-        //             last_running_stage = env.STAGE_NAME
-        //         }
-
-        //         withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'GIT_K', usernameVariable: 'GIT_U')]) {
-        //             sh "cat ${GIT_K} | tee ~/.ssh/eefocus/id_rsa.client; chmod 600 ~/.ssh/eefocus/id_rsa.client"
-        //             ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'nginx.yml'
-        //             sh "rm -f ~/.ssh/eefocus/id_rsa.client"
-        //         }
-        //     }
-        // }
-
     }
     post {
         success {
@@ -97,8 +87,6 @@ pipeline {
         }
         always {
             echo "Always result. 4"
-            sh 'rm -fv ~/.ssh/id_rsa ~/.ssh/eefocus/id_rsa.client'
-            
             mail to: 'qi.jin@supplyframe.cn',
               subject: "${currentBuild.currentResult} of ${currentBuild.fullDisplayName} from [Jenkins-mailer@aliyun-eefocus]",
               body: "Result: \t${currentBuild.currentResult}\nJob Name: \t${env.JOB_NAME}\nBuild Number: \t#${env.BUILD_NUMBER}\nBuild URL: \t${env.BUILD_URL}\nBranch: \t${env.GIT_BRANCH} \nDuration: \t${currentBuild.durationString}\nChange Set:\t${currentBuild.changeSets}\nLast Stage: \t${last_running_stage}"
@@ -127,6 +115,9 @@ pipeline {
             }
         }
         cleanup {
+            ansiColor('xterm') {
+                ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'cleanup.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+            }
             echo "Cleanup result. 8"
         }
     }

@@ -1,0 +1,16 @@
+---
+
+- name: "Playbook for cleaning up hosts"
+  hosts: 
+    - "{{ host_name | default('all') }}"
+  become_user: root
+  become: yes
+
+  # pre_tasks:
+  #   - name: Pre Task => Update Yum
+  #     dnf: name=* state=latest
+  roles: 
+    - "{{ role_name | default('cleanup') }}"
+  # post_tasks:
+  #   - name: post tasks
+  #     dnf: name=* state=latest
