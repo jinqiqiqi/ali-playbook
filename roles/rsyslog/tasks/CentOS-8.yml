@@ -1,0 +1,133 @@
+---
+# tasks file for roles/rsyslog
+
+- name: "Adding Rsyslog and nginx-stable repositories"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+  tags:
+    - rsyslog
+  with_items:
+    - { src: rsyslog.repo, dest: /etc/yum.repos.d/rsyslog.repo }
+
+- name: "Install/Update Rsyslog to the latest stable version"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - rsyslog
+    # - rsyslog-mysql
+  tags:
+    - rsyslog
+  notify: restart rsyslog
+
+- name: "Start rsyslog service"
+  systemd:
+    name: rsyslog
+    state: started
+    enabled: yes
+  tags:
+    - rsyslog
+
+- name: "Allow rsyslog related ports in INPUT chain"
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  loop: "{{ rsyslog_iptables_allow_ports }}"
+  when: inventory_hostname == rsyslog_master
+  tags:
+    - rsyslog
+
+# replaces lines in master hosts
+- name: Replace items in rsyslog master config files
+  lineinfile:
+    dest: "/etc/rsyslog.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ rsyslog_master_config_lines }}"
+  when: inventory_hostname == rsyslog_master
+  notify: restart rsyslog
+  tags:
+    - rsyslog
+
+# replaces lines in slave hosts
+- name: Replace items in rsyslog config config files
+  lineinfile:
+    dest: "/etc/rsyslog.conf"
+    regexp: '{{ item.source }}'
+    line: '{{ item.dest }}'
+    backrefs: yes
+  with_items: "{{ rsyslog_slave_config_lines }}"
+  when: inventory_hostname != rsyslog_master
+  notify: restart rsyslog
+  tags:
+    - rsyslog
+# # start to install rsyslog.conf file.
+# - name: Update Rsyslog Config file.
+#   template:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     mode: "0644"
+#     group: "root"
+#     owner: "root"
+#   with_items:
+#     - {src: "rsyslog.conf.j2", dest: "/etc/rsyslog.conf"}
+#   tags:
+#     - rsyslog
+#     - copyshell
+#   notify:
+#     - restart rsyslog
+
+# - name: Update Rsyslog Config files.
+#   template:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     mode: "{{ item.mode }}"
+#     group: "root"
+#     owner: "root"
+#   with_items:
+#     - { src: "mysqlslow.log.rb", dest: "/opt/mysqlslow.log.rb", mode: "0644" }
+#     - { src: "nginx.error.rb", dest: "/opt/nginx.error.rb", mode: "0644" }
+#     - { src: "pm2.error.rb", dest: "/opt/pm2.error.rb", mode: "0644" }
+#     - { src: "notify.sh.j2", dest: "/opt/notify.sh", mode: "0755" }
+#     - { src: "notify.php.j2", dest: "/opt/notify.php", mode: "0755" }
+#     - { src: "stats.php.j2", dest: "/opt/stats.php", mode: "0755" }
+#   tags:
+#     - rsyslog
+#     - copyshell
+#   when: inventory_hostname == rsyslog_master
+#   notify:
+#     - restart rsyslog service
+
+# - name: Install or Update mariadb-server to latest stable version
+#   package:
+#     name: "{{ item }}"
+#     state: latest
+#   with_items:
+#     - rsyslog-mmnormalize
+#     # - mariadb-server
+#     # - mariadb
+#   tags:
+#     - rsyslog
+#   when: inventory_hostname == rsyslog_master
+#   notify:
+#     - start mariadb service
+
+# - name: Install or Update nginx to latest stable version for master server
+#   package:
+#     name: "{{ item }}"
+#     state: latest
+#   with_items:
+#     - nginx
+#   tags:
+#     - rsyslog
+#   when: inventory_hostname != rsyslog_master and rsyslog_testing == "True"
+#   notify:
+#     - start nginx service
+#     - restart nginx service

@@ -5,29 +5,14 @@
   selinux:
     state: disabled
 
-
-- name: Adding SNAT for aliyun servers without public ip
-  iptables:
-    table: nat
-    action: insert
-    chain: POSTROUTING
-    source: "192.168.88.0/24"
-    to_source: "192.168.88.88"
-    jump: SNAT
-    comment: "snat settings"
-  when: inventory_hostname == 'bridge-00'
-  tags:
-    - base
-    - base-motd
-
-- name: Install / Enable EPEL repo for servers.
-  package: 
-    name: "{{ item }}"
-    state: present
-  loop:
-    - epel-release
-  tags:
-    - base
+# - name: Install / Enable EPEL repo for servers.
+#   package: 
+#     name: "{{ item }}"
+#     state: present
+#   loop:
+#     - epel-release
+#   tags:
+#     - base
 
 # - name: Download and replace the CentOS-7.repo file.
 #   get_url:
@@ -44,15 +29,15 @@
 #     state: present
 #     key: "{{ item }}"
 #   with_items:
-#     - /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
-#     - /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+#     - /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+#     - /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-8
 #   tags:
 #     - base
 
-# - name: Update all packages on CentOS
-#   package: name="*" state=latest
-#   tags:
-#     - base
+- name: Update all packages on CentOS
+  package: name="*" state=latest
+  tags:
+    - base
 
 - name: Install basic tools and packages.
   package: 
@@ -63,13 +48,13 @@
     - telnet
     - vim
     - tree
-    - libselinux-python
+    - python3-libselinux
     - yum-utils
-    - python-pip
+    - python3-pip
     - bind-utils
     - iptables-services
     - nfs-utils
-    - pyOpenSSL
+    - python3-pyOpenSSL
   tags:
     - base
 
@@ -123,9 +108,20 @@
     - base
     - base-motd
     
+# - name: Adding nfs line to /etc/fstab file
+#   lineinfile:
+#     dest: "/etc/fstab"
+#     regexp: '^337b949743-jsu49.cn-shanghai.nas.aliyuncs.com'
+#     line: '337b949743-jsu49.cn-shanghai.nas.aliyuncs.com:/ /data/                  nfs vers=4,minorversion=0,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,noresvport 0 0'
+#     create: yes
+#   register: var_fstab
+#   tags:
+#     - base
+#     - base-motd
+
 - name: Mount /data/ partition
   mount:
-    src: 337b949743-yab25.cn-shanghai.nas.aliyuncs.com:/
+    src: 337b949743-jsu49.cn-shanghai.nas.aliyuncs.com:/
     fstype: nfs
     path: /data/
     opts: vers=4,minorversion=0,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,noresvport
@@ -135,6 +131,20 @@
     - base
     - base-motd
     
+- name: Adding SNAT for aliyun servers without public ip
+  iptables:
+    table: nat
+    action: insert
+    chain: POSTROUTING
+    source: "192.168.88.0/24"
+    to_source: "192.168.88.88"
+    jump: SNAT
+    comment: "snat settings"
+  when: inventory_hostname == 'bridge-00'
+  tags:
+    - base
+    - base-motd
+
 - name: Change the hostname step
   hostname:
     name: "{{ inventory_hostname }}"

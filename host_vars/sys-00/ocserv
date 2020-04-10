@@ -10,7 +10,9 @@ certificates_path: /opt/ocserv/certificates
 
 ip_range: 10.10.10.0/24
 ip_interface: eth0
-dns_server: 192.168.66.227
+dns_server: 192.168.88.90
+
+nginx_ldap_host: "192.168.88.90"
 
 auth_ldap: "ldap://{{ nginx_ldap_host }}"
 auth_base: "ou=users,dc=eefocus,dc=tech"

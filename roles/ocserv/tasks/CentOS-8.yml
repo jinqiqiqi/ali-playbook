@@ -1,0 +1,240 @@
+---
+
+- name: Install Ocserv packages
+  yum: 
+    name: "{{ item }}" 
+    state: present
+  loop:
+    - ocserv
+    - iptables-services
+    - gnutls-utils
+    - policycoreutils
+    - gperf
+    - bison
+    - dbus
+    - flex
+    - gmp
+    - libnl
+    - tcp_wrappers
+    - tcp_wrappers-libs
+    - texinfo
+    - trousers
+    - wget
+    - xz
+    - zlib
+    - authconfig
+    - openldap
+  tags:
+    - ocserv
+
+- name: Backup config file.
+  copy:
+    src: /etc/ocserv/ocserv.conf
+    dest: /etc/ocserv/ocserv.conf.orig
+    remote_src: yes
+    force: false
+  when: not "/etc/ocserv/ocserv.conf.orig"
+  tags:
+    - ocserv
+    - config
+
+# - name: default policy for INPUT
+#   iptables:
+#     # chain: INPUT
+#     # policy: ACCEPT
+#     flush: yes
+#   tags:
+#     - ocserv
+
+- name: Adding forward
+  iptables:
+    chain: FORWARD
+    action: insert
+    source: "{{ ip_range }}"
+    jump: ACCEPT
+    rule_num: "1"
+  # notify:
+  #   - restart iptables
+  tags:
+    - ocserv
+
+- name: Adding MASQUERADE
+  iptables:
+    table: nat
+    action: insert
+    chain: POSTROUTING
+    out_interface: "{{ ip_interface }}"
+    source: "{{ ip_range }}"
+    jump: MASQUERADE
+  # notify:
+  #   - restart iptables
+  tags:
+    - ocserv
+
+- name: Allow related and established connections
+  iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+  # notify: 
+  #   - restart iptables
+  tags:
+    - ocserv
+
+
+- name: Save iptables
+  command: service iptables save
+  tags:
+    - ocserv
+
+
+- name: Enable Service iptables
+  service:
+    enabled: yes
+    state: started
+    name: iptables
+  tags:
+    - ocserv
+
+# =====
+
+- name: Create directory for making certificate files
+  file:
+    path: "{{ certificates_path }}"
+    state: directory
+    recurse: "yes"
+    mode: "0755"
+  tags:
+    - ocserv
+
+- name: Generate certificate key files
+  command: certtool --generate-privkey --outfile "{{ certificates_path }}/{{ item }}"
+  args:
+    creates: /opt/ocserv/keys.generated
+  with_items:
+    - ca-key.pem
+    - server-key.pem
+  register: key_generated
+  tags:
+    - ocserv
+
+- name: Create ca-key.generated file
+  file:
+    path: /opt/ocserv/keys.generated
+    state: touch
+  when: key_generated.changed
+  tags:
+    - ocserv
+    
+- name: Copy template files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: ca.tmpl.j2, dest: /opt/ocserv/ca.tmpl }
+    - { src: server.tmpl.j2, dest: /opt/ocserv/server.tmpl }
+    - { src: ldap.conf.j2, dest: /etc/openldap/ldap.conf }
+    - { src: ocserv.j2, dest: /etc/pam.d/ocserv }
+  tags:
+    - ocserv
+
+- name: Generate ca-cert.pem file
+  command: certtool --generate-self-signed --load-privkey "{{ certificates_path }}"/ca-key.pem --template /opt/ocserv/ca.tmpl --outfile "{{ certificates_path }}"/ca-cert.pem
+  args:
+    creates: /opt/ocserv/ca-cert.generated
+  register: ca_certed
+  tags:
+    - ocserv
+
+- name: Create ca-cert.generated file
+  file:
+    path: /opt/ocserv/ca-cert.generated
+    state: touch
+  when: ca_certed.changed
+  tags:
+    - ocserv
+
+- name: Generate server-cert.pem file
+  command: certtool --generate-certificate --load-privkey "{{ certificates_path }}"/server-key.pem --load-ca-certificate "{{ certificates_path }}"/ca-cert.pem --load-ca-privkey "{{ certificates_path }}"/ca-key.pem --template /opt/ocserv/server.tmpl --outfile "{{ certificates_path }}"/server-cert.pem
+  args:
+    creates: /opt/ocserv/server-cert.generated
+  register: server_certed
+  tags:
+    - ocserv
+
+- name: Create server-cert.generated file
+  file:
+    path: /opt/ocserv/server-cert.generated
+    state: touch
+  when: server_certed.changed
+  tags:
+    - ocserv
+
+- name: Settings in /etc/ocserv/ocserv.conf
+  lineinfile: 
+    dest: "/etc/ocserv/ocserv.conf"
+    regexp: "{{ item.src }}"
+    line: "{{ item.target }}"
+    state: "present"
+    backrefs: "yes"
+  with_items: "{{ ocserv_config }}"
+  notify:
+    - restart ocserv
+  tags:
+    - ocserv
+
+
+# - name: Settings (blockinfile) in /etc/ocserv/ocserv.conf
+#   blockinfile:
+#     dest: "/etc/ocserv/ocserv.conf"
+#     block: |
+#       {{ item }}
+#     insertafter: "\# \'default\'\."
+#     marker_begin:  "marker start {{ item }}----------"
+#     marker_end:  "marker end {{ item }}---------- "
+#   with_items: '{{ oc_config_routes }}'
+#   # notify:
+#   #   - restart ocserv
+#   tags:
+#     - ocserv
+
+
+- name: set ipv4.ip_forward to be true
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    sysctl_file: /etc/sysctl.conf
+    state: present
+    reload: yes
+  tags:
+    - ocserv
+
+
+# - name: Generate ocpasswd file
+#   command: sh -c '(echo "{{item.password}}"; sleep 1; echo "{{ item.password}}")  | ocpasswd -c "{{ ocpasswd_file }}" "{{ item.username }}"'
+#   args:
+#     creates: "{{ ocpasswd_file }}.generated"
+#   register: ocpasswd
+#   with_items: "{{ oc_users }}"
+#   tags:
+#     - ocserv
+#     - ocpasswd
+
+# - name: Create ocpasswd.generated file
+#   file:
+#     path: "{{ ocpasswd_file }}.generated"
+#     state: touch
+#   when: ocpasswd.changed
+#   tags:
+#     - ocserv
+
+# - name: Remove specific users
+#   command: ocpasswd -c "{{ ocpasswd_file }}" -d "{{ item.username }}"
+#   with_items: "{{ oc_delete_users }}"
+#   when: oc_delete_users
+#   tags:
+#     - ocserv
+#     - ocpasswd
+
+
+

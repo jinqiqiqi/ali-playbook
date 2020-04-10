@@ -25,7 +25,7 @@ dnsmasq_dns_domain: "ac.eefocus.tech"
 dnsmasq_dns_lines: [
   {
     hostname: "sys-00",
-    addr: "192.168.66.227",
+    addr: "192.168.88.90",
     list: [
         "sys-00.{{ dnsmasq_dns_domain }}",
         "jenkins.{{ dnsmasq_dns_domain }}",
@@ -40,7 +40,7 @@ dnsmasq_dns_lines: [
   },
   {
     hostname: "jenkins-00",
-    addr: "192.168.66.229",
+    addr: "192.168.88.89",
     list: [
         "jenkins-00.{{ dnsmasq_dns_domain }}",
         "jenkins-00"
@@ -98,7 +98,7 @@ dnsmasq_dns_lines: [
   },
   {
     hostname: "bridge-00",
-    addr: "192.168.66.226",
+    addr: "192.168.88.88",
     list: [
         "bridge-00.{{ dnsmasq_dns_domain }}",
         "bridge-00"

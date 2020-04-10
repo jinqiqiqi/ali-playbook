@@ -4,7 +4,7 @@
 # 
 # define the zabbix master hostname
 zabbix_master: "sys-00"
-zabbix_agent_server: "192.168.66.227"
+zabbix_agent_server: "192.168.88.90"
 zabbix_agent_listen_port: 10050
 
 zabbix_slack_url: "https://hooks.slack.com/services/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"
@@ -68,7 +68,7 @@ zabbix_agentd_config_lines: [
 ]
 
 zabbix_dns_settings: [
-  { regexp: '^DNS1=', line: 'DNS1=192.168.66.227' },
+  { regexp: '^DNS1=', line: 'DNS1=192.168.88.90' },
   { regexp: '^DNS2=', line: 'DNS2=8.8.8.8' }
 ]
 

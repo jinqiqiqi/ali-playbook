@@ -1,5 +1,5 @@
 
-nginx_ldap_host: "192.168.66.227"
+nginx_ldap_host: "192.168.88.90"
 nginx_ldap_port: "80"
 nginx_ldap_domain: "ldap.ac.eefocus.tech"
 

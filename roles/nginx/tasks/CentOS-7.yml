@@ -88,6 +88,7 @@
     regexp: "^user "
     line: "user www devops;"
     state: present
+  when: inventory_hostname != 'sys-00'
   tags:
     - nginx
   notify:
@@ -104,6 +105,7 @@
     - /var/log/nginx
   tags:
     - nginx
+  when: inventory_hostname != 'sys-00'
   notify:
     - restart nginx
 

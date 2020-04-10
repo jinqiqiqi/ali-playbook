@@ -1,0 +1,65 @@
+---
+# tasks file for roles/ldap-auth
+
+- name: Remove ldap auth related packages
+  package: 
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - nss-pam-ldapd
+    - nscd
+  tags:
+    - openldap_auth
+
+- name: Install ldap auth related packages
+  package: 
+    name: "{{ item }}"
+    state: present
+  loop:
+    - sssd
+    - sssd-tools
+    - sssd-ldap
+    - openldap-clients
+  tags:
+    - openldap_auth
+
+- name: Update authconfig
+  shell: authconfig --enableldap --enableldapauth  --enablemkhomedir --updateall --enableldap --disablemd5 --enableshadow --disableldaptls --enablesssd --enablesssdauth  --enablelocauthorize --ldapserver={{ ldap_server }} --ldapbasedn="{{ ldap_search_base }}"
+  args:
+    chdir: /opt/
+    creates: updated.authconfig.txt
+  register: authconfig_out
+  notify:
+    - restart sssd
+  tags:
+    - openldap_auth
+
+- name: Create lock file if created successfully '{{ authconfig_out.changed }}'
+  file:
+    path: "/opt/updated.authconfig.txt"
+    state: touch
+  tags:
+    - openldap_auth
+  when: authconfig_out.changed
+
+
+- name: Adding sudo file
+  template:
+    src: "openldap.j2"
+    dest: "/etc/sudoers.d/openldap"
+  tags:
+    - openldap_auth
+
+- name: Settings in /etc/sssd/sssd.conf
+  blockinfile:
+    dest: "/etc/sssd/sssd.conf"
+    block: |
+      {{ item }}
+    insertafter: "/etc/openldap/cacerts"
+    marker_begin:  "marker start {{ item }}----------"
+    marker_end:  "marker end {{ item }}---------- "
+  with_items: '{{ sssd_config }}'
+  notify:
+    - restart sssd
+  tags:
+    - openldap_auth
