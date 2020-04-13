@@ -115,6 +115,20 @@
 #   tags:
 #     - base
 
+- name: Adding custom dns server for ecs
+  blockinfile:
+    path: /etc/sysconfig/network-scripts/ifcfg-eth0
+    block: |
+      {{ item }}
+    marker: "# {mark} ansible managed block {{ item }}"
+  loop:
+    - "DNS1=192.168.88.90"
+    # - "DNS2=114.114.114.114"
+    # - "DNS3=100.100.2.136"
+  when: inventory_hostname != 'sys-00'
+  notify:
+    - restart network
+
 - name: Create /data directory for server
   file:
     path: "/data/"

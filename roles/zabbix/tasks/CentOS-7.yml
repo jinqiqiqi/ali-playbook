@@ -222,40 +222,40 @@
     - zabbix
     - zabbix-agent
 
-- name: Change to use custom DNS
-  lineinfile:
-    dest: "/etc/sysconfig/network-scripts/ifcfg-eth0"
-    regexp: '{{ item.regexp }}'
-    line: '{{ item.line }}'
-    create: yes
-  with_items: "{{ zabbix_dns_settings }}"
-  tags:
-    - zabbix
-    - zabbix-agent
-    - zabbix-network
-  notify: restart network
+# - name: Change to use custom DNS
+#   lineinfile:
+#     dest: "/etc/sysconfig/network-scripts/ifcfg-eth0"
+#     regexp: '{{ item.regexp }}'
+#     line: '{{ item.line }}'
+#     create: yes
+#   with_items: "{{ zabbix_dns_settings }}"
+#   tags:
+#     - zabbix
+#     - zabbix-agent
+#     - zabbix-network
+#   notify: restart network
 
-- name: Switch to user
-  command: hostname
-  become_user: "{{ item.user }}"
-  args:
-    creates: /home/{{ item.user }}/.bash_profile
-  when: inventory_hostname != "bridge-00"
-  register: www_command
-  loop: "{{ zabbix_user_ssh_keys }}"
-  tags:
-    - zabbix
-    - zabbix-network
-  
-
-- name: Add private key for www user
-  authorized_key:
-    user: "{{ item.user }}"
-    state: present
-    key: "{{ item.key }}"
-  when: inventory_hostname != "bridge-00"
-  loop: "{{ zabbix_user_ssh_keys }}"
-  tags:
-    - zabbix
-    - zabbix-network
-  
+# - name: Switch to user
+#   command: hostname
+#   become_user: "{{ item.user }}"
+#   args:
+#     creates: /home/{{ item.user }}/.bash_profile
+#   when: inventory_hostname != "bridge-00"
+#   register: www_command
+#   loop: "{{ zabbix_user_ssh_keys }}"
+#   tags:
+#     - zabbix
+#     - zabbix-network
+# 
+# 
+# - name: Add private key for www user
+#   authorized_key:
+#     user: "{{ item.user }}"
+#     state: present
+#     key: "{{ item.key }}"
+#   when: inventory_hostname != "bridge-00"
+#   loop: "{{ zabbix_user_ssh_keys }}"
+#   tags:
+#     - zabbix
+#     - zabbix-network
+# 

@@ -48,7 +48,18 @@
     destination_port: "{{ item }}"
     jump: ACCEPT
     action: insert
-    comment: "dnsmasq related ports"
+    comment: "dnsmasq related tcp ports"
   loop: "{{ dnsmasq_iptables_allow_ports }}"
+  tags:
+    - dnsmasq
+
+- name: Allow dnsmasq udp ports in INPUT chain 
+  iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: "53"
+    jump: ACCEPT
+    action: insert
+    comment: "dnsmasq related udp ports"
   tags:
     - dnsmasq

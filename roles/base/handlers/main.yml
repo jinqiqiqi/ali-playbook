@@ -3,3 +3,9 @@
 
 # - include: ../../../handlers/main.yml
 # - include: ../../../handlers/main.yml
+
+- name: restart network
+  service: 
+    name: network 
+    state: restarted
+    enabled: yes

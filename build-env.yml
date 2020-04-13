@@ -12,7 +12,7 @@
       block:
         - include_role: 
             name: dnsmasq
-        - include_role: 
+        - include_role:
             name: openldap
       rescue:
         - include: handlers/exception.yml role_name=sys_service
@@ -21,14 +21,12 @@
 
 
 - name: "Playbook for base role, named: common_service"
-  hosts: 
+  hosts:
     - common_group
   become_user: root
   become: yes
-
   handlers:
     - include: ./handlers/main.yml role_name=common_service
-
   # pre_tasks:
   #   - include_role: 
   #     name: base
@@ -37,10 +35,10 @@
       block:
         - include_role: 
             name: base
-        - include_role: 
+        - include_role:
             name: rsyslog
-        - include_role: 
-            name: zabbix
+        # - include_role: 
+        #     name: zabbix
         - include_role: 
             name: openldap_auth
       rescue:
@@ -54,7 +52,7 @@
 
 - name: "Playbook for ocserv role, named: ocserv"
   hosts: 
-    - bridge
+    - ocserv
   become_user: root
   become: yes
   handlers:
@@ -62,7 +60,7 @@
   tasks:
     - name: Roles for ocserv service
       block:
-        - include_role: 
+        - include_role:
             name: ocserv
       rescue:
         - include: handlers/exception.yml role_name=ocserv_service
@@ -106,44 +104,44 @@
     - nginx
 
 
-- name: "Playbook for cache role, named: cache"
-  hosts: 
-    - cache
-  become_user: root
-  become: yes
-  handlers:
-    - include: ./handlers/main.yml role_name=cache_service
-  tasks:
-    - name: Roles for cache service
-      block:
-        - include_role:
-            name: redis
-        - include_role:
-            name: memcache
-        - include_role:
-            name: rabbitmq
-      rescue:
-        - include: handlers/exception.yml role_name=cache_service
-  tags:
-    - cache
+# - name: "Playbook for cache role, named: cache"
+#   hosts: 
+#     - cache
+#   become_user: root
+#   become: yes
+#   handlers:
+#     - include: ./handlers/main.yml role_name=cache_service
+#   tasks:
+#     - name: Roles for cache service
+#       block:
+#         - include_role:
+#             name: redis
+#         - include_role:
+#             name: memcache
+#         - include_role:
+#             name: rabbitmq
+#       rescue:
+#         - include: handlers/exception.yml role_name=cache_service
+#   tags:
+#     - cache
 
 
-- name: "Playbook for nodejs role, named: nodejs"
-  hosts: 
-    - nodejs
-  become_user: root
-  become: yes
-  handlers:
-    - include: ./handlers/main.yml role_name=nodejs_service
-  tasks:
-    - name: Roles for nodejs service
-      block:
-        - include_role:
-            name: nodejs
-      rescue:
-        - include: handlers/exception.yml role_name=nodejs_service
-  tags:
-    - nodejs
+# - name: "Playbook for nodejs role, named: nodejs"
+#   hosts: 
+#     - nodejs
+#   become_user: root
+#   become: yes
+#   handlers:
+#     - include: ./handlers/main.yml role_name=nodejs_service
+#   tasks:
+#     - name: Roles for nodejs service
+#       block:
+#         - include_role:
+#             name: nodejs
+#       rescue:
+#         - include: handlers/exception.yml role_name=nodejs_service
+#   tags:
+#     - nodejs
 
 
 - name: "Playbook for php5_remi role, named: php5_remi"
@@ -164,20 +162,20 @@
     - php5_remi
 
 
-- name: "Playbook for php7_remi role, named: php7_remi"
-  hosts: 
-    - php7_remi
-  become_user: root
-  become: yes
-  handlers:
-    - include: ./handlers/main.yml role_name=php7_remi_service
-  tasks:
-    - name: Roles for php7_remi service
-      block:
-        - include_role:
-            name: php7_remi
-      rescue:
-        - include: handlers/exception.yml role_name=php7_remi_service
-  tags:
-    - php7_remi
+# - name: "Playbook for php7_remi role, named: php7_remi"
+#   hosts: 
+#     - php7_remi
+#   become_user: root
+#   become: yes
+#   handlers:
+#     - include: ./handlers/main.yml role_name=php7_remi_service
+#   tasks:
+#     - name: Roles for php7_remi service
+#       block:
+#         - include_role:
+#             name: php7_remi
+#       rescue:
+#         - include: handlers/exception.yml role_name=php7_remi_service
+#   tags:
+#     - php7_remi
 

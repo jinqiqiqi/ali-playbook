@@ -14,3 +14,7 @@ jenkins_sysconfig: [
     { src: '^JENKINS_JAVA_OPTIONS=\"', target: 'JENKINS_JAVA_OPTIONS="-Dmail.smtp.starttls.enable=true -Djava.awt.headless=true -Dhudson.model.DownloadService.noSignatureCheck=true"' },
 ]
 
+
+# update center
+# https://updates.jenkins-zh.cn/update-center.json
+# https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json

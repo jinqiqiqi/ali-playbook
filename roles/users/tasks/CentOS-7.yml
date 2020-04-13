@@ -1,0 +1,23 @@
+---
+
+- name: Switch to user
+  command: hostname
+  become_user: "{{ item.user }}"
+  args:
+    creates: /home/{{ item.user }}/.bash_profile
+  when: inventory_hostname != "bridge-00"
+  register: www_command
+  loop: "{{ server_user_ssh_keys }}"
+  tags:
+    - users
+
+- name: Add private key for www user
+  authorized_key:
+    user: "{{ item.user }}"
+    state: present
+    key: "{{ item.key }}"
+  when: inventory_hostname != "bridge-00"
+  loop: "{{ server_user_ssh_keys }}"
+  tags:
+    - users
+  

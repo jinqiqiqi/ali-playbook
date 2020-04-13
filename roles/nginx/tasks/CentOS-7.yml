@@ -127,3 +127,13 @@
 #     - nginx
 #   notify:
 #     - restart nginx
+
+- name: Adding webroot folder or not
+  file:
+    path: /opt/vhosts/
+    state: directory
+    owner: www
+    group: devops
+  when: inventory_hostname != 'nginx-00'
+  tags:
+    - nginx
