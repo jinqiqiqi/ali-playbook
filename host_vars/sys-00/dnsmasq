@@ -33,8 +33,6 @@ dnsmasq_dns_lines: [
         "ldap.{{ dnsmasq_dns_domain }}",
         "l.{{ dnsmasq_dns_domain }}",
         "sys-00",
-        "z.{{ dnsmasq_dns_domain }}",
-        "zabbix.{{ dnsmasq_dns_domain }}",
         "m.{{ dnsmasq_dns_domain }}",
     ]
   },
@@ -47,11 +45,11 @@ dnsmasq_dns_lines: [
     ]
   },
   {
-    hostname: "nginx-1",
-    addr: "192.168.66.228",
+    hostname: "nginx-00",
+    addr: "192.168.88.93",
     list: [
-        "nginx-1.{{ dnsmasq_dns_domain }}",
-        "nginx-1",
+        "nginx-00.{{ dnsmasq_dns_domain }}",
+        "nginx-00",
         "basic.eefocus.com",
         "account.eefocus.com",
         "adi.eefocus.com",
@@ -93,7 +91,6 @@ dnsmasq_dns_lines: [
         "www.stmcu.com.cn",
         "www.stmcu.org",
         "www.stmcu.org.cn",
-
     ]
   },
   {
@@ -136,6 +133,13 @@ dnsmasq_dns_lines: [
     list: [
         "moore8-00.{{ dnsmasq_dns_domain }}",
         "moore8-00"
+    ]
+  },
+  {
+    hostname: "support-00",
+    addr: "192.168.88.92",
+    list: [
+        "support-00.ac{{ dnsmasq_dns_domain }}",
     ]
   },
 

@@ -5,8 +5,8 @@ bridge-00 ansible_ssh_host=192.168.88.88
 sys-00 ansible_ssh_host=192.168.88.90
 jenkins-00 ansible_ssh_host=192.168.88.89
 
-nginx-00 ansible_ssh_host=192.168.88.92
-support-00 ansible_ssh_host=192.168.88.93
+nginx-00 ansible_ssh_host=192.168.88.93
+support-00 ansible_ssh_host=192.168.88.92
 
 
 

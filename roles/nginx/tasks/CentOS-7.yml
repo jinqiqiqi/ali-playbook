@@ -54,21 +54,21 @@
   tags:
     - nginx
 
-- name: adding stub config for nginx
-  blockinfile:
-    dest: "/etc/nginx/nginx.conf"
-    block: |
-      location = /basic_status {
-          stub_status;
-      }
-    insertafter: "^[^#]*include.*default.*"
-    marker_begin: "# marker start stub_status"
-    marker_end: "# marker end stub_status"
-    validate: nginx -t -c %s
-  notify:
-    - restart nginx
-  tags:
-    - nginx
+# - name: adding stub config for nginx
+#   blockinfile:
+#     dest: "/etc/nginx/nginx.conf"
+#     block: |
+#       location = /basic_status {
+#           stub_status;
+#       }
+#     insertafter: "^[^#]*include.*default.*"
+#     marker_begin: "# marker start stub_status"
+#     marker_end: "# marker end stub_status"
+#     validate: nginx -t -c %s
+#   notify:
+#     - restart nginx
+#   tags:
+#     - nginx
 
 - name: Adding nginx config file for mysql admin backend.
   template:

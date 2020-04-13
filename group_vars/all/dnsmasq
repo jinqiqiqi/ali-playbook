@@ -23,14 +23,45 @@ dnsmasq_config_lines: [
 dnsmasq_dns_domain: ".eefocus.tech"
 
 dnsmasq_dns_lines: [
-  # {
-  #   hostname: "sys-00",
-  #   addr: "192.168.88.90",
-  #   list: [
-  #       "sys-00.ac{{ dnsmasq_dns_domain }}",
-  #       "ldap.ac{{ dnsmasq_dns_domain }}"
-  #   ]
-  # },
+  {
+    hostname: "sys-00",
+    addr: "192.168.88.90",
+    list: [
+        "sys-00.ac{{ dnsmasq_dns_domain }}",
+        "ldap.ac{{ dnsmasq_dns_domain }}",
+        "j.ac{{ dnsmasq_dns_domain }}"
+    ]
+  },
+  {
+    hostname: "bridge-00",
+    addr: "192.168.88.88",
+    list: [
+        "bridge-00.ac{{ dnsmasq_dns_domain }}",
+        "bridge-00",
+    ]
+  },
+  {
+    hostname: "jenkins-00",
+    addr: "192.168.88.89",
+    list: [
+        "jenkins-00.ac{{ dnsmasq_dns_domain }}",
+        "jenkins-00",
+    ]
+  },
+  {
+    hostname: "nginx-00",
+    addr: "192.168.88.93",
+    list: [
+        "nginx-00.ac{{ dnsmasq_dns_domain }}",
+    ]
+  },
+  {
+    hostname: "support-00",
+    addr: "192.168.88.92",
+    list: [
+        "support-00.ac{{ dnsmasq_dns_domain }}",
+    ]
+  },
 ]
 
 
