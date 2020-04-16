@@ -35,7 +35,7 @@
     url: "http://218.4.226.238:8065"
     api_key: "if11n7se63ycpx43sh37yskkyo"
     text: "Service in role: <{{ role_name | default('unnamed_role') }}> {{ role_names }}@{{ inventory_hostname }} is restarted/changed! {{ addition | default('man-shell') }}"
-    username: "aliyun >>> {{ inventory_hostname }} ({{ ansible_eth0['ipv4']['address'] }})"
+    username: "prod@aliyun >>> {{ inventory_hostname }} ({{ ansible_eth0['ipv4']['address'] }})"
   # when: inventory_hostname != "cache-1"
   listen:
     - "crontab updated"

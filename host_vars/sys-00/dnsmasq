@@ -142,6 +142,13 @@ dnsmasq_dns_lines: [
         "support-00.ac{{ dnsmasq_dns_domain }}",
     ]
   },
+  {
+    hostname: "github.com",
+    addr: "192.30.253.112",
+    list: [
+        "github.com",
+    ]
+  },
 
 ]
 
