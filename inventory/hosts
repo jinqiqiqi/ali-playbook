@@ -13,6 +13,8 @@ article-00 ansible_ssh_host=192.168.88.98
 main-00 ansible_ssh_host=192.168.88.96
 cache-00 ansible_ssh_host=192.168.88.97
 
+account-sso-00 ansible_ssh_host=192.168.88.99
+
 
 
 
@@ -48,6 +50,8 @@ support-00
 article-00
 main-00
 
+account-sso-00
+
 ; sys-00
 ; cirmall-00
 ; gg-00
@@ -57,17 +61,15 @@ main-00
 [cache]
 cache-00
 
-; 
-; [php7_remi]
-; gg-00
+
+[php7_remi]
+account-sso-00
 
 [php5_remi]
 support-00
 main-00
 article-00
-
-; gg-00
-; moore8-00
+account-sso-00
 
 
 ; common roles group
@@ -80,6 +82,7 @@ support-00
 cache-00
 article-00
 main-00
+account-sso-00
 
 
 ; nginx-1

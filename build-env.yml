@@ -162,20 +162,20 @@
     - php5_remi
 
 
-# - name: "Playbook for php7_remi role, named: php7_remi"
-#   hosts: 
-#     - php7_remi
-#   become_user: root
-#   become: yes
-#   handlers:
-#     - include: ./handlers/main.yml role_name=php7_remi_service
-#   tasks:
-#     - name: Roles for php7_remi service
-#       block:
-#         - include_role:
-#             name: php7_remi
-#       rescue:
-#         - include: handlers/exception.yml role_name=php7_remi_service
-#   tags:
-#     - php7_remi
+- name: "Playbook for php7_remi role, named: php7_remi"
+  hosts: 
+    - php7_remi
+  become_user: root
+  become: yes
+  handlers:
+    - include: ./handlers/main.yml role_name=php7_remi_service
+  tasks:
+    - name: Roles for php7_remi service
+      block:
+        - include_role:
+            name: php7_remi
+      rescue:
+        - include: handlers/exception.yml role_name=php7_remi_service
+  tags:
+    - php7_remi
 

@@ -10,9 +10,9 @@ sock_dir: "/var/run"
 
 
 php5_remi_ini_config_lines: [
-  {source: '^disable_functions =', dest: 'disable_functions =mail,dl,passthru,exec,system,shell_exec,proc_get_status,chmod'},
+  # {source: '^disable_functions =', dest: 'disable_functions =mail,dl,passthru,exec,system,shell_exec,proc_get_status,chmod'},
   {source: '^expose_php = On', dest: 'expose_php = Off'},
-  {source: '^memory_limit = ', dest: 'memory_limit = 1024M'},
+  # {source: '^memory_limit = ', dest: 'memory_limit = 1024M'},
   {source: '^;error_log = syslog', dest: 'error_log = {{ php_log_dir }}/errors.log'},
   {source: '^;upload_tmp_dir =', dest: 'upload_tmp_dir = {{ php_upload_tmp_dir }}'},
   {source: '^;session.save_path = ', dest: 'session.save_path = "{{ php_session_tmp_dir }}"'},
