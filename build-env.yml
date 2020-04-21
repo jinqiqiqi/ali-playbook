@@ -118,6 +118,8 @@
         #     name: redis
         - include_role:
             name: memcache
+        - include_role:
+            name: mongodb
         # - include_role:
         #     name: rabbitmq
       rescue:
