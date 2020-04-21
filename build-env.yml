@@ -128,22 +128,22 @@
     - cache
 
 
-# - name: "Playbook for nodejs role, named: nodejs"
-#   hosts: 
-#     - nodejs
-#   become_user: root
-#   become: yes
-#   handlers:
-#     - include: ./handlers/main.yml role_name=nodejs_service
-#   tasks:
-#     - name: Roles for nodejs service
-#       block:
-#         - include_role:
-#             name: nodejs
-#       rescue:
-#         - include: handlers/exception.yml role_name=nodejs_service
-#   tags:
-#     - nodejs
+- name: "Playbook for nodejs role, named: nodejs"
+  hosts: 
+    - nodejs
+  become_user: root
+  become: yes
+  handlers:
+    - include: ./handlers/main.yml role_name=nodejs_service
+  tasks:
+    - name: Roles for nodejs service
+      block:
+        - include_role:
+            name: nodejs
+      rescue:
+        - include: handlers/exception.yml role_name=nodejs_service
+  tags:
+    - nodejs
 
 
 - name: "Playbook for php5_remi role, named: php5_remi"
