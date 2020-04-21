@@ -33,9 +33,10 @@ sys-00
 [dnsmasq]
 sys-00
 
-; [nodejs]
+[nodejs]
 ; cirmall-00
 ; moore8-00
+support-00
 
 [sys]
 sys-00

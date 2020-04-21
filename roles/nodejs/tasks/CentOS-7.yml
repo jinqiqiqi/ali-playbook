@@ -35,7 +35,7 @@
 
 - name: "Install NVM to local server({{ nodejs_user }}) ~/.nvm/nvm.sh"
   shell: >
-    bash /opt/nvm_install.sh
+    export http_proxy=http://103.91.219.139:15886 && export https_proxy=http://103.91.219.139:15886 && bash /opt/nvm_install.sh
   args:
     creates: "/home/{{ nodejs_user }}/.nvm/nvm.sh"
   become: true
