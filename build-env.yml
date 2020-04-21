@@ -114,8 +114,8 @@
   tasks:
     - name: Roles for cache service
       block:
-        # - include_role:
-        #     name: redis
+        - include_role:
+            name: redis
         - include_role:
             name: memcache
         - include_role:
