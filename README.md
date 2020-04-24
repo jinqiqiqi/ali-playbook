@@ -33,8 +33,8 @@
 * php5
     * version: 5.6.40  (php-remi: 5.6.40)
     * Extensions:
-      * Redis: 4.3.0 (remi: 3.1.6)
-      * Memcache: 2.2.7 (remi: 3.0.8)
+      * Redis: 4.3.0 (pecl install instead of remi package)
+      * Memcache: 2.2.7 (pecl install instead of remi package)
       * Memcached: 2.2.0
       * Apcu: 4.0.11
       * Sphinx: 1.3.0 (remi: 1.3.3)

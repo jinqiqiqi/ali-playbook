@@ -8,9 +8,12 @@ jenkins-00 ansible_ssh_host=192.168.88.89
 nginx-00 ansible_ssh_host=192.168.88.93
 support-00 ansible_ssh_host=192.168.88.92
 
-
 article-00 ansible_ssh_host=192.168.88.98
+article-01 ansible_ssh_host=192.168.88.102
+
 main-00 ansible_ssh_host=192.168.88.96
+main-01 ansible_ssh_host=192.168.88.101
+
 cache-00 ansible_ssh_host=192.168.88.97
 
 account-sso-00 ansible_ssh_host=192.168.88.99
@@ -47,9 +50,10 @@ jenkins-00
 [nginx]
 nginx-00
 support-00
-
 article-00
+article-01
 main-00
+main-01
 
 account-sso-00
 
@@ -70,6 +74,8 @@ account-sso-00
 support-00
 main-00
 article-00
+main-01
+article-01
 account-sso-00
 
 
@@ -83,6 +89,8 @@ support-00
 cache-00
 article-00
 main-00
+article-01
+main-01
 account-sso-00
 
 

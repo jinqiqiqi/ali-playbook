@@ -7,10 +7,11 @@ php_session_tmp_dir: "/tmp"
 php_upload_tmp_dir: "/tmp"
 php_log_dir: "/var/log/php"
 sock_dir: "/var/run"
-
+php56_root: "/opt/remi/php56/root"
+php56_extension_dir: "/opt/remi/php56/root/usr/lib64/php/modules"
 
 php5_remi_ini_config_lines: [
-  # {source: '^disable_functions =', dest: 'disable_functions =mail,dl,passthru,exec,system,shell_exec,proc_get_status,chmod'},
+  {source: '^disable_functions =', dest: 'disable_functions =mail,dl,passthru,exec,system,shell_exec,proc_get_status'},
   {source: '^expose_php = On', dest: 'expose_php = Off'},
   # {source: '^memory_limit = ', dest: 'memory_limit = 1024M'},
   {source: '^;error_log = syslog', dest: 'error_log = {{ php_log_dir }}/errors.log'},
@@ -29,4 +30,14 @@ php5_remi_fpm_config_lines: [
   {source: '^slowlog =', dest: 'slowlog = /var/opt/remi/php56/log/php-fpm/www-slow.log'},
   {source: '^;php_admin_value[memory_imit] =', dest: 'php_admin_value[memory_imit] = 1024M'},
   {source: '^php_value[session.save_path]', dest: 'php_value[session.save_path] = /var/opt/remi/php56/lib/php/session'},
+]
+
+php5_remi_extensions: [
+  {extension: "memcache-2.2.7", creates: "{{ php56_extension_dir }}/memcache.so"},
+  {extension: "redis-4.3.0", creates: "{{ php56_extension_dir }}/redis.so"},
+]
+
+php5_remi_extension_configs: [
+    { src: "40-memcache.ini", dest: "/opt/remi/php56/root/etc/php.d/40-memcache.ini" },
+    { src: "50-redis.ini", dest: "/opt/remi/php56/root/etc/php.d/50-redis.ini" },
 ]

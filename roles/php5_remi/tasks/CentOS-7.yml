@@ -29,13 +29,23 @@
   with_items:
     - { src: php-remi.repo, dest: /etc/yum.repos.d/php-remi.repo }
 
+- name: "Remove existing php packages."
+  package: 
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - php56-php-pecl-redis
+    - php56-php-pecl-memcache
+  tags:
+    - php5_remi
+
 - name: "Install/Update php56 to the latest stable version"
   package:
     name: "{{ item }}"
     state: latest
   loop:
-    - php56-php-pecl-redis
-    - php56-php-pecl-memcache
+    # - php56-php-pecl-redis
+    # - php56-php-pecl-memcache
     - php56-php-pecl-memcached
     - php56-php-pecl-apcu
     # fixing for moore8
@@ -53,6 +63,24 @@
     - php56-php-soap
     - php56-php-xmlrpc
     - php56-php-cli
+    - php56-php-devel
+  tags:
+    - php5_remi
+
+- name: "Install php extensions"
+  shell: >
+    echo "" | {{ php56_root }}/bin/pecl install {{ item.extension }}
+  args:
+    creates: "{{ item.creates }}"
+  with_items: "{{ php5_remi_extensions }}"
+  tags:
+    - php5_remi
+
+- name: "Install extension config files."
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items: "{{ php5_remi_extension_configs }}"
   tags:
     - php5_remi
 
