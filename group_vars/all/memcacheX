@@ -1,0 +1,6 @@
+# addition configs for memcachedX
+
+memcached_additional_instances: [
+    { name: memcached11212, port: 11212, maxcon: 1024, cachesize: 2048, ops: "" },
+]
+

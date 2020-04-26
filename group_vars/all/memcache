@@ -1,9 +1,14 @@
 memcached_port: "11211"
-memcached_cachesize: "64"
+memcached_cachesize: "2048"
+memcached_maxconn: "1024"
+memcached_options: ""
+
 
 memcahced_config: [
     { regexp: "^PORT=", line: "PORT=\"{{ memcached_port }}\"" },
     { regexp: "^CACHESIZE=", line: "CACHESIZE=\"{{ memcached_cachesize }}\"" },
+    { regexp: "^MAXCONN=", line: "MAXCONN=\"{{ memcached_maxconn }}\"" },
+    { regexp: "^OPTIONS=", line: "OPTIONS=\"{{ memcached_options }}\"" },
 ]
 
 

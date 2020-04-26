@@ -1,0 +1,14 @@
+---
+# handlers file for roles/memcacheX/
+
+
+
+- name: deamon reload
+  systemd: 
+    daemon_reload: yes
+
+- name: restart memcached11212
+  systemd: 
+    name: memcached11212 
+    state: restarted 
+    enabled: yes

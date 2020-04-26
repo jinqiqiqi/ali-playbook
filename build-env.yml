@@ -119,6 +119,8 @@
         - include_role:
             name: memcache
         - include_role:
+            name: memcacheX
+        - include_role:
             name: mongodb
         # - include_role:
         #     name: rabbitmq

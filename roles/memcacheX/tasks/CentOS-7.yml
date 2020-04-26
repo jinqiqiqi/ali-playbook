@@ -1,0 +1,40 @@
+---
+
+# tasks file for memcachedX
+
+
+- name: Allow memcached related ports in INPUT chain
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item.port }}"
+    jump: ACCEPT
+    action: insert
+  with_items: "{{ memcached_additional_instances }}"
+  tags:
+    - memcachedX
+
+
+# steps for additional service instances
+- name: "Copy new instance configure file: /etc/sysconfig/memcached"
+  template:
+    src: "memcached.j2"
+    dest: "/etc/sysconfig/{{ item.name }}"
+  loop: "{{ memcached_additional_instances }}"
+  notify:
+    - "deamon reload"
+    - "restart memcached11212"
+  tags:
+    - memcachedX
+
+# 
+- name: "Copy new instance service file: /usr/lib/systemd/system/memcached.service"
+  template:
+    src: "memcached.service.j2"
+    dest: "/usr/lib/systemd/system/{{ item.name }}.service"
+  loop: "{{ memcached_additional_instances }}"
+  tags:
+    - memcachedX
+  notify:
+    - "deamon reload"
+    - "restart memcached11212"
