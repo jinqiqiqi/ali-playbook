@@ -23,7 +23,7 @@
   loop: "{{ memcached_additional_instances }}"
   notify:
     - "deamon reload"
-    - "restart memcached11212"
+    - "restart {{ item.name }}"
   tags:
     - memcachedX
 
@@ -37,4 +37,4 @@
     - memcachedX
   notify:
     - "deamon reload"
-    - "restart memcached11212"
+    - "restart {{ item.name }}"
