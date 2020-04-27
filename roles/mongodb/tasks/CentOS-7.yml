@@ -27,6 +27,7 @@
     state: latest
   loop:
     - mongodb-server
+    - mongodb
   tags:
     - mongodb
 
