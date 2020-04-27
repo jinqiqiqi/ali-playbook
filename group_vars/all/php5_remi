@@ -11,7 +11,7 @@ php56_root: "/opt/remi/php56/root"
 php56_extension_dir: "/opt/remi/php56/root/usr/lib64/php/modules"
 
 php5_remi_ini_config_lines: [
-  {source: '^disable_functions =', dest: 'disable_functions =mail,dl,passthru,exec,system,shell_exec,proc_get_status'},
+  # {source: '^disable_functions =', dest: 'disable_functions =mail,dl,passthru,exec,system,shell_exec,proc_get_status'},
   {source: '^expose_php = On', dest: 'expose_php = Off'},
   # {source: '^memory_limit = ', dest: 'memory_limit = 1024M'},
   {source: '^;error_log = syslog', dest: 'error_log = {{ php_log_dir }}/errors.log'},
