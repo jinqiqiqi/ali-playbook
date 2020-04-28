@@ -2,7 +2,7 @@
 # sso cache, saml
 memcached_port: "11211"
 memcached_cachesize: "2048"
-memcached_maxconn: "1024"
+memcached_maxconn: "4096"
 memcached_options: ""
 
 memcahced_config: [
