@@ -1,23 +1,23 @@
 ---
 
-# - name: "Playbook for sys role, named: sys"
-#   hosts: 
-#     - sys
-#   become_user: root
-#   become: yes
-#   handlers:
-#     - include: ./handlers/main.yml role_name=sys_service
-#   tasks:
-#     - name: Roles for dnsmasq and openldap service
-#       block:
-#         - include_role: 
-#             name: dnsmasq
-#         - include_role:
-#             name: openldap
-#       rescue:
-#         - include: handlers/exception.yml role_name=sys_service
-#   tags:
-#     - sys
+- name: "Playbook for sys role, named: sys"
+  hosts: 
+    - sys
+  become_user: root
+  become: yes
+  handlers:
+    - include: ./handlers/main.yml role_name=sys_service
+  tasks:
+    - name: Roles for dnsmasq and openldap service
+      block:
+        - include_role: 
+            name: dnsmasq
+        - include_role:
+            name: openldap
+      rescue:
+        - include: handlers/exception.yml role_name=sys_service
+  tags:
+    - sys
 
 
 - name: "Playbook for base role, named: common_service"

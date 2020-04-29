@@ -1,8 +1,8 @@
-## settings for m.ac.eefocus.tech refers to mysql.ac.eefocus.tech
+## settings for m.ops.eefocus.com refers to mysql.ac.eefocus.tech
 
 server {
     listen 80;
-    server_name m.ac.eefocus.tech;
+    server_name m.ops.eefocus.com select.eefocus.com;
     root /usr/share/nginx/mysql/;
 
     index index.php;
@@ -19,6 +19,11 @@ server {
     }
 
     location / {
+
+        allow 192.168.88.0/24;
+        allow 218.4.226.238;
+        deny all;
+
         autoindex off;
         try_files $uri $uri/ /index.php?$args;
     }
@@ -46,9 +51,9 @@ server {
     location ~ /\.ht {
         deny  all;
     }
-    access_log /var/log/nginx/mysql.access.log;
-    error_log /var/log/nginx/mysql.error.log;
+    access_log /dev/null;
+    error_log /dev/null;
 }
 
-## end of settings for m.ac.eefocus.tech
+## end of settings for m.ops.eefocus.com
 # -------------------------------------------------

@@ -9,7 +9,7 @@ nginx_iptables_allow_ports: [
 nginx_configd_hosts: [
   {
     listen: 80,
-    server_name: "j.ac.eefocus.tech jenkins.ac.eefocus.tech",
+    server_name: "9ks.eefocus.com",
     proxy_pass: "http://192.168.88.89:8080",
     access_log: "/var/log/nginx/access_jenkins.log main",
     error_log: "/var/log/nginx/error_jenkins.log",

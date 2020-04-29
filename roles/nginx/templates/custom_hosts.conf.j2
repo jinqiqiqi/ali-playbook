@@ -25,6 +25,11 @@ server {
     }
 
     location / {
+
+        allow 192.168.88.0/24;
+        allow 218.4.226.238;
+        deny all;
+
         proxy_pass {{ nginx_host.proxy_pass }};
         proxy_set_header X-Forwarded-For $remote_addr;
     }

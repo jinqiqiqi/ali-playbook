@@ -20,83 +20,38 @@ dnsmasq_config_lines: [
   { source: '^interface=', dest: 'interface=eth0' },
 ]
 
-dnsmasq_dns_domain: "ac.eefocus.tech"
+dnsmasq_dns_domain: "ops.eefocus.com"
 
 dnsmasq_dns_lines: [
   {
     hostname: "sys-00",
     addr: "192.168.88.90",
     list: [
-        "sys-00.{{ dnsmasq_dns_domain }}",
-        "jenkins.{{ dnsmasq_dns_domain }}",
-        "j.{{ dnsmasq_dns_domain }}",
-        "ldap.{{ dnsmasq_dns_domain }}",
-        "l.{{ dnsmasq_dns_domain }}",
+        "9ks.eefocus.com",
+        "ldap.eefocus.com",
+        'select.eefocus.com',
+
         "sys-00",
-        "m.{{ dnsmasq_dns_domain }}",
     ]
   },
   {
     hostname: "jenkins-00",
     addr: "192.168.88.89",
     list: [
-        "jenkins-00.{{ dnsmasq_dns_domain }}",
-        "jenkins-00"
+        "jenkins-00",
     ]
   },
   {
     hostname: "nginx-00",
     addr: "192.168.88.93",
     list: [
-        "nginx-00.{{ dnsmasq_dns_domain }}",
         "nginx-00",
-        # "basic.eefocus.com",
-        # "adi.eefocus.com",
-        # "adi.eefocus.com",
-        # "ams.eefocus.com",
-        # "analog.eefocus.com",
-        # "analog.eefocus.com",
-        # "atmel.eefocus.com",
-        # "bbs.cirmall.com",
-        # "comm.eefocus.com",
-        # "engine.eefocus.com",
-        # "gg.eefocus.com",
-        # "html.datasheet5.com",
-        # "jingyan.eeboard.com",
-        # "linear.eefocus.com",
-        # "linear.eefocus.com",
-        # "main.eefocus.com",
-        # "microchip.eefocus.com",
-        # "mm.nxpic.org",
-        # "operation.eefocus.com",
-        # "rf.eefocus.com",
-        # "rohm.eefocus.com",
-        # "search.eefocus.com",
-        # "sso.eefocus.com",
-        # "static.semidata.info",
-        # "stmcu.com.cn",
-        # "upload.semidata.info",
-        # "url.eefocus.com",
-        # "www.cirmall.com",
-        # "www.cndzz.com",
-        # "www.datasheet5.com",
-        # "www.eeboard.com",
-        # "www.eefocus.com",
-        # "www.freescaleic.org",
-        # "www.infineonic.org",
-        # "www.moore8.com",
-        # "www.nxpic.org",
-        # "www.openhw.org",
-        # "www.stmcu.com.cn",
-        # "www.stmcu.org",
-        # "www.stmcu.org.cn",
     ]
   },
   {
     hostname: "bridge-00",
     addr: "192.168.88.88",
     list: [
-        "bridge-00.{{ dnsmasq_dns_domain }}",
         "bridge-00"
     ]
   },
@@ -104,7 +59,6 @@ dnsmasq_dns_lines: [
     hostname: "cirmall-00",
     addr: "192.168.66.230",
     list: [
-        "cirmall-00.{{ dnsmasq_dns_domain }}",
         "cirmall-00",
     ]
   },
@@ -112,7 +66,6 @@ dnsmasq_dns_lines: [
     hostname: "gg-00",
     addr: "192.168.66.231",
     list: [
-        "gg-00.{{ dnsmasq_dns_domain }}",
         "gg-00",
         # "sso.eefocus.com",
     ]
@@ -121,7 +74,6 @@ dnsmasq_dns_lines: [
     hostname: "cache-00",
     addr: "192.168.66.232",
     list: [
-        "cache-00.{{ dnsmasq_dns_domain }}",
         "cache-00"
     ]
   },
@@ -129,7 +81,6 @@ dnsmasq_dns_lines: [
     hostname: "moore8-00",
     addr: "192.168.66.33",
     list: [
-        "moore8-00.{{ dnsmasq_dns_domain }}",
         "moore8-00"
     ]
   },
@@ -137,7 +88,7 @@ dnsmasq_dns_lines: [
     hostname: "support-00",
     addr: "192.168.88.92",
     list: [
-        "support-00.ac{{ dnsmasq_dns_domain }}",
+        "support-00"
     ]
   },
   {
