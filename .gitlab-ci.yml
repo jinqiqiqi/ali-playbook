@@ -36,7 +36,8 @@ before_script:
 build_env:
   stage: install
   script:
-    - ansible-playbook -i inventory/hosts -C build-env.yml -e addition="\"$CI_JOB_URL\""
+    # - ansible-playbook -i inventory/hosts -C build-env.yml -e addition="\"$CI_JOB_URL\""
+    - echo "disabled since we have triggered the jenkins to build automatically instead."
   only:
     - master
   # when: manual
