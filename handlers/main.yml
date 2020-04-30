@@ -6,7 +6,7 @@
     token: "TD91LBXBM/BFRTW9P54/SwzT2sC2UJPsSWj3NRKW1sl5"
     msg: "Service in role: <{{ role_name | default('unnamed_role') }}> {{ role_names }}@{{ inventory_hostname }} is restarted/changed! {{ addition | default('man-shell') }}"
     username: "aliyun >>> {{ inventory_hostname }} ({{ ansible_eth0['ipv4']['address'] }})"
-    channel: "#sync-nginx-conf"
+    channel: "#jenkins"
   # when: inventory_hostname != "cache-1"
   listen:
     - "crontab updated"
