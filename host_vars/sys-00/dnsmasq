@@ -29,7 +29,7 @@ dnsmasq_dns_lines: [
     list: [
         "9ks.eefocus.com",
         "ldap.eefocus.com",
-        'select.eefocus.com',
+        'select2.eefocus.com',
 
         "sys-00",
     ]
