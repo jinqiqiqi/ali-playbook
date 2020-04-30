@@ -94,7 +94,7 @@ def sendSlackMsg(String message, String color) {
             username: "${env.JOB_NAME}@9ks",
             token: slackCredentials, 
             color: "${color}",
-            message: "${env.BUILD_URL}console: ${env.BRANCH_NAME} ]] ${message}."
+            message: "[ ${env.BUILD_URL}console ] ${message}."
     }
 }
 
