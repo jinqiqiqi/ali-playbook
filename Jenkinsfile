@@ -1,14 +1,18 @@
-
-
 pipeline {
-    agent  any
+    agent  {
+        docker  {
+            image "ansible:latest"
+            args "-v /data:/data -v /etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /var/lib/jenkins:/var/lib/jenkins"
+            reuseNode true
+        }
+    }
     parameters {
-        string(name: "GITHUB_PROJECT", defaultValue: 'https://github.com/jinqiqiqi/ali-playbook.git', description: 'github code repository')
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH_TAG', quickFilterEnabled: true, tagFilter: '*'
+        string(name: "GITHUB_PROJECT", defaultValue: 'git@git.eefocus.tech:devops/ansible-playbooks/ali-playbook.git', description: 'github code repository')
+        gitParameter description: 'Choose branch/tag', branchFilter: '.*', defaultValue: 'master', name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', quickFilterEnabled: true, tagFilter: '*', listSize: "33"
     }
-    triggers {
-        cron('0 23 * * *')
-    }
+    // triggers {
+    //     cron('0 23 * * *')
+    // }
     environment {
         BUILD_USER = ''
     }
@@ -20,30 +24,16 @@ pipeline {
     stages {
         stage("repo") {
             steps {
-                git branch: "${params.BRANCH}", url: "${params.GITHUB_PROJECT}"
+                sendSlackMsg("*Started*", "#3838d8")
+                // git branch: "${params.BRANCH}", url: "${params.GITHUB_PROJECT}"
+                checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH_TAG}"]], userRemoteConfigs: [[credentialsId: 'gitk', url: "${params.GITHUB_PROJECT}"]]])
             }
         }
-        stage("start") {
-            steps {
-                script {
-                    last_running_stage = env.STAGE_NAME
-                }
-                sh "mkdir -p ~/.ssh/eefocus/"
-                withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-                    slackSend teamDomain: 'bigeworld',
-                        channel: '#jenkins', 
-                        token: slackCredentials, 
-                        color: 'good',
-                        message: "${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL}) has started."
-                }
-            }
-        }
+        
         stage('build_bridge') {
             steps {
-                script {
-                    last_running_stage = env.STAGE_NAME
-                }
                 withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USER')]) {
+                    sh "mkdir -p ~/.ssh/eefocus/"
                     sh "touch ~/.ssh/id_rsa"
                     sh "chmod 700 ~/.ssh/id_rsa;"
                     sh "cat ${SSH_KEY_FILE} | tee ~/.ssh/id_rsa"
@@ -57,69 +47,59 @@ pipeline {
                     sh 'rm -fr ~/ansible.cfg ansible.cfg'
                     sh 'cp -fv ansible.cfg.direct ~/ansible.cfg'
                     sh 'cp -fv ansible.cfg.direct ansible.cfg'
-                    sh 'cat ~/.ansible.cfg'
-                    sh 'ls -la ~/ ~/.ssh'
+                    // sh 'cat ~/ansible.cfg'
+                    // sh 'ls -la ~/ ~/.ssh'
 
                     ansiColor('xterm') {
                         ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
                     }
-                    // sh "chmod -Rvf 600 ~/.ssh/*"
                 }
             }
         }
     }
     post {
-        success {
-            echo "Success result. 1"
-            withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-                slackSend teamDomain: 'bigeworld',
-                    channel: '#jenkins', 
-                    token: slackCredentials, 
-                    color: 'good',
-                    message: "${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL}) has result (success): ${currentBuild.currentResult}."
-            }
-        }
-        failure {
-            echo "Failure result. 2"
-        }
-        changed {
-            echo "Changed result. 3"
-        }
+        
         always {
-            echo "Always result. 4"
-            mail to: 'qi.jin@supplyframe.cn',
-              subject: "${currentBuild.currentResult} of ${currentBuild.fullDisplayName} from [Jenkins-mailer@aliyun-eefocus]",
-              body: "Result: \t${currentBuild.currentResult}\nJob Name: \t${env.JOB_NAME}\nBuild Number: \t#${env.BUILD_NUMBER}\nBuild URL: \t${env.BUILD_URL}\nBranch: \t${env.GIT_BRANCH} \nDuration: \t${currentBuild.durationString}\nChange Set:\t${currentBuild.changeSets}\nLast Stage: \t${last_running_stage}"
-        }
-        unstable {
-            echo "Unstable result. 5"
-            withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-                slackSend teamDomain: 'bigeworld',
-                    channel: '#jenkins', 
-                    token: slackCredentials, 
-                    color: 'danger',
-                    message: "${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL}) has result (unstable): ${currentBuild.currentResult}. stage: ${last_running_stage}"
+            script {
+                color_name="good"
+                switch(currentBuild.currentResult) {
+                    case "SUCCESS":
+                        color_name="good"
+                        break;
+                    case "FAILURE":
+                        color_name="danger"
+                        break;
+                    // case "CHANGED":
+                    // case "UNSUCCESSFUL":
+                    // case "UNSTABLE":
+                    // case "ABORTED":
+                    default:
+                        color_name="#5f5f5f"
+                        break;
+                }
             }
-        }
-        aborted {
-            echo "Task aborted. 6"
-        }
-        unsuccessful {
-            echo "Unsuccessful result. 7"
-            withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-                slackSend teamDomain: 'bigeworld',
-                    channel: '#jenkins', 
-                    token: slackCredentials, 
-                    color: 'danger',
-                    message: "${env.JOB_NAME} #${env.BUILD_NUMBER} (${env.BUILD_URL}) has result (unsuccessful): ${currentBuild.currentResult}."
-            }
-        }
-        cleanup {
-            ansiColor('xterm') {
-                ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'cleanup.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
-            }
-            echo "Cleanup result. 8"
+
+            sendEmailNotification("Result: \t${currentBuild.currentResult}\nBuild URL: \t${env.BUILD_URL}\nBranch: \t${env.GIT_BRANCH} \nDuration: \t${currentBuild.durationString}\nChange Set:\t${currentBuild.changeSets}\nLast Stage: \t${env.STAGE_NAME}")
+
+            sendSlackMsg("*${currentBuild.currentResult}* (${currentBuild.durationString})", "${color_name}")
         }
     }
 }
- 
+
+
+def sendSlackMsg(String message, String color) {
+    withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
+        slackSend teamDomain: 'bigeworld',
+            channel: '#jenkins', 
+            username: "${env.JOB_NAME}@9ks",
+            token: slackCredentials, 
+            color: "${color}",
+            message: "${env.BUILD_URL}console: ${env.BRANCH_NAME} ]] ${message}."
+    }
+}
+
+def sendEmailNotification(String mailBody) {
+    mail to: 'qi.jin@supplyframe.cn',
+        subject: "${currentBuild.currentResult} of ${currentBuild.fullDisplayName}  building @ 9ks.eefocus.com",
+        body: "${mailBody}"
+}
