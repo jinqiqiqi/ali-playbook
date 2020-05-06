@@ -5,5 +5,7 @@ memcached_additional_instances: [
     { name: memcached11212, port: 11212, maxcon: 1024, cachesize: 2048, ops: "" },
     # main page caches
     { name: memcached11213, port: 11213, maxcon: 1024, cachesize: 2048, ops: "" },
+    # sns memcache
+    { name: memcached11214, port: 11214, maxcon: 1024, cachesize: 2048, ops: "" },
 ]
 
