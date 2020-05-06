@@ -26,3 +26,10 @@
     name: memcached11214 
     state: restarted 
     enabled: yes
+
+
+- name: restart memcached11215
+  systemd: 
+    name: memcached11215 
+    state: restarted 
+    enabled: yes
