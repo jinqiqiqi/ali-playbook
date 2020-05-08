@@ -9,3 +9,7 @@ server_user_ssh_keys: [
   
   { user: 'root', key: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1pkA6jik9qmJbBv7Zwjc92nAuZdFtTOAnD38KPan9hIzedrt86jafo7tFvRSdrW4ctfAML9KJdjGRlg96CucbRmlDf6IGmI2qdQBbk8+46yUmQDEjhUo1m+fk/H6rzSHTg7SX69aZxGrG4VLaJz4hZdIFPIfTzh2il2SGHar1fcM7ks26svjiOBKYtDNvoB8ZaYUzYY/LSzKRs03P6jfWoCMgIwCPlQIGxI4DbiUOPW0MdcjUKt3tFG4jSQQp4G4TD/SOcgU9kLWwYn4U5M5E521mCShDxaeDUZdweUF+VJAqh9W0QLP/Y6xPb5YE6JXY5tWjima6/r4sj7iKjzhX root@jenkins-00'},
 ]
+
+copylog_user_ssh_keys: [
+    { user: 'copylog', group: 'developers', key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC58n7rEmaCTDX4lVf19BPu0a8cKCjMJiRkVTMLfa5Ogi+aRSY8GWvxENAlaiL/HXgmDdxJBzKxKyAecbV3IXT4AWAqpTrvRSvI15HX1GX5zJli+BZOBRDx8e+Qxf2F+RZ3YY6LBPKhn9xIqO0mV7prQacrMFhzBxfPr6clOuJG7AxLT34+25iX88gqHirGMSGTlebL4LJTJeYH8Go0Amz+A5ffVCblx78liDb09N9sEq1JGWF9hgsfg2KZ5w/qrVlMtbuVomlKGYRxTZy/dkJZ01aQaxJx4zi0HItaXsyg2GEMhaYwy1K0+kHDbgaQLhm2J3kwo+li8/QCi/8aSM2r qq@focusEE.local" },
+]

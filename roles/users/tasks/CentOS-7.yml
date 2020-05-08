@@ -20,4 +20,37 @@
   loop: "{{ server_user_ssh_keys }}"
   tags:
     - users
-  
+
+
+- name: Switch to users that for automations
+  command: hostname
+  become_user: "{{ item.user }}"
+  args:
+    creates: /home/{{ item.user }}/.bash_profile
+  when: inventory_hostname == "sns-00" or inventory_hostname == "sns-01"
+  register: www_command
+  loop: "{{ copylog_user_ssh_keys }}"
+  tags:
+    - users
+
+- name: Add private key for automation users
+  authorized_key:
+    user: "{{ item.user }}"
+    state: present
+    key: "{{ item.key }}"
+  when: inventory_hostname == "sns-00" or inventory_hostname == "sns-01"
+  loop: "{{ copylog_user_ssh_keys }}"
+  tags:
+    - users
+
+- name: Copy private key for automation users
+  copy:
+    src: copylog_priv_key
+    dest: "/home/{{ item.user }}/.ssh/id_rsa"
+    owner: "{{ item.user }}"
+    group: "{{ item.group | default('developers') }}"
+    mode: '0600'
+  loop: "{{ copylog_user_ssh_keys }}"
+  when: inventory_hostname == "sns-00" or inventory_hostname == "sns-01"
+  tags:
+    - users
