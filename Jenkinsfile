@@ -25,13 +25,10 @@ pipeline {
         stage("repo") {
             steps {
                 script {
-                    echo "Here is the testing jenkinsfile script."
                     configFileProvider([configFile(fileId: '47299b19-0338-473d-a65a-8da13057663a', targetLocation: '.git/NotiFile')]) {
                       notifier = load ".git/NotiFile"
                     }
                     notifier.sendSlackMsg("*Started*", "#3838d8")
-                    
-                    // checkout scm
                     
                     checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH_TAG}"]], userRemoteConfigs: [[credentialsId: 'gitk', url: "${params.GITHUB_PROJECT}"]]])
                 }
