@@ -30,9 +30,9 @@ pipeline {
                     }
                     notifier.sendSlackMsg("*Started*", "#3838d8")
                     
-                    checkout scm
+                    // checkout scm
                     
-                    // checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH_TAG}"]], userRemoteConfigs: [[credentialsId: 'gitk', url: "${params.GITHUB_PROJECT}"]]])
+                    checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH_TAG}"]], userRemoteConfigs: [[credentialsId: 'gitk', url: "${params.GITHUB_PROJECT}"]]])
                 }
             }
         }
