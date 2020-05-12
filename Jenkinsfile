@@ -25,6 +25,7 @@ pipeline {
         stage("repo") {
             steps {
                 script {
+                    echo "Here is the testing jenkinsfile script."
                     configFileProvider([configFile(fileId: '47299b19-0338-473d-a65a-8da13057663a', targetLocation: '.git/NotiFile')]) {
                       notifier = load ".git/NotiFile"
                     }
