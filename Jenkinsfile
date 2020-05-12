@@ -13,9 +13,9 @@ pipeline {
     // triggers {
     //     cron('0 23 * * *')
     // }
-    environment {
-        BUILD_USER = ''
-    }
+    // environment {
+    //     BUILD_USER = ''
+    // }
     options {
         // retry(2)
         timeout(time: 45, unit: 'MINUTES')
@@ -24,9 +24,16 @@ pipeline {
     stages {
         stage("repo") {
             steps {
-                sendSlackMsg("*Started*", "#3838d8")
-                // git branch: "${params.BRANCH}", url: "${params.GITHUB_PROJECT}"
-                checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH_TAG}"]], userRemoteConfigs: [[credentialsId: 'gitk', url: "${params.GITHUB_PROJECT}"]]])
+                script {
+                    configFileProvider([configFile(fileId: '47299b19-0338-473d-a65a-8da13057663a', targetLocation: '.git/NotiFile')]) {
+                      notifier = load ".git/NotiFile"
+                    }
+                    notifier.sendSlackMsg("*Started*", "#3838d8")
+                    
+                    checkout scm
+                    
+                    // checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH_TAG}"]], userRemoteConfigs: [[credentialsId: 'gitk', url: "${params.GITHUB_PROJECT}"]]])
+                }
             }
         }
         
@@ -51,7 +58,8 @@ pipeline {
                     // sh 'ls -la ~/ ~/.ssh'
 
                     ansiColor('xterm') {
-                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-D -e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'playbook.yml', colorized: true, extras: '-D -e host_name=common_group -e role_name=users  -e addition="${BUILD_URL}"'
                     }
                 }
             }
@@ -77,29 +85,11 @@ pipeline {
                         color_name="#5f5f5f"
                         break;
                 }
+                notifier.sendResultEmailNotification("${color_name}")
+                
+                
             }
 
-            sendEmailNotification("Result: \t${currentBuild.currentResult}\nBuild URL: \t${env.BUILD_URL}\nBranch: \t${env.GIT_BRANCH} \nDuration: \t${currentBuild.durationString}\nChange Set:\t${currentBuild.changeSets}\nLast Stage: \t${env.STAGE_NAME}")
-
-            sendSlackMsg("*${currentBuild.currentResult}* (${currentBuild.durationString})", "${color_name}")
         }
     }
-}
-
-
-def sendSlackMsg(String message, String color) {
-    withCredentials([string(credentialsId: 'slack-token', variable: 'slackCredentials')]) {
-        slackSend teamDomain: 'bigeworld',
-            channel: '#jenkins', 
-            username: "${env.JOB_NAME}@9ks",
-            token: slackCredentials, 
-            color: "${color}",
-            message: "[ ${env.BUILD_URL}console ] ${message}."
-    }
-}
-
-def sendEmailNotification(String mailBody) {
-    mail to: 'qi.jin@supplyframe.cn',
-        subject: "${currentBuild.currentResult} of ${currentBuild.fullDisplayName}  building @ 9ks.eefocus.com",
-        body: "${mailBody}"
 }
