@@ -16,9 +16,7 @@
   package:
     name: "{{ item }}"
     state: latest
-  loop:
-    - rsyslog
-    # - rsyslog-mysql
+  loop: "{{ rsyslog_common_packages }}"
   tags:
     - rsyslog
   notify: restart rsyslog
@@ -30,6 +28,29 @@
     enabled: yes
   tags:
     - rsyslog
+
+- name: "Install/Update Rsyslog components for rsyslog master server"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ rsyslog_master_packages }}"
+  when: inventory_hostname == rsyslog_master
+  tags:
+    - rsyslog
+    # - debug
+  notify:
+    - restart rsyslog
+
+- name: "Install/Update Rsyslog components for rsyslog slave server"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ rsyslog_slave_packages }}"
+  when: inventory_hostname != rsyslog_master
+  tags:
+    - rsyslog
+  notify: restart rsyslog
+
 
 - name: "Allow rsyslog related ports in INPUT chain"
   iptables:
@@ -43,46 +64,37 @@
   tags:
     - rsyslog
 
-# replaces lines in master hosts
-- name: Replace items in rsyslog master config files
-  lineinfile:
-    dest: "/etc/rsyslog.conf"
-    regexp: '{{ item.source }}'
-    line: '{{ item.dest }}'
-    backrefs: yes
-  with_items: "{{ rsyslog_master_config_lines }}"
+# start to install rsyslog.conf file.
+- name: Update Rsyslog Config file for master.
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+    group: "root"
+    owner: "root"
+  with_items: "{{ rsyslog_master_sub_conf }}"
   when: inventory_hostname == rsyslog_master
-  notify: restart rsyslog
   tags:
     - rsyslog
+    - debug
+  notify:
+    - restart rsyslog
 
-# replaces lines in slave hosts
-- name: Replace items in rsyslog config config files
-  lineinfile:
-    dest: "/etc/rsyslog.conf"
-    regexp: '{{ item.source }}'
-    line: '{{ item.dest }}'
-    backrefs: yes
-  with_items: "{{ rsyslog_slave_config_lines }}"
+# start to install rsyslog.conf file.
+- name: Update Rsyslog Config file for slaves.
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+    group: "root"
+    owner: "root"
+  with_items: "{{ rsyslog_master_sub_conf }}"
   when: inventory_hostname != rsyslog_master
-  notify: restart rsyslog
   tags:
     - rsyslog
-# # start to install rsyslog.conf file.
-# - name: Update Rsyslog Config file.
-#   template:
-#     src: "{{ item.src }}"
-#     dest: "{{ item.dest }}"
-#     mode: "0644"
-#     group: "root"
-#     owner: "root"
-#   with_items:
-#     - {src: "rsyslog.conf.j2", dest: "/etc/rsyslog.conf"}
-#   tags:
-#     - rsyslog
-#     - copyshell
-#   notify:
-#     - restart rsyslog
+    # - debug
+  notify:
+    - restart rsyslog
 
 # - name: Update Rsyslog Config files.
 #   template:

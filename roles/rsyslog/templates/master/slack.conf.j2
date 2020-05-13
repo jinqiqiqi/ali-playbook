@@ -1,0 +1,32 @@
+
+template(name="user_command_line" type="list") {
+    property(name="timereported" dateFormat="rfc3339")
+    constant(value="^")
+    property(name="syslogfacility")
+    constant(value="^")
+    property(name="PROCID")
+    constant(value="^")
+    property(name="fromhost-ip")
+    constant(value="^")
+    property(name="hostname")
+    constant(value="^")
+    property(name="syslogtag")
+    constant(value="^")
+    property(name="syslogpriority")
+    constant(value="^^^^")
+    property(name="msg" spifno1stsp="on")
+    property(name="msg" droplastlf="on")
+    constant(value="\n")
+}
+
+ruleset(name="send_command2slack" queue.type="fixedArray" queue.dequeueBatchSize="4096" queue.size="250000" queue.workerThreads="4" queue.workerThreadMinimumMessages="60000") {
+  action(
+    type="omprog"
+    binary="/usr/bin/php -f /var/lib/rsyslog/slack.php"
+    template="user_command_line"
+  )
+}
+
+# if ( $syslogpriority <= 5  ) then {
+  user.*;authpriv.*;cron.*;local6.info;local5.info     call send_command2slack
+# }

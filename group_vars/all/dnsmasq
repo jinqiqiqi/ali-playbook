@@ -14,8 +14,8 @@ dnsmasq_config_lines: [
   { source: '^listen-address=', dest: 'listen-address=0.0.0.0' },
   { source: '^#local-ttl=', dest: 'local-ttl=3600' },
   { source: '^local-ttl=', dest: 'local-ttl=7200' },
-  { source: '^#log-queries', dest: 'log-queries' },
-  { source: '^log-queries', dest: 'log-queries' },
+  # { source: '^#log-queries', dest: 'log-queries' },
+  # { source: '^log-queries', dest: 'log-queries' },
   { source: '^#interface=', dest: 'interface=eth0' },
   { source: '^interface=', dest: 'interface=eth0' },
 ]
