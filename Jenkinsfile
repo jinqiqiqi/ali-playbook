@@ -56,8 +56,8 @@ pipeline {
                     // sh 'ls -la ~/ ~/.ssh'
 
                     ansiColor('xterm') {
-                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-D -e addition="${BUILD_URL}"'
-                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'playbook.yml', colorized: true, extras: '-D -e host_name=common_group -e role_name=users  -e addition="${BUILD_URL}"'
+                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-D -e addition="${BUILD_URL}consuleFull"'
+                        ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'playbook.yml', colorized: true, extras: '-D -e host_name=common_group -e role_name=users  -e addition="${BUILD_URL}consuleFull"'
                     }
                 }
             }
