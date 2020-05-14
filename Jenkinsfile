@@ -22,20 +22,23 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("repo") {
+        stage("start") {
+            script {
+                configFileProvider([configFile(fileId: '47299b19-0338-473d-a65a-8da13057663a', targetLocation: '.git/NotiFile')]) {
+                  notifier = load ".git/NotiFile"
+                }
+                notifier.sendSlackMsg("*Started*", "#3838d8")
+            }
+        }
+        stage("git pull") {
             steps {
                 script {
-                    configFileProvider([configFile(fileId: '47299b19-0338-473d-a65a-8da13057663a', targetLocation: '.git/NotiFile')]) {
-                      notifier = load ".git/NotiFile"
-                    }
-                    notifier.sendSlackMsg("*Started*", "#3838d8")
-                    
                     checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH_TAG}"]], userRemoteConfigs: [[credentialsId: 'gitk', url: "${params.GITHUB_PROJECT}"]]])
                 }
             }
         }
         
-        stage('build_bridge') {
+        stage('run playbook') {
             steps {
                 withCredentials ([sshUserPrivateKey(credentialsId: 'rootk', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USER')]) {
                     sh "mkdir -p ~/.ssh/eefocus/"
@@ -55,10 +58,10 @@ pipeline {
                     // sh 'cat ~/ansible.cfg'
                     // sh 'ls -la ~/ ~/.ssh'
 
-                    ansiColor('xterm') {
+                    // ansiColor('xterm') {
                         ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'build-env.yml', colorized: true, extras: '-D -e addition="${BUILD_URL}consuleFull"'
                         ansiblePlaybook credentialsId: 'rootk', disableHostKeyChecking: true, inventory: 'inventory/hosts', playbook: 'playbook.yml', colorized: true, extras: '-D -e host_name=common_group -e role_name=users  -e addition="${BUILD_URL}consuleFull"'
-                    }
+                    // }
                 }
             }
         }
