@@ -23,11 +23,13 @@ pipeline {
     }
     stages {
         stage("start") {
-            script {
-                configFileProvider([configFile(fileId: '47299b19-0338-473d-a65a-8da13057663a', targetLocation: '.git/NotiFile')]) {
-                  notifier = load ".git/NotiFile"
+            steps {
+                script {
+                    configFileProvider([configFile(fileId: '47299b19-0338-473d-a65a-8da13057663a', targetLocation: '.git/NotiFile')]) {
+                      notifier = load ".git/NotiFile"
+                    }
+                    notifier.sendSlackMsg("*Started*", "#3838d8")
                 }
-                notifier.sendSlackMsg("*Started*", "#3838d8")
             }
         }
         stage("git pull") {
