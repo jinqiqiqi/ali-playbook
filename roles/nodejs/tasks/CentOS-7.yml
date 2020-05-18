@@ -55,7 +55,7 @@
 
 - name: "Install pm2"
   shell: >
-    source /etc/profile && npm install -g pm2
+    source /etc/profile && npm install -g pm2 && npm config set update-notifier false
   args:
     creates: "/home/{{ nodejs_user }}/.nvm/versions/node/{{ nodejs_version}}/lib/node_modules/npm/bin/npx"
   become: true
