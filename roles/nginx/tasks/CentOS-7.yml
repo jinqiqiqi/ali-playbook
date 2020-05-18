@@ -93,20 +93,20 @@
   notify:
     - restart nginx
 
-- name: "Change the permission to www:devops"
-  file:
-    path: "{{ item }}"
-    owner: www
-    group: devops
-    recurse: yes
-  loop:
-    - /var/lib/nginx
-    - /var/log/nginx
-  tags:
-    - nginx
-  when: inventory_hostname != 'sys-00'
-  notify:
-    - restart nginx
+# - name: "Change the permission to root:root"
+#   file:
+#     path: "{{ item }}"
+#     owner: root
+#     group: root
+#     recurse: yes
+#   loop:
+#     - /var/lib/nginx
+#     - /var/log/nginx
+#   tags:
+#     - nginx
+#   when: inventory_hostname != 'sys-00'
+#   notify:
+#     - restart nginx
 
 
 - name: Allow nginx related ports in INPUT chain
