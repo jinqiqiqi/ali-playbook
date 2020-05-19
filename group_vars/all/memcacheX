@@ -9,5 +9,7 @@ memcached_additional_instances: [
     { name: memcached11214, port: 11214, maxcon: 1024, cachesize: 2048, ops: "" },
     # sns dz@sns
     { name: memcached11215, port: 11215, maxcon: 1024, cachesize: 1024, ops: "" },
+    # moore8
+    { name: memcached11216, port: 11216, maxcon: 1024, cachesize: 1024, ops: "" },
 ]
 
