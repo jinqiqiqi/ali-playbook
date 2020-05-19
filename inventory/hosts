@@ -68,10 +68,7 @@ gg-00
 moore8-d5-00
 moore8-d5-01
 
-; sys-00
-; cirmall-00
-; bridge-00
-; moore8-00
+
 
 [cache]
 cache-00
@@ -79,8 +76,6 @@ cache-00
 
 [php7_remi]
 account-sso-00
-moore8-d5-00
-moore8-d5-01
 
 [php5_remi]
 support-00
@@ -90,6 +85,8 @@ main-01
 article-01
 account-sso-00
 gg-00
+moore8-d5-00
+moore8-d5-01
 
 
 
@@ -109,7 +106,6 @@ account-sso-00
 sns-00
 sns-01
 gg-00
-
 moore8-d5-00
 moore8-d5-01
 
