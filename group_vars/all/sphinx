@@ -20,3 +20,7 @@ sphinx_src_lines: [
 sphinx_iptables_allow_ports: [
     "9312",
 ]
+
+sphinx_related_directories: [
+  "/var/run/sphinx/"
+]

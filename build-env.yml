@@ -124,6 +124,8 @@
             name: mongodb
         # - include_role:
         #     name: rabbitmq
+        - include_role:
+            name: sphinx
       rescue:
         - include: handlers/exception.yml role_name=cache_service
   tags:

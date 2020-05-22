@@ -62,3 +62,14 @@
   become_user: "{{ nodejs_user }}"
   tags:
     - nodejs
+
+- name: "Make sure directories are existing"
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner | default('owner') }}"
+    group: "{{ item.group | default('devops') }}"
+    mode: "{{ item.mode | default('0755') }}"
+  loop: "{{ nodejs_app_directories }}"
+  tags:
+    - nodejs

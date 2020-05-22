@@ -127,8 +127,8 @@
     group: "{{ sphinx_group }}"
     state: directory
     mode: 644
-  with_items:
-    - "/var/run/sphinx/"
+  with_items: "{{ sphinx_related_directories }}"
+    - 
   tags:
     - sphinx
 

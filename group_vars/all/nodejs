@@ -9,3 +9,6 @@ nodejs_version: "v12.13.0"
 # specify the running user for nodejs
 nodejs_user: "www"
 
+nodejs_app_directories: [
+  { path: '/var/log/node/', owner: "www", group: "devops", mode: "0755" },
+]
