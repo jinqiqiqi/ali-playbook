@@ -57,11 +57,22 @@
   shell: >
     source /etc/profile && npm install -g pm2 && npm config set update-notifier false
   args:
-    creates: "/home/{{ nodejs_user }}/.nvm/versions/node/{{ nodejs_version}}/lib/node_modules/npm/bin/npx"
+    creates: "/home/{{ nodejs_user }}/.nvm/versions/node/{{ nodejs_version}}/bin/pm2"
   become: true
   become_user: "{{ nodejs_user }}"
   tags:
     - nodejs
+
+- name: "Install grunt"
+  shell: >
+    source /etc/profile && npm install -g grunt
+  args:
+    creates: "/home/{{ nodejs_user }}/.nvm/versions/node/{{ nodejs_version}}/bin/grunt"
+  become: true
+  become_user: "{{ nodejs_user }}"
+  tags:
+    - nodejs
+
 
 - name: "Make sure directories are existing"
   file:
