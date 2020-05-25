@@ -31,6 +31,18 @@ moore8-d5-01 ansible_ssh_host=192.168.88.107
 ; cache-00 ansible_ssh_host=192.168.88.232
 ; moore8-00 ansible_ssh_host=192.168.88.33
 
+eeboard-00 ansible_ssh_host=192.168.88.108
+cirmall-00 ansible_ssh_host=192.168.88.109
+cirmall-01 ansible_ssh_host=192.168.88.112
+cirmall-bbs-00 ansible_ssh_host=192.168.88.110
+cirmall-bbs-01 ansible_ssh_host=192.168.88.111
+
+
+misc-usa-00 ansible_ssh_host=47.88.10.39
+; root / EEFocus=2020
+
+
+; root / EEFocus=2020
 
 [bridge]
 bridge-00
@@ -42,11 +54,13 @@ sys-00
 sys-00
 
 [nodejs]
-; cirmall-00
 ; moore8-00
 support-00
 moore8-d5-00
 moore8-d5-01
+
+cirmall-00
+cirmall-01
 
 [sys]
 sys-00
@@ -76,6 +90,7 @@ cache-00
 
 [php7_remi]
 account-sso-00
+eeboard-00
 
 [php5_remi]
 support-00
@@ -87,6 +102,11 @@ account-sso-00
 gg-00
 moore8-d5-00
 moore8-d5-01
+
+cirmall-bbs-00
+cirmall-bbs-01
+
+
 
 
 
@@ -109,6 +129,12 @@ gg-00
 moore8-d5-00
 moore8-d5-01
 
+cirmall-bbs-00
+cirmall-bbs-01
+eeboard-00
+
+cirmall-00
+cirmall-01
 
 ; nginx-1
 ; cirmall-00
@@ -123,6 +149,14 @@ common_group
 
 [rsyslog:children]
 common_group
+
+[new]
+cirmall-bbs-00
+cirmall-bbs-01
+eeboard-00
+
+cirmall-00
+cirmall-01
 
 
 [all:vars]

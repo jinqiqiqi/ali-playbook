@@ -18,6 +18,7 @@
   when: inventory_hostname == 'bridge-00'
   tags:
     - base
+    - common_group
     - base-motd
 
 - name: Install / Enable EPEL repo for servers.
@@ -28,6 +29,7 @@
     - epel-release
   tags:
     - base
+    - common_group
 
 # - name: Download and replace the CentOS-7.repo file.
 #   get_url:
@@ -72,6 +74,7 @@
     - pyOpenSSL
   tags:
     - base
+    - common_group
 
 - name: Install basic pip packages.
   pip:
@@ -82,6 +85,7 @@
     - passlib
   tags:
     - base
+    - common_group
 
 - name: Change the motd file
   template:
@@ -91,6 +95,7 @@
     - { src: "motd.j2", dest: "/etc/motd" }
   tags:
     - base
+    - common_group
     - base-motd
 
 - name: Settings to sysctl.conf
@@ -103,6 +108,7 @@
   loop: "{{ sysctl_file_settings }}"
   tags:
     - base
+    - common_group
   
 # - name: "update dnsresolve in all group servers"
 #   lineinfile:
@@ -125,7 +131,7 @@
     - "DNS1=192.168.88.90"
     # - "DNS2=114.114.114.114"
     # - "DNS3=100.100.2.136"
-  when: inventory_hostname != 'sys-00'
+  when: inventory_hostname != 'sys-00' and inventory_hostname != 'misc-usa-00'
   notify:
     - restart network
 
@@ -133,8 +139,10 @@
   file:
     path: "/data/"
     state: directory
+  when: inventory_hostname != 'misc-usa-00'
   tags:
     - base
+    - common_group
     - base-motd
     
 - name: Mount /data/ partition
@@ -145,8 +153,10 @@
     opts: vers=4,minorversion=0,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,noresvport
     state: mounted
     boot: yes
+  when: inventory_hostname != 'misc-usa-00'
   tags:
     - base
+    - common_group
     - base-motd
     
 - name: Change the hostname step
@@ -154,4 +164,5 @@
     name: "{{ inventory_hostname }}"
   tags:
     - base
+    - common_group
     - base-motd

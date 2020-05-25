@@ -12,8 +12,8 @@
       block:
         - include_role: 
             name: dnsmasq
-        - include_role:
-            name: openldap
+        # - include_role:
+        #     name: openldap
       rescue:
         - include: handlers/exception.yml role_name=sys_service
   tags:
@@ -122,10 +122,10 @@
             name: memcacheX
         - include_role:
             name: mongodb
-        # - include_role:
-        #     name: rabbitmq
         - include_role:
-            name: sphinx
+            name: rabbitmq
+        # - include_role:
+        #     name: sphinx
       rescue:
         - include: handlers/exception.yml role_name=cache_service
   tags:
