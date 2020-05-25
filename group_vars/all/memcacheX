@@ -11,5 +11,7 @@ memcached_additional_instances: [
     { name: memcached11215, port: 11215, maxcon: 1024, cachesize: 1024, ops: "" },
     # moore8
     { name: memcached11216, port: 11216, maxcon: 1024, cachesize: 1024, ops: "" },
+    # cirmall
+    { name: memcached11217, port: 11217, maxcon: 1024, cachesize: 1024, ops: "" },
 ]
 
