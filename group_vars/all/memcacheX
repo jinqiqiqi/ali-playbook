@@ -13,5 +13,10 @@ memcached_additional_instances: [
     { name: memcached11216, port: 11216, maxcon: 1024, cachesize: 1024, ops: "" },
     # cirmall
     { name: memcached11217, port: 11217, maxcon: 1024, cachesize: 1024, ops: "" },
+    # eeboard - bbs
+    { name: memcached11218, port: 11218, maxcon: 1024, cachesize: 1024, ops: "" },
+    # ssp-client
+    { name: memcached11219, port: 11219, maxcon: 1024, cachesize: 1024, ops: "" },
+
 ]
 

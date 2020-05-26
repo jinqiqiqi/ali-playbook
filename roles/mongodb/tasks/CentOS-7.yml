@@ -1,23 +1,24 @@
 ---
 # tasks file for roles/Mongodb
 
-# - name: "Adding Mongodb repositories"
-#   copy:
-#     src: "{{ item.src }}"
-#     dest: "{{ item.dest }}"
-#     owner: root
-#     group: root
-#   with_items:
-#     - { src: mongodb.repo, dest: /etc/yum.repos.d/mongodb.repo }
-#   tags:
-#     - mongodb
+- name: "Adding Mongodb repositories"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+  with_items:
+    - { src: mongodb.repo.j2, dest: /etc/yum.repos.d/mongodb.repo }
+  tags:
+    - mongodb
 
-- name: "Uninstall mongodb-org"
+- name: "Uninstall old mongodb-org"
   package:
     name: "{{ item }}"
     state: absent
   loop:
-    - "mongodb-org*"
+    - "mongodb-server"
+    - "mongodb"
   tags:
     - mongodb
 
@@ -26,8 +27,8 @@
     name: "{{ item }}"
     state: latest
   loop:
-    - mongodb-server
-    - mongodb
+    - mongodb-org-server
+    - mongodb-org
   tags:
     - mongodb
 
@@ -53,17 +54,17 @@
   tags:
     - mongodb
 
-- name: Change /etc/mongos.conf for mongodb
-  lineinfile:
-    dest: "/etc/mongos.conf"
-    regexp: '{{ item.source }}'
-    line: '{{ item.dest }}'
-    backrefs: yes
-  with_items: "{{ mongos_config_lines }}"
-  notify:
-    - restart mongodb
-  tags:
-    - mongodb
+# - name: Change /etc/mongos.conf for mongodb
+#   lineinfile:
+#     dest: "/etc/mongos.conf"
+#     regexp: '{{ item.source }}'
+#     line: '{{ item.dest }}'
+#     backrefs: yes
+#   with_items: "{{ mongos_config_lines }}"
+#   notify:
+#     - restart mongodb
+#   tags:
+#     - mongodb
 
 - name: Add or modify nofile soft limit for the mongo user
   pam_limits:
