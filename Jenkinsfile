@@ -10,9 +10,9 @@ pipeline {
         string(name: "GITHUB_PROJECT", defaultValue: 'git@git.eefocus.tech:devops/ansible-playbooks/ali-playbook.git', description: 'github code repository')
         gitParameter description: 'Choose branch/tag', branchFilter: '.*', defaultValue: 'master', name: 'BRANCH_TAG', type: 'PT_BRANCH_TAG', quickFilterEnabled: true, tagFilter: '*', listSize: "33"
     }
-    // triggers {
-    //     cron('0 23 * * *')
-    // }
+    triggers {
+        cron('45 23 * * 0')
+    }
     // environment {
     //     BUILD_USER = ''
     // }
