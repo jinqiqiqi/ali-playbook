@@ -17,6 +17,8 @@ memcached_additional_instances: [
     { name: memcached11218, port: 11218, maxcon: 1024, cachesize: 1024, ops: "" },
     # ssp-client
     { name: memcached11219, port: 11219, maxcon: 1024, cachesize: 1024, ops: "" },
+    # eehub
+    { name: memcached11220, port: 11220, maxcon: 1024, cachesize: 1024, ops: "" },
 
 ]
 
