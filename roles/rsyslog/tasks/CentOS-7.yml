@@ -64,7 +64,7 @@
     destination_port: "{{ item }}"
     jump: ACCEPT
     action: insert
-  loop: "{{ rsyslog_iptables_allow_ports s}}"
+  loop: "{{ rsyslog_iptables_allow_ports }}"
   when: inventory_hostname == rsyslog_master
   tags:
     - rsyslog
