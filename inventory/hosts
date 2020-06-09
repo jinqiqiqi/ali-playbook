@@ -101,7 +101,11 @@ moore8-d5-01
 cirmall-bbs-00
 cirmall-bbs-01
 
+[frp_server]
+sys-00
 
+[frp_client]
+repo
 
 
 

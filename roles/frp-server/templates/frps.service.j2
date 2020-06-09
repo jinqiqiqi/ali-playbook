@@ -1,0 +1,20 @@
+[Unit]
+Description=The Fast Reverse Proxy Process Manager
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/{{ frp_name }}/frps -c /opt/{{ frp_name }}/frps.ini
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=42s
+#PrivateTmp=true
+#RuntimeDirectory=php-fpm
+#RuntimeDirectoryMode=0755
+
+TimeoutStartSec=0
+Delegate=yes
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

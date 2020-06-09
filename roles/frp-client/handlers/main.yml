@@ -1,2 +1,15 @@
 ---
 # handlers file for roles/frp-client
+
+- name: create unarchived file
+  file:
+    path: "/tmp/unarchived_frpc{{ frp_file_name }}"
+    state: touch
+    mode: 0600
+
+- name: restart frpc service
+  systemd:
+    name: frpc
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

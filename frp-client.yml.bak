@@ -1,0 +1,11 @@
+---
+
+- name: Fast reverse proxy installation.
+  hosts:
+    - frp_client
+
+  become_user: root
+  become: yes
+
+  roles:
+    - frp-client

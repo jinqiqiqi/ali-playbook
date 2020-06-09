@@ -1,0 +1,44 @@
+frp_version: 0.33.0
+frp_name: "frp_{{ frp_version }}_linux_amd64"
+frp_file_name: "{{ frp_name }}.tar.gz"
+
+# frp_download_link: "https://github.com/fatedier/frp/releases/download/v{{ frp_version }}/{{ frp_file_name }}"
+
+# 0.33.0
+frp_download_link: "http://f.eefocus.tech/s/jr5s2Xs6RQQp4XF/download"
+
+# 0.33.0
+frp_sha256: ee409d9464f8f0862cc3d9c0ed4f5ae1244ac96b1fec9f7e405b2c5ea5bb6787
+
+frp_token: Fd2pTAk
+
+frps_server: 47.254.16.153
+frps_port: 7986
+
+admin_port: 7400
+admin_user: client
+admin_pwd: client@eefocus
+
+remote_ssh_port: 6000
+
+frpc_clients: [
+    {
+        name: ssh,
+        type: tcp,
+        local_ip: '{{ ansible_host }}',
+        local_port: 8081,
+        remote_port: '{{ remote_ssh_port }}',
+        use_encryption: true,
+        use_compression: true
+    },
+    {
+        name: repoweb,
+        type: tcp,
+        local_ip: '{{ ansible_host }}',
+        local_port: 8081,
+        remote_port: 6001,
+        use_encryption: true,
+        use_compression: true
+    }
+
+]

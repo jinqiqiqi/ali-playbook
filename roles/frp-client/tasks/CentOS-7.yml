@@ -1,0 +1,79 @@
+- name: Install libselinux-python
+  package:
+    name: libselinux-python
+    state: latest
+  tags:
+    - frp-server
+
+- name: Prepare directories for custom installations.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "/opt/src/"
+  tags:
+    - frp-client
+
+- name: Download the frp zip package
+  get_url:
+    url: "{{ frp_download_link }}"
+    dest: "/opt/src/{{ frp_file_name }}"
+    validate_certs: no
+    tmp_dest: /tmp/
+    checksum: "sha256:{{ frp_sha256 }}"
+    timeout: 120
+  tags:
+    - frp-client
+
+- name: "Unarchive the frp file, from: /opt/src/{{ frp_file_name }} to: /opt/"
+  unarchive:
+    src: "/opt/src/{{ frp_file_name }}"
+    dest: "/opt/"
+    remote_src: true
+    list_files: true
+    # owner: root
+    # group: root
+    # mode: 0755
+    # keep_newer: yes
+    creates: "/tmp/unarchived_frpc{{ frp_file_name }}"
+    # creates: /opt/src/{{ frp_file_name }}/frps.ini
+  notify:
+    - create unarchived file
+  tags:
+    - frp-client
+
+
+- name: "Update the frpc service file: "
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - { src: frpc.service.j2, dest: "/usr/lib/systemd/system/frpc.service" }
+  notify:
+    - restart frpc service
+  tags:
+    - frp-server
+
+- name: "Update the frpc config file: frpc.ini"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: frpc.ini.j2, dest: "/opt/{{ frp_name }}/frpc.ini" }
+  notify:
+    - restart frpc service
+  tags:
+    - frp-client
+
+
+- name: start frpc service
+  systemd:
+    name: frpc
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  tags:
+    - frp-client
+

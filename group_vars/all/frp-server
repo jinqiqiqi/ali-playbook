@@ -1,0 +1,21 @@
+frp_version: 0.33.0
+frp_name: "frp_{{ frp_version }}_linux_amd64"
+frp_file_name: "{{ frp_name }}.tar.gz"
+frp_download_link: "https://github.com/fatedier/frp/releases/download/v{{ frp_version }}/{{ frp_file_name }}"
+
+frp_download_path: "/usr/local/src/"
+
+# 0.33.0
+# frp_download_link: "http://f.eefocus.tech/s/jr5s2Xs6RQQp4XF/download"
+
+# 0.33.0
+frp_sha256: ee409d9464f8f0862cc3d9c0ed4f5ae1244ac96b1fec9f7e405b2c5ea5bb6787
+
+frp_token: Fd2pTAk
+
+bind_port: 7986
+
+frps_dashboard_user: eefocus
+frps_dashboard_pwd: admin@eefocus
+
+dashboard_port: 5647

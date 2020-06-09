@@ -1,0 +1,269 @@
+[all]
+nginx-1 ansible_ssh_host=192.168.0.2
+nginx-2 ansible_ssh_host=192.168.0.1
+
+eefocus-1 ansible_ssh_host=192.168.0.111
+
+cndzz-1 ansible_ssh_host=192.168.0.112
+cndzz-2 ansible_ssh_host=192.168.0.132
+
+passport-1 ansible_ssh_host=192.168.0.114
+passport-2 ansible_ssh_host=192.168.0.134
+
+job-1 ansible_ssh_host=192.168.0.122
+
+pi-support ansible_ssh_host=192.168.0.119
+
+
+
+; account-article-engine
+eefocus-3 ansible_ssh_host=192.168.0.158
+eefocus-5 ansible_ssh_host=192.168.0.161
+
+; account-article-engine
+eefocus-6 ansible_ssh_host=192.168.0.182
+
+
+community-3 ansible_ssh_host=192.168.0.164
+community-4 ansible_ssh_host=192.168.0.183
+
+gg-2 ansible_ssh_host=192.168.0.137
+gg-3 ansible_ssh_host=192.168.0.163
+main-3 ansible_ssh_host=192.168.0.181
+
+datasheet5-3 ansible_ssh_host=192.168.0.166
+datasheet5-4 ansible_ssh_host=192.168.0.185
+
+eeboard-4 ansible_ssh_host=192.168.0.165
+eeboard-5 ansible_ssh_host=192.168.0.184
+
+eeboard-3 ansible_ssh_host=192.168.0.140
+eeboard-6 ansible_ssh_host=192.168.0.141
+
+
+moore8-3 ansible_ssh_host=192.168.0.162
+moore8-4 ansible_ssh_host=192.168.0.180
+
+
+log-server ansible_ssh_host=192.168.0.41
+index-2 ansible_ssh_host=192.168.0.42
+
+nfs-1 ansible_ssh_host=192.168.0.21
+nfs-2 ansible_ssh_host=192.168.0.22
+
+mail ansible_ssh_host=192.168.0.211
+cache-1 ansible_ssh_host=192.168.0.61
+
+vm-jenkins ansible_ssh_host=192.168.0.200
+
+mysql-master ansible_ssh_host=192.168.0.81
+mysql-slave-1 ansible_ssh_host=192.168.0.82
+
+repo ansible_ssh_host=192.168.0.98 ansible_ssh_user=root
+
+frps-ali ansible_ssh_host=47.254.16.153 ansible_ssh_user=root
+
+
+vagrant-master ansible_ssh_host=192.168.122.243 ansible_ssh_user=vagrant  ansible_ssh_private_key_file=~/Public/devops/vagrants/centos/6/.vagrant/machines/master/libvirt/private_key
+vagrant-slave ansible_ssh_host=192.168.122.232 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/Public/devops/vagrants/centos/6/.vagrant/machines/slave/libvirt/private_key
+
+
+[all:vars]
+ansible_connection=smart
+ansible_ssh_port=22
+ansible_ssh_user=gitlab
+; ansible_ssh_private_key_file=~/.ssh/gitlab/id_rsa.gitlab
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+
+[vagrant]
+vagrant-master
+vagrant-slave
+
+[proxy]
+
+nginx-1
+nginx-2
+
+
+[moore8]
+moore8-3
+moore8-4
+
+
+[passports]
+
+passport-1
+passport-2
+
+
+[account-article-engine]
+eefocus-3
+eefocus-5
+eefocus-6
+
+[community]
+community-3
+community-4
+
+[gg]
+gg-2
+gg-3
+main-3
+
+[datasheet5]
+datasheet5-3
+datasheet5-4
+
+
+[eeboard]
+eeboard-4
+eeboard-5
+
+eeboard-3
+eeboard-6
+
+[cndzz]
+; cndzz-1
+cndzz-2
+
+[cirmall]
+job-1
+eeboard-6
+
+[rsyslog]
+
+cndzz-1
+cndzz-2
+
+nginx-1
+nginx-2
+
+eeboard-4
+eeboard-5
+
+community-3
+community-4
+
+datasheet5-3
+datasheet5-4
+
+eeboard-4
+eeboard-5
+eeboard-3
+eeboard-6
+eefocus-1
+eefocus-3
+eefocus-5
+eefocus-6
+
+job-1
+moore8-3
+moore8-4
+
+passport-1
+passport-2
+
+pi-support
+
+gg-2
+gg-3
+
+main-3
+mail
+
+log-server
+mysql-master
+
+
+[security]
+; vagrant-master
+
+cndzz-1
+cndzz-2
+community-3
+community-4
+datasheet5-3
+datasheet5-4
+eeboard-3
+eeboard-4
+eeboard-5
+eeboard-6
+cache-1
+
+[security1]
+eefocus-1
+eefocus-3
+eefocus-5
+eefocus-6
+main-3
+gg-2
+gg-3
+pi-support
+log-server
+index-2
+; vm-jenkins
+
+[security2]
+moore8-3
+moore8-4
+nginx-1
+nginx-2
+passport-1
+passport-2
+job-1
+nfs-1
+nfs-2
+mail
+mysql-master
+mysql-slave-1
+
+; vagrant-master
+; vagrant-slave
+
+[haproxy]
+vagrant-master
+
+[frp-server]
+; vagrant-master
+; mail
+frps-ali
+
+[frp-client]
+repo
+
+
+[nginx-build]
+; vagrant-master
+; log-server
+; index-2
+
+nginx-2
+nginx-1
+cndzz-1
+community-3
+community-4
+passport-1
+passport-2
+job-1
+pi-support
+eefocus-1
+eefocus-3
+eefocus-5
+eefocus-6
+gg-2
+gg-3
+main-3
+datasheet5-3
+datasheet5-4
+eeboard-3
+eeboard-4
+eeboard-5
+eeboard-6
+moore8-3
+moore8-4
+mail
+
+
+[influxdb]
+vagrant-master
