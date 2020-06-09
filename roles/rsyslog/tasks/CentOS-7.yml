@@ -1,7 +1,7 @@
 ---
 # tasks file for roles/rsyslog
 
-- name: "Adding Rsyslog and nginx-stable repositories"
+- name: "Adding Rsyslog and rsyslog-stable repositories"
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -64,7 +64,7 @@
     destination_port: "{{ item }}"
     jump: ACCEPT
     action: insert
-  loop: "{{ rsyslog_iptables_allow_ports }}"
+  loop: "{{ rsyslog_iptables_allow_ports s}}"
   when: inventory_hostname == rsyslog_master
   tags:
     - rsyslog

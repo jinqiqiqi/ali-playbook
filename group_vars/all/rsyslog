@@ -1,3 +1,4 @@
+rsyslog_master: "sys-00"
 rsyslog_tcp_port: "514"
 
 rsyslog_iptables_allow_ports: [
@@ -30,5 +31,4 @@ rsyslog_slave_sub_conf: [
 ]
 
 
-rsyslog_master: "sys-00"
 
