@@ -1,28 +1,57 @@
+module(load="omprog")
 
-template(name="user_command_line" type="list") {
-    property(name="timereported" dateFormat="rfc3339")
-    constant(value="^")
-    property(name="syslogfacility")
-    constant(value="^")
-    property(name="PROCID")
-    constant(value="^")
-    property(name="fromhost-ip")
-    constant(value="^")
-    property(name="hostname")
-    constant(value="^")
-    property(name="syslogtag")
-    constant(value="^")
-    property(name="syslogpriority")
-    constant(value="^^^^")
-    property(name="msg" spifno1stsp="on")
-    property(name="msg" droplastlf="on")
-    constant(value="\n")
+template(name="user_command_line" type="list" option.json="on") {
+  constant(value="{")
+
+  constant(value="\"datetime\":\"")
+  property(name="timereported" dateFormat="rfc3339")
+
+  constant(value="\",\"syslogfacility\":\"")
+  property(name="syslogfacility")
+  constant(value="\",\"syslogfacility-text\":\"")
+  property(name="syslogfacility-text")
+
+  constant(value="\",\"syslogseverity-text\":\"")
+  property(name="syslogseverity-text")
+
+  constant(value="\",\"procid\":\"")
+  property(name="procid")
+
+  constant(value="\",\"fromhost-ip\":\"")
+  property(name="fromhost-ip")
+
+  constant(value="\",\"app-name\":\"")
+  property(name="app-name")
+
+  constant(value="\",\"hostname\":\"")
+  property(name="hostname")
+
+  constant(value="\",\"programname\":\"")
+  property(name="programname")
+
+  constant(value="\",\"syslogtag\":\"")
+  property(name="syslogtag")
+
+  constant(value="\",\"pri-text\":\"")
+  property(name="pri-text")
+
+  constant(value="\",\"syslogpriority-text\":\"")
+  property(name="syslogpriority-text")
+
+  constant(value="\",\"msg\":\"")
+  property(name="msg" spifno1stsp="on")
+  property(name="msg" droplastlf="on")
+
+  constant(value="\"}")
 }
+
+
 
 ruleset(name="send_command2slack" queue.type="fixedArray" queue.dequeueBatchSize="4096" queue.size="250000" queue.workerThreads="4" queue.workerThreadMinimumMessages="60000") {
   action(
     type="omprog"
-    binary="/usr/bin/php -f /var/lib/rsyslog/slack.php"
+    binary="/usr/bin/python3 /var/lib/rsyslog/slack.py"
+    output="/var/log/rsyslog.py.log"
     template="user_command_line"
   )
 }

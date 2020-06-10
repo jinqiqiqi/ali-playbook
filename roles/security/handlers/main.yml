@@ -1,2 +1,12 @@
 ---
 # handlers file for roles/security
+# 
+- name: Send Slack notification.
+  slack:
+    token: "TD91LBXBM/BFRTW9P54/SwzT2sC2UJPsSWj3NRKW1sl5"
+    msg: "Service in role: {{ role_names }} @{{ inventory_hostname }} ({{ ansible_facts.all_ipv4_addresses }}) is restarted/changed!   {{ CI_JOB_URL | default('手动测试运行') }}"
+    username: '{{ inventory_hostname }} ({{ ansible_facts.all_ipv4_addresses }})'
+    channel: "#sync-nginx-conf"
+  when: inventory_hostname != "cache-1"
+  listen:
+    - "settings changed"

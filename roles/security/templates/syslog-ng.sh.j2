@@ -1,0 +1,52 @@
+if [ -n "$BASH_VERSION" -o -n "$KSH_VERSION" -o -n "$ZSH_VERSION" ]; then
+  [ -x /usr/bin/id ] || return
+  ID=`/usr/bin/id -u`
+  alias sh >/dev/null 2>&1 || alias sh='sh -l'
+fi
+
+export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger ":pencil2:  [euid=$(who am i)]" :rokect: [`pwd`]% "$msg";  }'
+export HISTTIMEFORMAT='%F %T > ';
+if [ "$(type -t log2syslog)" != "function" ]; then
+    function log2syslog
+    {
+        declare command;
+        command=$BASH_COMMAND;
+        declare host_ip;
+        host_ip=`/sbin/ip a | awk '$0 ~ /inet / && $2 ~ /192.168/ {print $2}' | awk -F'/' '{print $1}' | tr -d \\n 2>&1 `;
+        EXEC_TIME=`date "+%F %T"`
+        if [ "$HISTFILE" == "/dev/null" ] || [ "$HISTFILESIZE" == "0" ] || [ "$HISTSIZE" == "0" ];
+        then
+            PRIORITY="local5.err"
+            SYS_TAG="bash-to-nohistory"
+            CMD_STR="(:zap: $(who am i), ${SHELL}($$), ${SSH_CONNECTION}) [euid=${USER}@${host_ip}:${PWD}]%% ${command}"
+            export HISTFILE="/var/log/scripts/.zap.his.${USER}_${host_ip}_`date \"+%F-%T\"`_$$"; export HISTSIZE=1111; export HISTFILESIZE=1111; export HISTTIMEFORMAT='%F %T > ';
+            /usr/bin/logger -p "${PRIORITY}" -t "${SYS_TAG}" "${CMD_STR}";
+            /usr/bin/logger -p "${PRIORITY}" -t "${SYS_TAG}" "New histfile is working: ${HISTFILE}.";
+        elif [ "$HISTFILESIZE" == "1111" ] || [ "$HISTSIZE" == "1111" ]; then
+            PRIORITY="local5.crit"
+            SYS_TAG="bash-nohistory"
+            CMD_STR="(:imp: $(who am i), ${SHELL}($$), ${SSH_CONNECTION}) [euid=${USER}@${host_ip}:${PWD}]%% ${command}"
+            /usr/bin/logger -p "${PRIORITY}" -t "${SYS_TAG}" "${CMD_STR}";
+            unset PROMPT_COMMAND;
+        fi
+    }
+
+    function rsysloglogin
+    {
+        export RSYSLOGLOGGED=`date "+%F-%T"`
+        declare user_ip;
+        declare host_ip;
+        declare text_info;
+        user_ip=`/usr/bin/who -u am i 2>/dev/null| awk '{print $NF}'|sed -e 's/[()]//g'`;
+        host_ip=`/sbin/ip a | awk '$0 ~ /inet / && $2 ~ /192.168/ {print $2}' | awk -F'/' '{print $1}' | tr -d \\n 2>&1 `;
+        if [ -z "${SSH_CONNECTION}" ];
+        then
+            text_prefix="(:ghost: eulogin)"
+            text_info="${text_prefix} ${USER}@${user_ip}($$) :rocket: ${host_ip}:${PWD}"
+        else
+            text_prefix="(:zap: eulogin)"
+            text_info="${text_prefix} ${USER}@${user_ip}($$) :rocket: ${host_ip}:${PWD} (sshinfo: ${SSH_CONNECTION})"
+        fi
+        /usr/bin/logger -p "user.warning" -t "user-login" "${text_info}";
+    }
+fi

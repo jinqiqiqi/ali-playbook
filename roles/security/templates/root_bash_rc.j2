@@ -1,0 +1,17 @@
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+[ -z "$RSYSLOGLOGGED" ] && rsysloglogin
+export HISTTIMEFORMAT='%F %T > ';
+export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger ":pencil2:  [euid=$(whoami)]":$(who am i):[`pwd`] "$msg";  }'
+trap log2syslog DEBUG;

@@ -1,0 +1,100 @@
+---
+# tasks file for roles/security
+# 
+# prepare for selinux settings
+- name: install libselinux-python
+  yum:
+    name: "{{ item }}"
+    state: present
+  ignore_errors: yes
+  loop:
+    - libselinux-python
+  # when: inventory_hostname != "nginx-1"
+
+- name: "Create folder: /var/log/scripts/"
+  file:
+    path: /var/log/scripts/
+    state: directory
+    mode: 0777
+
+
+- name: Sync shell bashrc for specific users
+  template:
+    src: "root_bash_rc.j2"
+    dest: "{{ item }}.bashrc"
+    mode: 0755
+  with_items: "{{ server_user_directories }}"
+  notify: settings changed
+  tags:
+    - copy
+
+- name: Sync shell bash_profile for specific users
+  template:
+    src: "root_bash_profile.j2"
+    dest: "{{ item }}.bash_profile"
+    mode: 0755
+  with_items: "{{ server_user_directories }}"
+  notify: settings changed
+  tags:
+    - copy
+
+- name: Sync shell profile for specific users
+  template:
+    src: "root_bash_rc.j2"
+    dest: "{{ item }}.profile"
+    mode: 0755
+  with_items: "{{ server_user_directories }}"
+  notify: settings changed
+  tags:
+    - copy
+
+# update scripts
+- name: "Update script files for global usage"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0755
+  with_items:
+    # - { src: check_DIY_load.sh.j2, dest: /opt/check_uptime.sh }
+    - { src: syslog-ng.sh.j2, dest: /etc/profile.d/syslog-ng.sh }
+    - { src: etc_profile.j2, dest: /etc/profile }
+    - { src: etc_bashrc.j2, dest: /etc/bashrc }
+  notify: settings changed
+  tags:
+    - copy
+
+# - name: Add cron job to running check_uptime.sh
+#   cron:
+#     name: "checking uptime and load for machine"
+#     job: "/bin/bash /opt/check_uptime.sh"
+#     minute: "*"
+# 
+# 
+# - name: Accept input chain packages for 192.168.0.0/24
+#   iptables:
+#     chain: INPUT
+#     action: insert
+#     source: "{{ item }}"
+#     jump: ACCEPT
+#   with_items:
+#     - 192.168.0.0/24
+#   when: inventory_hostname != "cache-1"
+#   tags:
+#     - iptable
+#   notify:
+#     - save iptables
+# 
+# 
+# - name: Accept output chain packages for 192.168.0.0/24
+#   iptables:
+#     chain: OUTPUT
+#     action: insert
+#     source: "{{ item }}"
+#     jump: ACCEPT
+#   with_items:
+#     - 192.168.0.0/24
+#   when: inventory_hostname != "cache-1"
+#   tags:
+#     - iptable
+#   notify:
+#     - save iptables

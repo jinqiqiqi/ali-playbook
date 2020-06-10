@@ -1,0 +1,19 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+
+USER_IP=`who -u am i 2>/dev/null| awk '{print $NF}'|sed -e 's/[()]//g'`; SCRIPT_LOG_DIR=/var/log/scripts; TIME_STR=`date +%Y%m%d%H%M`; DATE_STR=`date +%Y%m%d`; if [ ! -d $SCRIPT_LOG_DIR/$DATE_STR ]; then mkdir -p $SCRIPT_LOG_DIR/$DATE_STR; chmod 777 $SCRIPT_LOG_DIR/$DATE_STR; fi; exec /usr/bin/script -t 2>$SCRIPT_LOG_DIR/$DATE_STR/$USER-$UID-$USER_IP-$TIME_STR.date -a -f -q $SCRIPT_LOG_DIR/$DATE_STR/$USER-$UID-$USER_IP-$TIME_STR.log;
+
+[ -z "$RSYSLOGLOGGED" ] && rsysloglogin
+export HISTTIMEFORMAT='%F %T > ';
+export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger ":pencil2:  [euid=$(whoami)]":$(who am i):[`pwd`] "$msg";  }'
+trap log2syslog DEBUG;

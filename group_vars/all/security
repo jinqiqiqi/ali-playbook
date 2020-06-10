@@ -1,0 +1,31 @@
+---
+
+
+# slack tokens
+# slack_token: "TD91LBXBM/BDN7G112L/2yDlt3SOZbnnOMxGQ5Pt5VQG"
+# slack_token_cmd: "TD91LBXBM/BDAF3HP38/XIrbT3A1jVhRGJST1V3DcKtr"
+# slack_segfault_token: "TD91LBXBM/BGG3NP7DK/8cFvHEvyyzBCADk2zyKMAx7G"
+
+slack_bashme_toke: "TD91LBXBM/BGG4LUPME/gKJbA3BmCf5ffPZvYsDiPHdz"
+slack_login_token: "TD91LBXBM/BFRTW9P54/SwzT2sC2UJPsSWj3NRKW1sl5"
+
+
+# mattermost tokens
+# mattermost_token: "gz1stmur3ine8dae6sbmosha9w"
+# mattermost_token_cmd: "1fknrt5ihjf6pfkh9pg5t3ms6a"
+
+mattermost_bashme_toke: "yosqbqtpkp818cax6kzh89ctyr"
+mattermost_login_token: "ryiuggqfnjnpjm9xqb1f1jd69y"
+mattermost_vagrant: "pskzjj9ofp8k88is4hi96tx78e"
+
+
+server_user_directories: [
+  "/root/",
+  "/home/vagrant/",
+  # /home/syuan,
+  # /home/qjin,
+  # /home/copylog,
+  # /home/xxu
+]
+
+nodjs_user: "/home/xxu"
