@@ -1,0 +1,67 @@
+---
+# tasks file for roles/rsyslog
+
+- name: "Install Python3 "
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - "python3"
+    - "python3-pip"
+    - "python3-virtualenv"
+    - "python3-setuptools"
+    - "nginx"
+    - "gcc"
+    # - "@Development tools"
+  # when: inventory_hostname == rsyslog_master
+  tags:
+    - django
+
+
+- name: "Init virtualenv"
+  shell: virtualenv-3 -p /bin/python3 $HOME/.virtualenv/
+  args:
+    creates: $HOME/.virtualenv/bin/activate
+  become: true
+  become_user: "vagrant"
+  tags:
+    - django
+
+
+# - name: "Change to use chinese mirror for pypi"
+#   pip:
+#     requirements: $HOME/r.txt
+#     extra_args: "-i https://pypi.tuna.tsinghua.edu.cn/simple"
+#     virtualenv: $HOME/.virtualenv/
+#   become: true
+#   become_user: "vagrant"
+
+
+# 
+# - name: "Start rsyslog service"
+#   systemd:
+#     name: rsyslog
+#     state: started
+#     enabled: yes
+#   tags:
+#     - rsyslog
+#     - common_group
+# 
+# 
+# 
+# - name: Update Rsyslog Config file for slaves.
+#   template:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     mode: "0644"
+#     group: "root"
+#     owner: "root"
+#   with_items: "{{ rsyslog_slave_sub_conf }}"
+#   when: inventory_hostname != rsyslog_master
+#   tags:
+#     - rsyslog
+#     - common_group
+#     # - debug
+#   notify:
+#     - restart rsyslog
+#  service

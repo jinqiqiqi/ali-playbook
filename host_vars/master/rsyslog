@@ -12,7 +12,8 @@ rsyslog_common_packages: [
 rsyslog_master_packages: [
     "rsyslog-mmnormalize",
     "rsyslog-elasticsearch",
-    "python3"
+    "python3",
+    "python3-requests",
 ]
 
 rsyslog_master_sub_conf: [

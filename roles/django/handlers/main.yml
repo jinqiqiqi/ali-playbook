@@ -1,2 +1,8 @@
 ---
 # handlers file for roles/django
+# 
+# - name: restart dnsmasq
+#   service: 
+#     name: dnsmasq 
+#     state: restarted
+#     enabled: yes
