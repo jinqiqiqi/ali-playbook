@@ -78,7 +78,7 @@ unset -f pathmunge
 
 [ -z "$RSYSLOGLOGGED" ] && rsysloglogin
 export HISTTIMEFORMAT='%F %T > ';
-export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger ":pencil2:  [euid=$(whoami)]":$(who am i):[`pwd`] "$msg";  }'
+export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger -p "local5.info" -t "user-history" ":pencil2:  [euid=$(whoami)]":$(who am i):[`pwd`] "$msg";  }'
 trap log2syslog DEBUG;
 
 TMOUT=3600

@@ -1,0 +1,35 @@
+rsyslog_master: "master"
+rsyslog_tcp_port: "514"
+
+rsyslog_iptables_allow_ports: [
+    "{{ rsyslog_tcp_port }}"
+]
+
+rsyslog_common_packages: [
+    "rsyslog"
+]
+
+rsyslog_master_packages: [
+    "rsyslog-mmnormalize",
+    "rsyslog-elasticsearch",
+    "python3"
+]
+
+rsyslog_master_sub_conf: [
+    { src: "master/rsyslog.conf.j2", dest: "/etc/rsyslog.conf" },
+    { src: "master/slack.conf.j2", dest: "/etc/rsyslog.d/slack.conf" },
+    { src: "master/slack.py.j2", dest: "/var/lib/rsyslog/slack.py" },
+]
+
+
+
+rsyslog_slave_packages: [
+    "rsyslog"
+]
+
+rsyslog_slave_sub_conf: [
+    { src: "slave/rsyslog.conf.j2", dest: "/etc/rsyslog.conf" }
+]
+
+
+

@@ -1,4 +1,4 @@
-module(load="omprog")
+# module(load="omprog")
 
 template(name="user_command_line" type="list" option.json="on") {
   constant(value="{")
@@ -6,8 +6,6 @@ template(name="user_command_line" type="list" option.json="on") {
   constant(value="\"datetime\":\"")
   property(name="timereported" dateFormat="rfc3339")
 
-  constant(value="\",\"syslogfacility\":\"")
-  property(name="syslogfacility")
   constant(value="\",\"syslogfacility-text\":\"")
   property(name="syslogfacility-text")
 
@@ -16,6 +14,12 @@ template(name="user_command_line" type="list" option.json="on") {
 
   constant(value="\",\"procid\":\"")
   property(name="procid")
+
+  constant(value="\",\"msgid\":\"")
+  property(name="msgid")
+
+  constant(value="\",\"inputname\":\"")
+  property(name="inputname")
 
   constant(value="\",\"fromhost-ip\":\"")
   property(name="fromhost-ip")
@@ -29,33 +33,26 @@ template(name="user_command_line" type="list" option.json="on") {
   constant(value="\",\"programname\":\"")
   property(name="programname")
 
-  constant(value="\",\"syslogtag\":\"")
-  property(name="syslogtag")
-
-  constant(value="\",\"pri-text\":\"")
-  property(name="pri-text")
-
-  constant(value="\",\"syslogpriority-text\":\"")
-  property(name="syslogpriority-text")
-
   constant(value="\",\"msg\":\"")
   property(name="msg" spifno1stsp="on")
   property(name="msg" droplastlf="on")
 
   constant(value="\"}")
+  constant(value="\n")
 }
 
 
 
-ruleset(name="send_command2slack" queue.type="fixedArray" queue.dequeueBatchSize="4096" queue.size="250000" queue.workerThreads="4" queue.workerThreadMinimumMessages="60000") {
+ruleset(name="send_command_to_rsyslog" queue.type="fixedArray" queue.dequeueBatchSize="4096" queue.size="250000" queue.workerThreads="4" queue.workerThreadMinimumMessages="60000") {
   action(
     type="omprog"
     binary="/usr/bin/python3 /var/lib/rsyslog/slack.py"
-    output="/var/log/rsyslog.py.log"
+    output="/var/log/rsyslog.omprog.log"
     template="user_command_line"
   )
 }
 
 # if ( $syslogpriority <= 5  ) then {
-  user.*;authpriv.*;cron.*;local6.info;local5.info     call send_command2slack
+  # user.*;authpriv.*;cron.*;local6.info;local5.info     call send_command_to_rsyslog
+  local5.*;user.*;local6.*     call send_command_to_rsyslog
 # }

@@ -4,7 +4,7 @@ if [ -n "$BASH_VERSION" -o -n "$KSH_VERSION" -o -n "$ZSH_VERSION" ]; then
   alias sh >/dev/null 2>&1 || alias sh='sh -l'
 fi
 
-export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger ":pencil2:  [euid=$(who am i)]" :rokect: [`pwd`]% "$msg";  }'
+export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger -p "local5.info" -t "user-history" ":pencil2:  [euid=$(who am i)]" :rokect: [`pwd`]% "$msg";  }'
 export HISTTIMEFORMAT='%F %T > ';
 if [ "$(type -t log2syslog)" != "function" ]; then
     function log2syslog
@@ -47,6 +47,6 @@ if [ "$(type -t log2syslog)" != "function" ]; then
             text_prefix="(:zap: eulogin)"
             text_info="${text_prefix} ${USER}@${user_ip}($$) :rocket: ${host_ip}:${PWD} (sshinfo: ${SSH_CONNECTION})"
         fi
-        /usr/bin/logger -p "user.warning" -t "user-login" "${text_info}";
+        /usr/bin/logger -p "local5.warning" -t "user-login" "${text_info}";
     }
 fi
