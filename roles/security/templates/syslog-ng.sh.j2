@@ -47,7 +47,7 @@ if [ "$(type -t log2syslog)" != "function" ]; then
         then
             # text_prefix="(:ghost: eulogin)" 
             # text_info="${text_prefix} ${USER}@${user_ip}($$) :rocket: ${host_ip}:${PWD}" 
-            text_info="{\"user\":\"${USER}\", \"info\":\"from_su\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":ghost:\", \"type\":\"user_login\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\":\"userJustLogin\"}"
+            text_info="{\"user\":\"${USER}\", \"info\":\"from_su\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":ghost:\", \"type\":\"user_login\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\":\"userJustLoginFromSU\"}"
         else
             # text_prefix="(:zap: eulogin)" 
             # text_info="${text_prefix} ${USER}@${user_ip}($$) :rocket: ${host_ip}:${PWD} (sshinfo: ${SSH_CONNECTION})" 
