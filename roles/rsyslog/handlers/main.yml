@@ -8,3 +8,8 @@
     state: restarted
     enabled: yes
 
+- name: restart systemd_journald
+  service:
+    name: systemd-journald.socket
+    state: restarted
+    enabled: yes
