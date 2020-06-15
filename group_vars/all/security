@@ -21,11 +21,10 @@ mattermost_vagrant: "pskzjj9ofp8k88is4hi96tx78e"
 
 server_user_directories: [
   "/root/",
-  "/home/vagrant/",
-  # /home/syuan,
-  # /home/qjin,
+  /home/syuan,
+  /home/qjin,
+  /home/xxu,
   # /home/copylog,
-  # /home/xxu
 ]
 
-nodjs_user: "/home/xxu"
+# nodjs_user: "/home/xxu"
