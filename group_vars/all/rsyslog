@@ -19,7 +19,7 @@ rsyslog_master_packages: [
 rsyslog_master_sub_conf: [
     { src: "master/rsyslog.conf.j2", dest: "/etc/rsyslog.conf" },
     { src: "master/slack.conf.j2", dest: "/etc/rsyslog.d/slack.conf" },
-    { src: "master/slack.php.j2", dest: "/var/lib/rsyslog/slack.php" },
+    # { src: "master/slack.php.j2", dest: "/var/lib/rsyslog/slack.php" },
 ]
 
 
