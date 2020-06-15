@@ -1,0 +1,12 @@
+django_virtualenv_dir: $HOME/.virtualenv/
+
+django_user: www
+
+django_sqlite_file_name: sqlite-autoconf-3320200
+django_sqlite_tar_file_name: "{{ django_sqlite_file_name }}.tar.gz"
+
+django_sqlite_src_dir: /usr/local/share/src/
+django_sqlite_install_dir: /usr/local/share/sqlite3/
+
+
+django_master: sys-00

@@ -1,6 +1,17 @@
 ---
 # tasks file for roles/rsyslog
-
+  
+- name: "mkdir for {{ django_sqlite_src_dir }}"
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  when: inventory_hostname == django_master
+  with_items:
+    - "{{ django_sqlite_src_dir }}"
+  tags:
+    - django
+    
 - name: "Install Python3 "
   package:
     name: "{{ item }}"
@@ -12,56 +23,79 @@
     - "python3-setuptools"
     - "nginx"
     - "gcc"
-    # - "@Development tools"
-  # when: inventory_hostname == rsyslog_master
+  when: inventory_hostname == django_master
   tags:
     - django
 
 
 - name: "Init virtualenv"
-  shell: virtualenv-3 -p /bin/python3 $HOME/.virtualenv/
+  shell: "virtualenv-3 -p /bin/python3 {{ django_virtualenv_dir }}"
   args:
-    creates: $HOME/.virtualenv/bin/activate
+    creates: "{{ django_virtualenv_dir }}bin/activate"
   become: true
-  become_user: "vagrant"
+  become_user: "{{ django_user }}"
+  when: inventory_hostname == django_master
+  tags:
+    - django
+
+- name: "Copy sqlite installation file to server"
+  copy:
+    src: "{{ django_sqlite_tar_file_name }}"
+    dest: "{{ django_sqlite_src_dir  }}{{ django_sqlite_tar_file_name }}"
+  when: inventory_hostname == django_master
   tags:
     - django
 
 
-# - name: "Change to use chinese mirror for pypi"
-#   pip:
-#     requirements: $HOME/r.txt
-#     extra_args: "-i https://pypi.tuna.tsinghua.edu.cn/simple"
-#     virtualenv: $HOME/.virtualenv/
-#   become: true
-#   become_user: "vagrant"
+    
+- name: Unarchive sqlite installation file
+  unarchive:
+    src: "{{ django_sqlite_src_dir  }}{{ django_sqlite_tar_file_name }}"
+    dest: "{{ django_sqlite_src_dir }}"
+    remote_src: yes
+    creates: "{{ django_sqlite_src_dir }}{{ django_sqlite_file_name }}/INSTALL"
+  when: inventory_hostname == django_master
+  tags:
+    - django
 
+- name: Configure and install sqlite3
+  shell: >
+    ./configure --prefix={{ django_sqlite_install_dir }} && make && make install
+  args:
+    creates: "{{ django_sqlite_install_dir }}/bin/sqlite3"
+    chdir: "{{ django_sqlite_src_dir }}{{ django_sqlite_file_name }}/"
+  when: inventory_hostname == django_master
+  tags:
+    - django
 
-# 
-# - name: "Start rsyslog service"
-#   systemd:
-#     name: rsyslog
-#     state: started
-#     enabled: yes
-#   tags:
-#     - rsyslog
-#     - common_group
-# 
-# 
-# 
-# - name: Update Rsyslog Config file for slaves.
-#   template:
-#     src: "{{ item.src }}"
-#     dest: "{{ item.dest }}"
-#     mode: "0644"
-#     group: "root"
-#     owner: "root"
-#   with_items: "{{ rsyslog_slave_sub_conf }}"
-#   when: inventory_hostname != rsyslog_master
-#   tags:
-#     - rsyslog
-#     - common_group
-#     # - debug
-#   notify:
-#     - restart rsyslog
-#  service
+- name: Move original sqlite3 to backup file
+  shell: >
+    mv /usr/bin/sqlite3 /usr/bin/sqlite3.bak && ln -sf {{ django_sqlite_install_dir }}/bin/sqlite3 /usr/bin/sqlite3
+  args:
+    creates: "/usr/bin/sqlite3.bak"
+  when: inventory_hostname == django_master
+  tags:
+    - django
+
+- name: Adding ld config settings for sqlite3
+  template:
+    src: sqlite3-3.32.2.conf.j2
+    dest: /etc/ld.so.conf.d/sqlite3-3.32.2.conf
+    mode: "0644"
+    group: 'root'
+    owner: 'root'
+  when: inventory_hostname == django_master
+  tags:
+    - django
+
+- name: link so file for sqlite3
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: /usr/local/share/sqlite3/lib/libsqlite3.so.0, dest: /lib64/libsqlite3.so.0 }
+  when: inventory_hostname == django_master
+  tags:
+    - django
+    

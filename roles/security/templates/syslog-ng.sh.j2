@@ -5,7 +5,7 @@ if [ -n "$BASH_VERSION" -o -n "$KSH_VERSION" -o -n "$ZSH_VERSION" ]; then
 fi
 
 {# export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger -p "local5.info" -t "user-history" ":pencil2:  [euid=$(who am i)]" :rokect: [`pwd`]% "$msg";  }' #}
-export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); /usr/bin/logger -p "local5.info" -t "user-history" ":pencil2:  [euid=$(who am i)]" :rokect: [`pwd`]% "$msg";  }'
+export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }| tr \\\" \\\`); /usr/bin/logger -p "local5.info" -t "user-history" ":pencil2:  [euid=$(who am i)]" :rokect: [`pwd`]% "$msg";  }'
 export HISTTIMEFORMAT='%F %T > ';
 if [ "$(type -t log2syslog)" != "function" ]; then
     function log2syslog
