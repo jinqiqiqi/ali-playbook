@@ -60,6 +60,9 @@ cirmall-01
 [sys]
 sys-00
 
+[django]
+sys-00
+
 [jenkins]
 jenkins-00
 
