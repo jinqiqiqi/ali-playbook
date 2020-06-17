@@ -21,14 +21,14 @@ if [ "$(type -t log2syslog)" != "function" ]; then
             SYS_TAG="bash-to-nohistory"
             export HISTFILE="/var/log/scripts/.zap.his.${USER}_${host_ip}_`date \"+%F-%T\"`_$$"; export HISTSIZE=1111; export HISTFILESIZE=1111; export HISTTIMEFORMAT='%F %T > ';
             # CMD_STR="(:zap: $(who am i), ${SHELL}($$), ${SSH_CONNECTION}) [euid=${USER}@${host_ip}:${PWD}]%% ${command}"
-            CMD_STR="{\"user\":\"${USER}\", \"info\":\"${SHELL}\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":zap:\", \"type\":\"bash-nohistory\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\": \"${command}\", \"histfile\": \"${HISTFILE}\"}"
+            CMD_STR="{\"user\":\"${USER}\", \"sshinfo\":\"${SHELL}\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":zap:\", \"type\":\"bash-nohistory\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\": \"${command}\", \"histfile\": \"${HISTFILE}\"}"
             /usr/bin/logger -p "${PRIORITY}" -t "${SYS_TAG}" "${CMD_STR}";
             # /usr/bin/logger -p "${PRIORITY}" -t "${SYS_TAG}" "New histfile is working: ${HISTFILE}.";
         elif [ "$HISTFILESIZE" == "1111" ] || [ "$HISTSIZE" == "1111" ]; then
             PRIORITY="local5.crit"
             SYS_TAG="bash-nohistory"
             # CMD_STR="(:imp: $(who am i), ${SHELL}($$), ${SSH_CONNECTION}) [euid=${USER}@${host_ip}:${PWD}]%% ${command}"
-            CMD_STR="{\"user\":\"${USER}\", \"info\":\"${SHELL}\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":zap:\", \"type\":\"bash-nohistory\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\": \"${command}\"}"
+            CMD_STR="{\"user\":\"${USER}\", \"sshinfo\":\"${SHELL}\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":zap:\", \"type\":\"bash-nohistory\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\": \"${command}\"}"
             
             /usr/bin/logger -p "${PRIORITY}" -t "${SYS_TAG}" "${CMD_STR}";
             unset PROMPT_COMMAND;
@@ -47,11 +47,11 @@ if [ "$(type -t log2syslog)" != "function" ]; then
         then
             # text_prefix="(:ghost: eulogin)" 
             # text_info="${text_prefix} ${USER}@${user_ip}($$) :rocket: ${host_ip}:${PWD}" 
-            text_info="{\"user\":\"${USER}\", \"info\":\"from_su\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":ghost:\", \"type\":\"user_login\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\":\"userJustLoginFromSU\"}"
+            text_info="{\"user\":\"${USER}\", \"sshinfo\":\"from_su\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":ghost:\", \"type\":\"user_login\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\":\"userJustLoginFromSU\"}"
         else
             # text_prefix="(:zap: eulogin)" 
             # text_info="${text_prefix} ${USER}@${user_ip}($$) :rocket: ${host_ip}:${PWD} (sshinfo: ${SSH_CONNECTION})" 
-            text_info="{\"user\":\"${USER}\", \"info\":\"from_su\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":zap:\", \"type\":\"user_login\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\":\"userJustLogin\"}"
+            text_info="{\"user\":\"${USER}\", \"sshinfo\":\"from_su\", \"pwd\":\"${PWD}\", \"from\":\"${user_ip}\", \"server\":\"${host_ip}\", \"process_id\":\"$$\", \"icon\":\":zap:\", \"type\":\"user_login\", \"sshinfo\":\"${SSH_CONNECTION}\", \"cmd\":\"userJustLogin\"}"
         fi
         /usr/bin/logger -p "local5.warning" -t "user-login" "${text_info}";
     }

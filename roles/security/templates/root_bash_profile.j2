@@ -15,5 +15,5 @@ USER_IP=`who -u am i 2>/dev/null| awk '{print $NF}'|sed -e 's/[()]//g'`; SCRIPT_
 
 [ -z "$RSYSLOGLOGGED" ] && rsysloglogin
 export HISTTIMEFORMAT='%F %T > ';
-export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }| tr \\\" \\\`); /usr/bin/logger -p "local5.info" -t "user-history" "{\"user\":\"$(whoami)\", \"info\":\"$(who am i)\", \"pwd\":\"$(pwd)\", \"cmd\":\"$msg\", \"icon\":\":pencil2:\"}";  }'
+export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }| tr \\\" \\\`); /usr/bin/logger -p "local5.info" -t "user-history" "{\"user\":\"$(whoami)\", \"sshinfo\":\"$(who am i)\", \"pwd\":\"$(pwd)\", \"cmd\":\"$msg\", \"icon\":\":pencil2:\"}";  }'
 trap log2syslog DEBUG;
