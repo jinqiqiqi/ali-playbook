@@ -40,6 +40,8 @@
         # - include_role: 
         #     name: zabbix
         - include_role: 
+            name: security
+        - include_role: 
             name: openldap_auth
       rescue:
         - include: handlers/exception.yml role_name=common_service
