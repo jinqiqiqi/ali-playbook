@@ -1,0 +1,8 @@
+/var/log/weblogs
+/var/log/user_commands {
+    missingok
+    sharedscripts
+    postrotate
+        systemctl kill -s HUP rsyslog.service
+    endscript
+}

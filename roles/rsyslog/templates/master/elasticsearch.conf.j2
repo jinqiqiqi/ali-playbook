@@ -1,0 +1,232 @@
+$template rawmsg,"%msg%"
+
+template(name="nginx-eefocus-access" type="list") {
+  constant(value="nginx-access-eefocus-log-")
+  property(name="timereported" dateFormat="rfc3339" position.from="1" position.to="4")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="6" position.to="7")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="9" position.to="10")
+}
+
+template(name="nginx-access" type="list") {
+  constant(value="nginx-access-log-")
+  property(name="timereported" dateFormat="rfc3339" position.from="1" position.to="4")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="6" position.to="7")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="9" position.to="10")
+}
+
+template(name="nginx-error" type="list") {
+  constant(value="nginx-error-log-")
+  property(name="timereported" dateFormat="rfc3339" position.from="1" position.to="4")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="6" position.to="7")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="9" position.to="10")
+}
+
+template(name="pm2-error" type="list") {
+  constant(value="pm2-error-log-")
+  property(name="timereported" dateFormat="rfc3339" position.from="1" position.to="4")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="6" position.to="7")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="9" position.to="10")
+}
+
+template(name="mysql-slow-log" type="list") {
+  constant(value="mysql-slow-log-")
+  property(name="timereported" dateFormat="rfc3339" position.from="1" position.to="4")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="6" position.to="7")
+  constant(value=".")
+  property(name="timereported" dateFormat="rfc3339" position.from="9" position.to="10")
+}
+
+
+template(name="error_log_json" type="list" option.json="on") {
+  constant(value="{")
+  constant(value="\"timestamp\":\"") property(name="timereported" dateFormat="rfc3339")
+  constant(value="\",\"rawmsg\":\"") property(name="msg" position.from="1" spifno1stsp="off" controlcharacters="drop")
+  constant(value="\",\"host\":\"") property(name="fromhost-ip")
+  constant(value="\",\"source_host\":\"") property(name="hostname")
+  constant(value="\",\"tag\":\"") property(name="syslogtag")
+  constant(value="\",\"PROCID\":\"") property(name="PROCID")
+  constant(value="\",\"syslogpriority\":\"") property(name="syslogpriority")
+
+  constant(value="\",\"hostname\":\"") property(name="$!hostname")
+  constant(value="\",\"httpver\":\"") property(name="$!httpver")
+  constant(value="\",\"urlpath\":\"") property(name="$!urlpath")
+  constant(value="\",\"verb\":\"") property(name="$!verb")
+  constant(value="\",\"server\":\"") property(name="$!server")
+  constant(value="\",\"client\":\"") property(name="$!client")
+  constant(value="\",\"error_msg\":\"") property(name="$!errmsg" controlcharacters="drop")
+  constant(value="\",\"f1\":\"") property(name="$!f1")
+  constant(value="\",\"f2\":\"") property(name="$!f2")
+  constant(value="\",\"level\":\"") property(name="$!level")
+  constant(value="\",\"error_time\":\"") property(name="$!time")
+  # constant(value="\",\"error_date\":\"") property(name="$!date_string")
+  constant(value="\",\"parse_tags\":\"") property(name="$!event.tags")
+
+  constant(value="\",\"php_level\":\"") property(name="$!php_level")
+  constant(value="\",\"php_msg\":\"") property(name="$!php_msg")
+  constant(value="\",\"upstream\":\"") property(name="$!upstream")
+  constant(value="\",\"referrer\":\"") property(name="$!referrer")
+
+  constant(value="\"}")
+}
+
+template(name="slow_log_template" type="list" option.json="on") {
+  constant(value="{")
+  constant(value="\"timestamp\":\"") property(name="timereported" dateFormat="rfc3339")
+  constant(value="\",\"rawmsg\":\"") property(name="msg" position.from="1" spifno1stsp="off" controlcharacters="drop")
+  constant(value="\",\"host\":\"") property(name="fromhost-ip")
+  constant(value="\",\"source_host\":\"") property(name="hostname")
+  constant(value="\",\"tag\":\"") property(name="syslogtag")
+  constant(value="\",\"PROCID\":\"") property(name="PROCID")
+  constant(value="\",\"syslogpriority\":\"") property(name="syslogpriority")
+
+  constant(value="\",\"mysql_user\":\"") property(name="$!mysql_user" controlcharacters="drop")
+  constant(value="\",\"mysql_client\":\"") property(name="$!mysql_client" controlcharacters="drop")
+  constant(value="\",\"query_id\":\"") property(name="$!query_id" controlcharacters="drop")
+  constant(value="\",\"query_time\":\"") property(name="$!query_time" controlcharacters="drop")
+  constant(value="\",\"lock_time\":\"") property(name="$!lock_time" controlcharacters="drop")
+  constant(value="\",\"rows_sent\":\"") property(name="$!rows_sent" controlcharacters="drop")
+  constant(value="\",\"rows_examined\":\"") property(name="$!rows_examined" controlcharacters="drop")
+  constant(value="\",\"timestamp\":\"") property(name="$!timestamp" controlcharacters="drop")
+  constant(value="\",\"query_sql\":\"") property(name="$!query_sql" controlcharacters="drop")
+  constant(value="\",\"use_db\":\"") property(name="$!use_db" controlcharacters="drop")
+  constant(value="\",\"query_clock\":\"") property(name="$!query_clock" controlcharacters="drop")
+
+  constant(value="\",\"errmsg\":\"") property(name="$!errmsg" controlcharacters="drop")
+
+  constant(value="\",\"parse_tags\":\"") property(name="$!event.tags")
+
+  constant(value="\"}")
+}
+
+template(name="pm2error_log_json" type="list" option.json="on") {
+  constant(value="{")
+  constant(value="\"timestamp\":\"") property(name="timereported" dateFormat="rfc3339")
+  constant(value="\",\"rawmsg\":\"") property(name="msg" position.from="1" spifno1stsp="off" controlcharacters="drop")
+  constant(value="\",\"host\":\"") property(name="fromhost-ip")
+  constant(value="\",\"source_host\":\"") property(name="hostname")
+  constant(value="\",\"tag\":\"") property(name="syslogtag")
+  constant(value="\",\"PROCID\":\"") property(name="PROCID")
+  constant(value="\",\"syslogpriority\":\"") property(name="syslogpriority")
+  constant(value="\",\"error_msg\":\"") property(name="$!errmsg" controlcharacters="drop")
+  constant(value="\",\"parse_tags\":\"") property(name="$!event.tags")
+  constant(value="\"}")
+}
+
+ruleset(name="access_main2elasticsearch") {
+  action(
+    type="omelasticsearch"
+    server="{{ elasticsearch_master_ip }}"
+    serverport="{{ elasticsearch_master_port }}"
+    searchIndex="nginx-eefocus-access"
+    dynSearchIndex="on"
+    template="rawmsg"
+    queue.fileName="nginx_eefocus_access"
+    queue.maxDiskSpace="5g"
+    queue.saveOnShutdown="on"
+    errorFile="/var/log/omelasticsearch-eefocus-acc.log"
+  )
+}
+
+ruleset(name="access2elasticsearch") {
+  action(
+    type="omelasticsearch"
+    server="{{ elasticsearch_master_ip }}"
+    serverport="{{ elasticsearch_master_port }}"
+    searchIndex="nginx-access"
+    dynSearchIndex="on"
+    template="rawmsg"
+    queue.fileName="nginx_access"
+    queue.maxDiskSpace="5g"
+    queue.saveOnShutdown="on"
+    errorFile="/var/log/omelasticsearch-acc.log"
+  )
+}
+
+ruleset(name="error2elasticsearch") {
+  action(
+    type="omelasticsearch"
+    server="{{ elasticsearch_master_ip }}"
+    serverport="{{ elasticsearch_master_port }}"
+    searchIndex="nginx-error"
+    dynSearchIndex="on"
+    template="error_log_json"
+    queue.fileName="nginx_error"
+    queue.maxDiskSpace="5g"
+    queue.saveOnShutdown="on"
+    errorFile="/var/log/omelasticsearch-err.log"
+  )
+}
+
+ruleset(name="writePm2Error") {
+  action(
+    type="omelasticsearch"
+    server="{{ elasticsearch_master_ip }}"
+    serverport="{{ elasticsearch_master_port }}"
+    searchIndex="pm2-error"
+    dynSearchIndex="on"
+    template="pm2error_log_json"
+    queue.fileName="pm2_error_q"
+    queue.maxDiskSpace="5g"
+    queue.saveOnShutdown="on"
+    errorFile="/var/log/omelasticsearch-pm2error.log"
+  )
+}
+
+ruleset(name="writeSlowlog") {
+    action(
+      type="omelasticsearch"
+      server="{{ elasticsearch_master_ip }}"
+      serverport="{{ elasticsearch_master_port }}"
+      searchIndex="mysql-slow-log"
+      dynSearchIndex="on"
+      template="slow_log_template"
+      queue.fileName="pm2_error_slowlog"
+      queue.maxDiskSpace="5g"
+      queue.saveOnShutdown="on"
+      errorFile="/var/log/omelasticsearch-slowlog.log"
+    )
+}
+
+
+if $syslogfacility-text == "local6" and $syslogtag contains "access-" then {
+    local6.*     call access2elasticsearch
+}
+
+if $syslogfacility-text == "local6" and $syslogtag contains "error-" then {
+  action(type="mmnormalize" ruleBase="/var/lib/rsyslog/nginx.error.rb")
+  if $parsesuccess == "OK" then {
+    local6.*     call error2elasticsearch
+  }
+  else {
+    local6.*     /var/log/error-local6.log
+  }
+}
+
+if $syslogfacility-text == "local6" and $syslogtag contains "pm2error-" then {
+  action(type="mmnormalize" ruleBase="/var/lib/rsyslog/pm2.error.rb")
+  if $parsesuccess == "OK" then {
+    local6.* call writePm2Error
+  }
+  else {
+    local6.* /var/log/pm2_error_parsed
+  }
+}
+
+if $syslogfacility-text == "local6" and $syslogtag contains "mysql-slow-" then {
+  action(type="mmnormalize" ruleBase="/var/lib/rsyslog/mysqlslow.log.rb")
+  if $parsesuccess == "OK" then {
+    local6.* call writeSlowlog
+  }
+  else {
+    local6.* /var/log/slow_log_parse_failed
+  }
+}

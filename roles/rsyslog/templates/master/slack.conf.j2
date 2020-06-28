@@ -54,5 +54,5 @@ ruleset(name="send_command_to_rsyslog" queue.type="fixedArray" queue.dequeueBatc
 
 # if ( $syslogpriority <= 5  ) then {
   # user.*;authpriv.*;cron.*;local6.info;local5.info     call send_command_to_rsyslog
-local5.*;user.*;local6.*;authpriv.*;cron.*;     call send_command_to_rsyslog
+local5.*;user.*;authpriv.*;cron.*;     call send_command_to_rsyslog
 # }

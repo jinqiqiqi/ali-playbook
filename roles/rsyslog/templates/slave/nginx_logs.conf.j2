@@ -1,0 +1,16 @@
+{% for logrow in rsyslog_nignx_access_logs %}
+input(type="imfile" File="{{ logrow.log }}" Tag="access-{{ logrow.tag }}" Severity="info" Facility="local6" reopenOnTruncate="on")
+{% endfor %}
+
+{% for logrow in rsyslog_nignx_error_logs %}
+input(type="imfile" File="{{ logrow.log }}" Tag="access-{{ logrow.tag }}" Severity="error" Facility="local6" reopenOnTruncate="on")
+{% endfor %}
+
+{% for logrow in rsyslog_pm2_error_logs %}
+input(type="imfile" File="{{ logrow.log }}" Tag="access-{{ logrow.tag }}" Severity="error" Facility="local6" reopenOnTruncate="on")
+{% endfor %}
+
+{% for logrow in rsyslog_mysql_slow_logs %}
+input(type="imfile" File="{{ logrow.log }}" Tag="access-{{ logrow.tag }}" Severity="info" Facility="local6" reopenOnTruncate="on")
+{% endfor %}
+

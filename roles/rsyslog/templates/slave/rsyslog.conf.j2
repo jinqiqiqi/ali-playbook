@@ -10,6 +10,7 @@
 # $ModLoad imjournal # provides access to the systemd journal
 module(load="imuxsock")
 module(load="imjournal")
+module(load="imfile" PollingInterval="5" readTimeout="5")
 
 #$ModLoad imklog # reads kernel messages (the same are read from journald)
 #$ModLoad immark  # provides --MARK-- message capability
@@ -54,7 +55,9 @@ $IMJournalStateFile imjournal.state
 
 # Log anything (except mail) of level info or higher.
 # Don't log private authentication messages!
-*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+
+*.info;mail.none;authpriv.none;cron.none;local6.!info;local6.!error;local5.!info;local5.!error                /var/log/messages
+# *.info;mail.none;authpriv.none;cron.none;                /var/log/messages
 
 # The authpriv file has restricted access.
 authpriv.*                                              /var/log/secure

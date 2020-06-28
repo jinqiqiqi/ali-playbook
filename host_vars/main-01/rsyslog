@@ -1,0 +1,26 @@
+rsyslog_nignx_access_logs: [
+    { log: "/var/log/nginx/www.eefocus.com/access.log", tag: "main-eefocus-com" },
+]
+
+
+rsyslog_nignx_error_logs: [
+    { log: "/var/log/nginx/www.eefocus.com/error.log", tag: "main-eefocus-com" },
+]
+
+
+rsyslog_pm2_error_logs: [
+    
+]
+
+
+rsyslog_mysql_slow_logs: [
+    
+]
+
+
+
+
+
+
+     
+

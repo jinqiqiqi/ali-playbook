@@ -19,7 +19,12 @@ rsyslog_master_packages: [
 rsyslog_master_sub_conf: [
     { src: "master/rsyslog.conf.j2", dest: "/etc/rsyslog.conf" },
     { src: "master/slack.conf.j2", dest: "/etc/rsyslog.d/slack.conf" },
+    { src: "master/elasticsearch.conf.j2", dest: "/etc/rsyslog.d/elasticsearch.conf" },
     { src: "master/slack.py.j2", dest: "/var/lib/rsyslog/slack.py" },
+    
+    { src: "master/nginx.error.rb", dest: "/var/lib/rsyslog/nginx.error.rb" },
+    { src: "master/pm2.error.rb", dest: "/var/lib/rsyslog/pm2.error.rb" },
+    { src: "master/mysqlslow.log.rb", dest: "/var/lib/rsyslog/mysqlslow.log.rb" },
 ]
 
 
@@ -29,8 +34,29 @@ rsyslog_slave_packages: [
 ]
 
 rsyslog_slave_sub_conf: [
-    { src: "slave/rsyslog.conf.j2", dest: "/etc/rsyslog.conf" }
+    { src: "slave/rsyslog.conf.j2", dest: "/etc/rsyslog.conf" },
+    { src: "slave/nginx_logs.conf.j2", dest: "/etc/rsyslog.d/nginx_logs.conf" },
 ]
 
+
+
+rsyslog_nignx_access_logs: [
+]
+
+
+rsyslog_nignx_error_logs: [
+]
+
+
+rsyslog_pm2_error_logs: [
+]
+
+
+rsyslog_mysql_slow_logs: [
+]
+
+
+elasticsearch_master_ip: 192.168.88.90
+elasticsearch_master_port: 9290
 
 

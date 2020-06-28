@@ -1,0 +1,34 @@
+rsyslog_nignx_access_logs: [
+    { log: "/var/log/nginx/center.eefocus.com/access.log", tag: "center-eefocus-com" },
+    { log: "/var/log/nginx/global.stats.eefocus.com/access.log", tag: "global-stats-eefocus-com" },
+    { log: "/var/log/nginx/global.stats.eefocus.com/access_json.log", tag: "global-stats-eefocus-com" },
+    { log: "/var/log/nginx/search.eefocus.com/access.log", tag: "search-eefocus-com" },
+    { log: "/var/log/nginx/sendy.eefocus.com/access.log", tag: "sendy-eefocus-com" },
+    { log: "/var/log/nginx/url.eefocus.com/access.log", tag: "url-eefocus-com" },
+    { log: "/var/log/nginx/wximg.eefocus.com/access.log", tag: "wximg-eefocus-com" },
+]
+
+
+rsyslog_nignx_error_logs: [
+    { log: "/var/log/nginx/center.eefocus.com/error.log", tag: "center-eefocus-com" },
+    { log: "/var/log/nginx/global.stats.eefocus.com/error.log", tag: "global-stats-eefocus-com" },
+    { log: "/var/log/nginx/search.eefocus.com/error.log", tag: "search-eefocus-com" },
+    { log: "/var/log/nginx/sendy.eefocus.com/error.log", tag: "sendy-eefocus-com" },
+    { log: "/var/log/nginx/url.eefocus.com/error.log", tag: "url-eefocus-com" },
+    { log: "/var/log/nginx/wximg.eefocus.com/error.log", tag: "wximg-eefocus-com" },
+]
+
+
+rsyslog_pm2_error_logs: [
+    
+]
+
+
+rsyslog_mysql_slow_logs: [
+    
+]
+
+
+
+     
+

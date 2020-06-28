@@ -1,0 +1,36 @@
+rsyslog_nignx_access_logs: [
+    { log: "/var/log/nginx/ams.eefocus.com/access.log", tag: "ams-eefocus-com" },
+    { log: "/var/log/nginx/analog.eefocus.com/access.log", tag: "analog-eefocus-com" },
+    { log: "/var/log/nginx/comm.eefocus.com/access.log", tag: "comm-eefocus-com" },
+    { log: "/var/log/nginx/rf.eefocus.com/access.log", tag: "rf-eefocus-com" },
+    { log: "/var/log/nginx/rohm.eefocus.com/access.log", tag: "rohm-eefocus-com" },
+    { log: "/var/log/nginx/www.stmcu.org/access.log", tag: "st-eefocus-com" },
+    { log: "/var/log/nginx/www.nxpic.org/access.log", tag: "www-freescaleic-org" },
+]
+
+
+rsyslog_nignx_error_logs: [
+    { log: "/var/log/nginx/ams.eefocus.com/error.log", tag: "ams-eefocus-com" },
+    { log: "/var/log/nginx/analog.eefocus.com/error.log", tag: "analog-eefocus-com" },
+    { log: "/var/log/nginx/comm.eefocus.com/error.log", tag: "comm-eefocus-com" },
+    { log: "/var/log/nginx/rf.eefocus.com/error.log", tag: "rf-eefocus-com" },
+    { log: "/var/log/nginx/rohm.eefocus.com/error.log", tag: "rohm-eefocus-com" },
+    { log: "/var/log/nginx/www.stmcu.org/error.log", tag: "st-eefocus-com" },
+    { log: "/var/log/nginx/www.nxpic.org/error.log", tag: "www-freescaleic-org" },
+]
+
+
+rsyslog_pm2_error_logs: [
+    
+]
+
+
+rsyslog_mysql_slow_logs: [
+    
+]
+
+
+
+
+     
+

@@ -111,26 +111,19 @@
     - restart rsyslog
     - restart systemd_journald
 
-# - name: Update Rsyslog Config files.
-#   template:
-#     src: "{{ item.src }}"
-#     dest: "{{ item.dest }}"
-#     mode: "{{ item.mode }}"
-#     group: "root"
-#     owner: "root"
-#   with_items:
-#     - { src: "mysqlslow.log.rb", dest: "/opt/mysqlslow.log.rb", mode: "0644" }
-#     - { src: "nginx.error.rb", dest: "/opt/nginx.error.rb", mode: "0644" }
-#     - { src: "pm2.error.rb", dest: "/opt/pm2.error.rb", mode: "0644" }
-#     - { src: "notify.sh.j2", dest: "/opt/notify.sh", mode: "0755" }
-#     - { src: "notify.php.j2", dest: "/opt/notify.php", mode: "0755" }
-#     - { src: "stats.php.j2", dest: "/opt/stats.php", mode: "0755" }
-#   tags:
-#     - rsyslog
-#     - copyshell
-#   when: inventory_hostname == rsyslog_master
-#   notify:
-#     - restart rsyslog service
+- name: Copy logrotate config files for weblogs
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    group: "root"
+    owner: "root"
+  with_items:
+    - { src: "logrotate/weblogs.j2", dest: "/etc/logrotate.d/weblogs", mode: "0644" }
+  tags:
+    - rsyslog
+    - copyshell
+  when: inventory_hostname == rsyslog_master
 
 # - name: Install or Update mariadb-server to latest stable version
 #   package:
