@@ -121,21 +121,6 @@ template(name="pm2error_log_json" type="list" option.json="on") {
   constant(value="\"}")
 }
 
-ruleset(name="access_main2elasticsearch") {
-  action(
-    type="omelasticsearch"
-    server="{{ elasticsearch_master_ip }}"
-    serverport="{{ elasticsearch_master_port }}"
-    searchIndex="nginx-eefocus-access"
-    dynSearchIndex="on"
-    template="rawmsg"
-    queue.fileName="nginx_eefocus_access"
-    queue.maxDiskSpace="5g"
-    queue.saveOnShutdown="on"
-    errorFile="/var/log/omelasticsearch-eefocus-acc.log"
-  )
-}
-
 ruleset(name="access2elasticsearch") {
   action(
     type="omelasticsearch"
@@ -198,7 +183,18 @@ ruleset(name="writeSlowlog") {
 
 
 if $syslogfacility-text == "local6" and $syslogtag contains "access-" then {
-    local6.*     call access2elasticsearch
+    if $rawmsg contains "http_x_forwarded_for" then {
+        local6.*     call access2elasticsearch
+    }
+    else {
+        action(type="mmnormalize" ruleBase="/var/lib/rsyslog/nginx.error.rb")
+        if $parsesuccess == "OK" then {
+          local6.*     call error2elasticsearch
+        }
+        else {
+          local6.*     /var/log/error-local6.log
+        }
+    }
 }
 
 if $syslogfacility-text == "local6" and $syslogtag contains "error-" then {
