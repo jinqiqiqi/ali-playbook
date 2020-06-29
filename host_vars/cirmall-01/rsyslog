@@ -1,0 +1,29 @@
+rsyslog_nignx_access_logs: [
+    { log: "/var/log/nginx/www.cirmall.com/access.log", tag: "www-cirmall-com" },
+    { log: "/var/log/nginx/basic.eefocus.com/access.log", tag: "basic.eefocus.com" },
+]
+
+
+rsyslog_nignx_error_logs: [
+    { log: "/var/log/nginx/www.cirmall.com/error.log", tag: "www-cirmall-com" },
+    { log: "/var/log/nginx/basic.eefocus.com/error.log", tag: "basic.eefocus.com" },
+]
+
+
+rsyslog_pm2_error_logs: [
+    
+]
+
+
+rsyslog_mysql_slow_logs: [
+    
+]
+
+
+
+
+
+
+
+     
+

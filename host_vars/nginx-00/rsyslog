@@ -1,0 +1,23 @@
+rsyslog_nignx_access_logs: [
+    { log: /var/log/nginx/www.eehub.cn.access.log", tag: "www-eehub-cn" },
+]
+
+
+rsyslog_nignx_error_logs: [
+    { log: /var/log/nginx/www.eehub.cn.error.log", tag: "www-eehub-cn" },
+]
+
+
+rsyslog_pm2_error_logs: [
+    
+]
+
+
+rsyslog_mysql_slow_logs: [
+    
+]
+
+
+
+     
+

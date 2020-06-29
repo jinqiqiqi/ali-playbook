@@ -1,17 +1,17 @@
 rsyslog_nignx_access_logs: [
     { log: "/var/log/nginx/account.eefocus.com/access.log", tag: "account-eefocus-com" },
-    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-access.log", tag: "www-eefocus-com-article" },
+    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-access.log", tag: "www-eefocus-com-article-google-baidu-sitemap" },
     { log: "/var/log/nginx/www.eefocus.com.article/access.log", tag: "www-eefocus-com-article" },
-    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-engine-access.log", tag: "engine-eefocus-com" },
+    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-engine-access.log", tag: "engine-eefocus-com-google-baidu-sitemap" },
     { log: "/var/log/nginx/www.eefocus.com.article/access-engine.log", tag: "engine-eefocus-com" },
 ]
 
 
 rsyslog_nignx_error_logs: [
     { log: "/var/log/nginx/account.eefocus.com/error.log", tag: "account-eefocus-com" },
-    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-error.log", tag: "www-eefocus-com-article" },
+    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-error.log", tag: "www-eefocus-com-article-google-baidu-sitemap" },
     { log: "/var/log/nginx/www.eefocus.com.article/error.log", tag: "www-eefocus-com-article" },
-    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-engine-error.log", tag: "engine-eefocus-com" },
+    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-engine-error.log", tag: "engine-eefocus-com-google-baidu-sitemap" },
     { log: "/var/log/nginx/www.eefocus.com.article/error-engine.log", tag: "engine-eefocus-com" },
 ]
 

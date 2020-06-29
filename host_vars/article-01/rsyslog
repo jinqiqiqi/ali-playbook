@@ -1,21 +1,18 @@
 rsyslog_nignx_access_logs: [
-    { log: "/var/log/nginx/center.eefocus.com/access.log", tag: "center-eefocus-com" },
-    { log: "/var/log/nginx/global.stats.eefocus.com/access.log", tag: "global-stats-eefocus-com" },
-    { log: "/var/log/nginx/global.stats.eefocus.com/access_json.log", tag: "global-stats-eefocus-com" },
-    { log: "/var/log/nginx/search.eefocus.com/access.log", tag: "search-eefocus-com" },
-    { log: "/var/log/nginx/sendy.eefocus.com/access.log", tag: "sendy-eefocus-com" },
-    { log: "/var/log/nginx/url.eefocus.com/access.log", tag: "url-eefocus-com" },
-    { log: "/var/log/nginx/wximg.eefocus.com/access.log", tag: "wximg-eefocus-com" },
+    { log: "/var/log/nginx/account.eefocus.com/access.log", tag: "account-eefocus-com" },
+    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-access.log", tag: "www-eefocus-com-article-google-baidu-sitemap" },
+    { log: "/var/log/nginx/www.eefocus.com.article/access.log", tag: "www-eefocus-com-article" },
+    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-engine-access.log", tag: "engine-eefocus-com-google-baidu-sitemap" },
+    { log: "/var/log/nginx/www.eefocus.com.article/access-engine.log", tag: "engine-eefocus-com" },
 ]
 
 
 rsyslog_nignx_error_logs: [
-    { log: "/var/log/nginx/center.eefocus.com/error.log", tag: "center-eefocus-com" },
-    { log: "/var/log/nginx/global.stats.eefocus.com/error.log", tag: "global-stats-eefocus-com" },
-    { log: "/var/log/nginx/search.eefocus.com/error.log", tag: "search-eefocus-com" },
-    { log: "/var/log/nginx/sendy.eefocus.com/error.log", tag: "sendy-eefocus-com" },
-    { log: "/var/log/nginx/url.eefocus.com/error.log", tag: "url-eefocus-com" },
-    { log: "/var/log/nginx/wximg.eefocus.com/error.log", tag: "wximg-eefocus-com" },
+    { log: "/var/log/nginx/account.eefocus.com/error.log", tag: "account-eefocus-com" },
+    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-error.log", tag: "www-eefocus-com-article-google-baidu-sitemap" },
+    { log: "/var/log/nginx/www.eefocus.com.article/error.log", tag: "www-eefocus-com-article" },
+    { log: "/var/log/nginx/www.eefocus.com.article/sitemap-engine-error.log", tag: "engine-eefocus-com-google-baidu-sitemap" },
+    { log: "/var/log/nginx/www.eefocus.com.article/error-engine.log", tag: "engine-eefocus-com" },
 ]
 
 
@@ -27,6 +24,9 @@ rsyslog_pm2_error_logs: [
 rsyslog_mysql_slow_logs: [
     
 ]
+
+
+
 
 
 

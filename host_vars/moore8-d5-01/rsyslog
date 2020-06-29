@@ -1,0 +1,32 @@
+rsyslog_nignx_access_logs: [
+    { log: "/var/log/nginx/www.moore8.com/access.log", tag: "www-moore8-com" },
+    { log: "/var/log/nginx/www.datasheet5.com/access-sitemap.log", tag: "www-datasheet5-com-sitemap" },
+    { log: "/var/log/nginx/www.datasheet5.com/access.log", tag: "www-datasheet5-com" },
+    { log: "/var/log/nginx/portal.datasheet5.com/access.log", tag: "portal-datasheet5-com" },
+]
+
+
+rsyslog_nignx_error_logs: [
+    { log: "/var/log/nginx/www.moore8.com/error.log", tag: "www-moore8-com" },
+    { log: "/var/log/nginx/www.datasheet5.com/error-sitemap.log", tag: "www-datasheet5-com-sitemap" },
+    { log: "/var/log/nginx/www.datasheet5.com/error.log", tag: "www-datasheet5-com" },
+    { log: "/var/log/nginx/portal.datasheet5.com/error.log", tag: "portal-datasheet5-com" },
+    
+]
+
+
+rsyslog_pm2_error_logs: [
+    
+]
+
+
+rsyslog_mysql_slow_logs: [
+    
+]
+
+
+
+
+
+     
+
