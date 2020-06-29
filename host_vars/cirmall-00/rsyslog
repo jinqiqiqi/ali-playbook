@@ -11,7 +11,7 @@ rsyslog_nignx_error_logs: [
 
 
 rsyslog_pm2_error_logs: [
-    
+    { log: "/var/log/node/www.cirmall.com/cirmall-err-*.log", tag: "www-cirmall-com" },
 ]
 
 
