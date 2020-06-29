@@ -1,7 +1,14 @@
 /var/log/weblogs
 /var/log/user_commands {
+    copytruncate
+    rotate 7
+    daily
     missingok
+    dateext
+    dateyesterday
+    notifempty
     sharedscripts
+    compress
     postrotate
         systemctl kill -s HUP rsyslog.service
     endscript
