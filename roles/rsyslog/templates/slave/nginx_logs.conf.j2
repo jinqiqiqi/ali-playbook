@@ -3,14 +3,14 @@ input(type="imfile" File="{{ logrow.log }}" Tag="access-{{ logrow.tag }}" Severi
 {% endfor %}
 
 {% for logrow in rsyslog_nignx_error_logs %}
-input(type="imfile" File="{{ logrow.log }}" Tag="access-{{ logrow.tag }}" Severity="error" Facility="local6" reopenOnTruncate="on")
+input(type="imfile" File="{{ logrow.log }}" Tag="error-{{ logrow.tag }}" Severity="info" Facility="local6" reopenOnTruncate="on")
 {% endfor %}
 
 {% for logrow in rsyslog_pm2_error_logs %}
-input(type="imfile" File="{{ logrow.log }}" Tag="access-{{ logrow.tag }}" Severity="error" Facility="local6" reopenOnTruncate="on")
+input(type="imfile" File="{{ logrow.log }}" Tag="pm2error-{{ logrow.tag }}" Severity="info" Facility="local6" reopenOnTruncate="on")
 {% endfor %}
 
 {% for logrow in rsyslog_mysql_slow_logs %}
-input(type="imfile" File="{{ logrow.log }}" Tag="access-{{ logrow.tag }}" Severity="info" Facility="local6" reopenOnTruncate="on")
+input(type="imfile" File="{{ logrow.log }}" Tag="mysql-slow-{{ logrow.tag }}" Severity="info" Facility="local6" reopenOnTruncate="on")
 {% endfor %}
 
