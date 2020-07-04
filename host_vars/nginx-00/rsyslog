@@ -5,6 +5,7 @@ rsyslog_nignx_access_logs: [
 
 rsyslog_nignx_error_logs: [
     { log: /var/log/nginx/www.eehub.cn.error.log", tag: "www-eehub-cn" },
+    { log: /var/log/nginx/error.log", tag: "all-sites" },
 ]
 
 
