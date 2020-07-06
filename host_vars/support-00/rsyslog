@@ -16,6 +16,7 @@ rsyslog_nignx_error_logs: [
     { log: "/var/log/nginx/sendy.eefocus.com/error.log", tag: "sendy-eefocus-com" },
     { log: "/var/log/nginx/url.eefocus.com/error.log", tag: "url-eefocus-com" },
     { log: "/var/log/nginx/wximg.eefocus.com/error.log", tag: "wximg-eefocus-com" },
+    { log: "/var/log/wxspider/sipder.log", tag: "wx-spider" },
 ]
 
 
