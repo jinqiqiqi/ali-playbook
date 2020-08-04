@@ -57,6 +57,6 @@ rsyslog_mysql_slow_logs: [
 
 
 elasticsearch_master_ip: 192.168.88.90
-elasticsearch_master_port: 9290
+elasticsearch_master_port: 9990
 
 
