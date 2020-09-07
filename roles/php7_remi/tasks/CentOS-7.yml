@@ -32,7 +32,7 @@
 - name: "Install/Update php72 to the latest stable version"
   package:
     name: "{{ item }}"
-    state: latest
+    state: present
   loop:
     - php72-php-pecl-redis
     - php72-php-pecl-memcache

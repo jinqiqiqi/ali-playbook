@@ -42,7 +42,7 @@
 - name: "Install/Update php56 to the latest stable version"
   package:
     name: "{{ item }}"
-    state: latest
+    state: present
   loop:
     # - php56-php-pecl-redis
     # - php56-php-pecl-memcache
