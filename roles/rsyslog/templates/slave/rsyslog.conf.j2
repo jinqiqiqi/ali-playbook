@@ -10,7 +10,7 @@
 # $ModLoad imjournal # provides access to the systemd journal
 module(load="imuxsock")
 module(load="imjournal")
-module(load="imfile" PollingInterval="20")
+module(load="imfile" PollingInterval="30")
 
 #$ModLoad imklog # reads kernel messages (the same are read from journald)
 #$ModLoad immark  # provides --MARK-- message capability
