@@ -1,6 +1,6 @@
 ---
 # tasks file for roles/rsyslog
-  
+
 - name: "mkdir for {{ django_sqlite_src_dir }}"
   file:
     path: "{{ item }}"
@@ -11,7 +11,7 @@
     - "{{ django_sqlite_src_dir }}"
   tags:
     - django
-    
+
 - name: "Install Python3 "
   package:
     name: "{{ item }}"
@@ -27,6 +27,22 @@
   tags:
     - django
 
+- name: "Create dir for pip config"
+  file:
+    path: "${HOME}/.pip/"
+    state: directory
+    mode: '644'
+    owner: '{{ django_user }}'
+  tags:
+    - django
+
+- name: "Change to use pypi mirror"
+  file:
+    path: "${HOME}/.pip/pip.conf"
+    state: file
+    owner: '{{ django_user }}'
+  tags:
+    - django
 
 - name: "Init virtualenv"
   shell: "virtualenv-3 -p /bin/python3 {{ django_virtualenv_dir }}"
@@ -38,64 +54,64 @@
   tags:
     - django
 
-- name: "Copy sqlite installation file to server"
-  copy:
-    src: "{{ django_sqlite_tar_file_name }}"
-    dest: "{{ django_sqlite_src_dir  }}{{ django_sqlite_tar_file_name }}"
-  when: inventory_hostname == django_master
-  tags:
-    - django
+# - name: "Copy sqlite installation file to server"
+#   copy:
+#     src: "{{ django_sqlite_tar_file_name }}"
+#     dest: "{{ django_sqlite_src_dir  }}{{ django_sqlite_tar_file_name }}"
+#   when: inventory_hostname == django_master
+#   tags:
+#     - django
 
 
     
-- name: Unarchive sqlite installation file
-  unarchive:
-    src: "{{ django_sqlite_src_dir  }}{{ django_sqlite_tar_file_name }}"
-    dest: "{{ django_sqlite_src_dir }}"
-    remote_src: yes
-    creates: "{{ django_sqlite_src_dir }}{{ django_sqlite_file_name }}/INSTALL"
-  when: inventory_hostname == django_master
-  tags:
-    - django
+# - name: Unarchive sqlite installation file
+#   unarchive:
+#     src: "{{ django_sqlite_src_dir  }}{{ django_sqlite_tar_file_name }}"
+#     dest: "{{ django_sqlite_src_dir }}"
+#     remote_src: yes
+#     creates: "{{ django_sqlite_src_dir }}{{ django_sqlite_file_name }}/INSTALL"
+#   when: inventory_hostname == django_master
+#   tags:
+#     - django
 
-- name: Configure and install sqlite3
-  shell: >
-    ./configure --prefix={{ django_sqlite_install_dir }} && make && make install
-  args:
-    creates: "{{ django_sqlite_install_dir }}/bin/sqlite3"
-    chdir: "{{ django_sqlite_src_dir }}{{ django_sqlite_file_name }}/"
-  when: inventory_hostname == django_master
-  tags:
-    - django
+# - name: Configure and install sqlite3
+#   shell: >
+#     ./configure --prefix={{ django_sqlite_install_dir }} && make && make install
+#   args:
+#     creates: "{{ django_sqlite_install_dir }}/bin/sqlite3"
+#     chdir: "{{ django_sqlite_src_dir }}{{ django_sqlite_file_name }}/"
+#   when: inventory_hostname == django_master
+#   tags:
+#     - django
 
-- name: Move original sqlite3 to backup file
-  shell: >
-    mv /usr/bin/sqlite3 /usr/bin/sqlite3.bak && ln -sf {{ django_sqlite_install_dir }}/bin/sqlite3 /usr/bin/sqlite3
-  args:
-    creates: "/usr/bin/sqlite3.bak"
-  when: inventory_hostname == django_master
-  tags:
-    - django
+# - name: Move original sqlite3 to backup file
+#   shell: >
+#     mv /usr/bin/sqlite3 /usr/bin/sqlite3.bak && ln -sf {{ django_sqlite_install_dir }}/bin/sqlite3 /usr/bin/sqlite3
+#   args:
+#     creates: "/usr/bin/sqlite3.bak"
+#   when: inventory_hostname == django_master
+#   tags:
+#     - django
 
-- name: Adding ld config settings for sqlite3
-  template:
-    src: sqlite3-3.32.2.conf.j2
-    dest: /etc/ld.so.conf.d/sqlite3-3.32.2.conf
-    mode: "0644"
-    group: 'root'
-    owner: 'root'
-  when: inventory_hostname == django_master
-  tags:
-    - django
+# - name: Adding ld config settings for sqlite3
+#   template:
+#     src: sqlite3-3.32.2.conf.j2
+#     dest: /etc/ld.so.conf.d/sqlite3-3.32.2.conf
+#     mode: "0644"
+#     group: 'root'
+#     owner: 'root'
+#   when: inventory_hostname == django_master
+#   tags:
+#     - django
 
-- name: link so file for sqlite3
-  file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    state: link
-  with_items:
-    - { src: /usr/local/share/sqlite3/lib/libsqlite3.so.0, dest: /lib64/libsqlite3.so.0 }
-  when: inventory_hostname == django_master
-  tags:
-    - django
+# - name: link so file for sqlite3
+#   file:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     state: link
+#   with_items:
+#     - { src: /usr/local/share/sqlite3/lib/libsqlite3.so.0, dest: /lib64/libsqlite3.so.0 }
+#   when: inventory_hostname == django_master
+#   tags:
+#     - django
     

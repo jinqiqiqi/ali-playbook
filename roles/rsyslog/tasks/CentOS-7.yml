@@ -57,7 +57,7 @@
   tags:
     - rsyslog
     - common_group
-  notify: 
+  notify:
     - restart rsyslog
     - restart systemd_journald
 

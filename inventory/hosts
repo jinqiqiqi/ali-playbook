@@ -23,6 +23,8 @@ sns-01 ansible_ssh_host=192.168.88.103
 
 gg-00 ansible_ssh_host=192.168.88.105
 
+log-00 ansible_ssh_host=192.168.99.98
+
 moore8-d5-00 ansible_ssh_host=192.168.88.106
 moore8-d5-01 ansible_ssh_host=192.168.88.107
 
@@ -137,6 +139,8 @@ eeboard-00
 
 cirmall-00
 cirmall-01
+
+log-00
 
 ; nginx-1
 ; cirmall-00

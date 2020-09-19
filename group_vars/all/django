@@ -9,4 +9,4 @@ django_sqlite_src_dir: /usr/local/share/src/
 django_sqlite_install_dir: /usr/local/share/sqlite3/
 
 
-django_master: sys-00
+django_master: log-00

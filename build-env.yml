@@ -98,7 +98,7 @@
   tasks:
     - name: Roles for nginx service
       block:
-        - include_role: 
+        - include_role:
             name: nginx
       rescue:
         - include: handlers/exception.yml role_name=nginx_service
@@ -107,7 +107,7 @@
 
 
 - name: "Playbook for cache role, named: cache"
-  hosts: 
+  hosts:
     - cache
   become_user: root
   become: yes
