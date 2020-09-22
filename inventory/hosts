@@ -1,11 +1,13 @@
 ; bridge 139.196.50.54
 ; sys  139.196.41.70
+; slb  47.102.135.43
+
 
 bridge-00 ansible_ssh_host=192.168.88.88
 sys-00 ansible_ssh_host=192.168.88.90
 jenkins-00 ansible_ssh_host=192.168.88.89
 
-nginx-00 ansible_ssh_host=192.168.88.93
+nginx-00 ansible_ssh_host=192.168.88.93 # x
 support-00 ansible_ssh_host=192.168.88.92
 
 article-00 ansible_ssh_host=192.168.88.98
@@ -14,16 +16,16 @@ article-01 ansible_ssh_host=192.168.88.102
 main-00 ansible_ssh_host=192.168.88.96
 main-01 ansible_ssh_host=192.168.88.101
 
-cache-00 ansible_ssh_host=192.168.88.97
+cache-00 ansible_ssh_host=192.168.88.97 # x
 
 account-sso-00 ansible_ssh_host=192.168.88.99
 
 sns-00 ansible_ssh_host=192.168.88.104
-sns-01 ansible_ssh_host=192.168.88.103
+sns-01 ansible_ssh_host=192.168.88.103 # x
 
 gg-00 ansible_ssh_host=192.168.88.105
 
-log-00 ansible_ssh_host=192.168.99.98
+log-00 ansible_ssh_host=192.168.99.98 # x
 
 moore8-d5-00 ansible_ssh_host=192.168.88.106
 moore8-d5-01 ansible_ssh_host=192.168.88.107
@@ -31,7 +33,7 @@ moore8-d5-01 ansible_ssh_host=192.168.88.107
 
 eeboard-00 ansible_ssh_host=192.168.88.108
 
-cirmall-00 ansible_ssh_host=192.168.88.109
+cirmall-00 ansible_ssh_host=192.168.88.109 # x
 cirmall-01 ansible_ssh_host=192.168.88.112
 
 cirmall-bbs-00 ansible_ssh_host=192.168.88.110
