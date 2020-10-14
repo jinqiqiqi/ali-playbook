@@ -39,6 +39,7 @@ cirmall-01 ansible_ssh_host=192.168.88.112
 cirmall-bbs-00 ansible_ssh_host=192.168.88.110
 cirmall-bbs-01 ansible_ssh_host=192.168.88.111
 
+monitor-00 ansible_ssh_host=192.168.88.113
 
 misc-usa-00 ansible_ssh_host=47.88.10.39
 
@@ -84,7 +85,8 @@ gg-00
 moore8-d5-00
 moore8-d5-01
 
-
+[monitor]
+monitor-00
 
 [cache]
 cache-00
@@ -143,6 +145,8 @@ cirmall-00
 cirmall-01
 
 log-00
+
+monitor-00
 
 ; nginx-1
 ; cirmall-00

@@ -67,7 +67,8 @@
     - tree
     - libselinux-python
     - yum-utils
-    - python-pip
+    - python2-pip
+    - python3-pip
     - bind-utils
     - iptables-services
     - nfs-utils
@@ -139,7 +140,7 @@
   file:
     path: "/data/"
     state: directory
-  when: inventory_hostname != 'misc-usa-00'
+  when: inventory_hostname != 'misc-usa-00' and inventory_hostname != 'monitor-00'
   tags:
     - base
     - common_group
@@ -153,7 +154,7 @@
     opts: vers=4,minorversion=0,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev,noresvport
     state: mounted
     boot: yes
-  when: inventory_hostname != 'misc-usa-00'
+  when: inventory_hostname != 'misc-usa-00' and inventory_hostname != 'monitor-00'
   tags:
     - base
     - common_group
