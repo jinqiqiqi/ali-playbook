@@ -67,8 +67,7 @@
     - tree
     - libselinux-python
     - yum-utils
-    - python2-pip
-    - python3-pip
+    - python-pip
     - bind-utils
     - iptables-services
     - nfs-utils
