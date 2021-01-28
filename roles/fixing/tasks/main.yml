@@ -1,0 +1,12 @@
+---
+# tasks file for roles/fixing
+# ansible-playbook -D playbook.yml -e host_name=all -e role_name=fixing
+- name: Install basic tools and packages.
+  package: 
+    name: "{{ item }}" 
+    state: latest
+  loop:
+    - sudo
+  tags:
+    - base
+    - common_group
